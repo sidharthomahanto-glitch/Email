@@ -134,24 +134,45 @@
         
         // --- Helper: Smart Fetch (CORS & Proxy বাইপাস করার জন্য) ---
         async function smartFetch(url, options) {
+            let lastError = null;
+
+            // ১. সরাসরি কল (CORS এলাউড থাকলে কাজ করবে)
             try {
-                // ১. প্রথমে সরাসরি কল করার চেষ্টা করবে
                 const res = await fetch(url, options);
                 if (res.ok) return res;
             } catch (e) {
-                console.log("Direct failed, trying proxy 1...");
+                lastError = e;
             }
+
+            // ২. CORS Proxy IO (আপডেটেড URL ফরম্যাট)
             try {
-                // ২. সরাসরি কাজ না করলে CodeTabs প্রক্সি
-                const proxy1 = "https://api.codetabs.com/v1/proxy?quest=";
-                const res = await fetch(proxy1 + url, options);
+                const proxy1 = "https://corsproxy.io/?url=";
+                const res = await fetch(proxy1 + encodeURIComponent(url), options);
                 if (res.ok) return res;
             } catch (e) {
-                console.log("Proxy 1 failed, trying proxy 2...");
+                lastError = e;
             }
-            // ৩. সেটিও কাজ না করলে CORSProxy (নতুন আপডেট করা URL ফরম্যাট ?url= সহ)
-            const proxy2 = "https://corsproxy.io/?url=";
-            return await fetch(proxy2 + encodeURIComponent(url), options);
+
+            // ৩. ThingProxy (খুবই ভালো POST রিকোয়েস্টের জন্য)
+            try {
+                const proxy2 = "https://thingproxy.freeboard.io/fetch/";
+                const res = await fetch(proxy2 + url, options);
+                if (res.ok) return res;
+            } catch (e) {
+                lastError = e;
+            }
+
+            // ৪. CodeTabs (সর্বশেষ ব্যাকআপ)
+            try {
+                const proxy3 = "https://api.codetabs.com/v1/proxy?quest=";
+                const res = await fetch(proxy3 + encodeURIComponent(url), options);
+                if (res.ok) return res;
+            } catch (e) {
+                lastError = e;
+            }
+
+            // যদি কোনো প্রক্সিই কাজ না করে
+            throw new Error("Network blocked by browser or proxies are down. Error: " + (lastError ? lastError.message : "Unknown"));
         }
 
         // --- Helper: Show Toast Notification ---
