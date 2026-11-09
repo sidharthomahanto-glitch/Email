@@ -214,8 +214,13 @@
 
             } catch (error) {
                 console.error(error);
-                showToast("Failed to generate! API Key ঠিক আছে কিনা চেক করুন।");
-                document.getElementById('emailAddress').innerText = "Error!";
+                let errorMsg = error.message;
+                if (errorMsg.includes("Failed to fetch")) {
+                    errorMsg = "Network Error! ব্রাউজারের Adblocker API ব্লক করছে অথবা CORS সমস্যা।";
+                }
+                showToast("Error: " + errorMsg.substring(0, 50));
+                document.getElementById('emailAddress').innerText = "API Error!";
+                document.getElementById('inboxList').innerHTML = `<div class="text-center py-5 text-red-500 font-medium text-sm border border-red-200 bg-red-50 rounded-xl">Error Details:<br>${errorMsg}</div>`;
             }
         }
 
