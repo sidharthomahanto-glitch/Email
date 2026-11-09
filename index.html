@@ -133,30 +133,31 @@
         let currentEmailAddress = 'waiting_for_api@example.com';
         
         // --- Helper: Smart Fetch (CORS & Proxy বাইপাস করার জন্য) ---
-        async function smartFetch(url, options) {
-            
-            // ১. CORSProxy.org (সবচেয়ে রিলায়েবল)
+        async function smartFetch(targetUrl, options) {
+            let errorLogs = [];
+
+            // ১. Direct Fetch (প্রথমে সরাসরি ট্রাই করবে)
             try {
-                const res = await fetch("https://corsproxy.org/?" + encodeURIComponent(url), options);
+                const res = await fetch(targetUrl, options);
                 if (res.ok) return res;
-            } catch (e) { console.log("Proxy 1 failed"); }
+                errorLogs.push(`Direct HTTP:${res.status}`);
+            } catch (e) { errorLogs.push(`Direct:${e.message}`); }
 
             // ২. CodeTabs Proxy
             try {
-                const res = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(url), options);
+                const res = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl), options);
                 if (res.ok) return res;
-            } catch (e) { console.log("Proxy 2 failed"); }
+                errorLogs.push(`CodeTabs HTTP:${res.status}`);
+            } catch (e) { errorLogs.push(`CodeTabs:${e.message}`); }
 
-            // ৩. ThingProxy (ব্যাকআপ)
+            // ৩. Fringe Zone Proxy (Backup)
             try {
-                const res = await fetch("https://thingproxy.freeboard.io/fetch/" + url, options);
+                const res = await fetch("https://cors-proxy.fringe.zone/" + targetUrl, options);
                 if (res.ok) return res;
-            } catch (e) { console.log("Proxy 3 failed"); }
+                errorLogs.push(`Fringe HTTP:${res.status}`);
+            } catch (e) { errorLogs.push(`Fringe:${e.message}`); }
 
-            // ৪. Direct Fetch (যদি ব্রাউজারে CORS ব্লক না থাকে)
-            const res = await fetch(url, options);
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            return res;
+            throw new Error(errorLogs.join(" || "));
         }
 
         // --- Helper: Show Toast Notification ---
@@ -226,7 +227,7 @@
             } catch (error) {
                 console.error(error);
                 document.getElementById('emailAddress').innerText = "API Error!";
-                document.getElementById('inboxList').innerHTML = `<div class="text-center py-5 text-red-500 font-medium text-sm border border-red-200 bg-red-50 rounded-xl">Connection Error: ${error.message}</div>`;
+                document.getElementById('inboxList').innerHTML = `<div class="text-left py-4 text-red-600 font-mono text-[10px] sm:text-xs border border-red-200 bg-red-50 rounded-xl break-words p-3"><b>Debug Logs:</b><br>${error.message}</div>`;
             }
         }
 
