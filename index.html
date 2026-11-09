@@ -3,354 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ইউজার রিপোর্ট জেনারেটর</title>
-    
-    <!-- Tailwind CSS for Styling -->
+    <title>টেম্প মেইল ম্যানেজার</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- PapaParse for parsing CSV data from Google Sheets -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
-    <!-- html2pdf for generating PDF reports -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
-    <!-- Google Fonts for Bengali Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Hind Siliguri', sans-serif; 
-            background-color: #f3f4f6;
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05); 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2); 
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3); 
+        }
+        
+        /* Toast Animation */
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        .toast-enter {
+            animation: slideIn 0.3s forwards;
+        }
+        .toast-exit {
+            animation: slideOut 0.3s forwards;
         }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6">
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span class="font-bold text-xl tracking-wide">ইউজার রিপোর্ট জেনারেটর</span>
-                </div>
-            </div>
+    <!-- Header Section -->
+    <div class="w-full max-w-3xl mb-6 text-center">
+        <h1 class="text-3xl font-bold text-white mb-2">টেম্প মেইল ম্যানেজার</h1>
+        <p class="text-slate-400 text-sm">খুব সহজেই আপনার টেম্প মেইলগুলো সেভ করে রাখুন</p>
+    </div>
+
+    <!-- Input Form Section -->
+    <div class="w-full max-w-3xl bg-slate-800 rounded-xl p-4 mb-8 shadow-sm border border-slate-700/50">
+        <form id="add-mail-form" class="flex flex-col sm:flex-row gap-3">
+            <input type="text" id="mailName" required placeholder="মেইলের নাম (যেমন: Netflix)" 
+                class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
+            
+            <input type="url" id="mailUrl" required placeholder="লিংক (https://...)" 
+                class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
+            
+            <button type="submit" 
+                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+                যুক্ত করুন
+            </button>
+        </form>
+    </div>
+
+    <!-- Mails List Section -->
+    <div class="w-full max-w-3xl">
+        <div class="flex justify-between items-center mb-3 px-1">
+            <h2 class="text-lg font-medium text-slate-300">আপনার মেইলসমূহ</h2>
+            <span id="mail-count" class="text-slate-400 text-sm">মোট: 0</span>
         </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        <!-- Section 1: Load Data -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">১. ডেটা সোর্স যুক্ত করুন</h2>
-            
-            <div class="bg-blue-50 text-blue-800 p-4 rounded-lg text-sm mb-6 border border-blue-100">
-                <strong>মোবাইল অ্যাপ নির্দেশনা:</strong> আপনার গুগল শিট অ্যাপ থেকে ফাইলটি ওপেন করুন। 
-                মেনু থেকে <b>Share and export > Manage access</b>-এ গিয়ে এক্সেস <b>Anyone with the link (Viewer)</b> করে দিন। 
-                এরপর লিংকটি কপি করে নিচের বক্সে পেস্ট করুন।
-            </div>
-
-            <div class="flex flex-col md:flex-row gap-4">
-                <input type="text" id="csvUrl" placeholder="যেমন: https://docs.google.com/spreadsheets/d/1abc.../edit?usp=sharing" 
-                    class="flex-grow px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
-                <button onclick="loadGoogleSheetData()" id="loadBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 min-w-[150px]">
-                    <span id="loadBtnText">ডেটা লোড করুন</span>
-                    <div id="loadSpinner" class="loader hidden"></div>
-                </button>
-            </div>
-            <p id="loadStatus" class="mt-3 text-sm font-medium"></p>
+        <!-- List Container -->
+        <div id="mails-container" class="flex flex-col gap-3">
+            <!-- Mail Items will be injected here via JavaScript -->
         </div>
 
-        <!-- Section 2: Search User (Hidden by default) -->
-        <div id="searchSection" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 hidden opacity-0 transition-opacity duration-500">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">২. আইডি যাচাই করুন (বাল্ক চেক)</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                <div class="md:col-span-1">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">আইডি কলাম নির্বাচন করুন</label>
-                    <select id="idColumnSelect" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white">
-                        <!-- Options will be populated dynamically -->
-                    </select>
-                </div>
-                <div class="md:col-span-2 flex flex-col gap-4">
-                    <div class="w-full">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">আইডিগুলো পেস্ট করুন (কমা, স্পেস বা নতুন লাইন দিয়ে)</label>
-                        <textarea id="bulkIdsInput" rows="3" placeholder="যেমন: ID-101, ID-102&#10;ID-103" 
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"></textarea>
-                    </div>
-                    <button onclick="searchUser()" class="w-full sm:w-auto self-end bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-8 rounded-lg transition-colors">
-                        রিপোর্ট তৈরি করুন
-                    </button>
-                </div>
-            </div>
-            <p id="searchError" class="text-red-500 text-sm hidden">অনুগ্রহ করে অন্তত একটি আইডি লিখুন।</p>
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center py-12 text-center bg-slate-800/50 rounded-xl border border-slate-700/50 border-dashed">
+            <p class="text-slate-400">এখনো কোনো মেইল যুক্ত করা হয়নি!</p>
         </div>
+    </div>
 
-        <!-- Section 3: Report Result (Hidden by default) -->
-        <div id="reportSection" class="hidden opacity-0 transition-opacity duration-500 flex flex-col items-center">
-            
-            <div class="w-full flex justify-end mb-4">
-                <button onclick="downloadPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center gap-2 shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    PDF ডাউনলোড করুন
-                </button>
-            </div>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-2 z-50"></div>
 
-            <!-- Report Card to be downloaded as PDF -->
-            <div id="reportCard" class="w-full bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12 relative overflow-hidden">
-                <!-- Decorative Header -->
-                <div class="absolute top-0 left-0 w-full h-3 bg-blue-600"></div>
-                
-                <div class="text-center mb-8 pb-6 border-b border-gray-200">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-2">ইউজার প্রোফাইল রিপোর্ট</h1>
-                    <p class="text-gray-500 text-sm">তৈরির তারিখ: <span id="reportDate"></span></p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" id="reportContent">
-                    <!-- Dynamic content will be injected here -->
-                </div>
-                
-                <div class="mt-12 pt-6 border-t border-gray-200 flex justify-between items-center text-gray-400 text-sm">
-                    <span>Generated by User Report System</span>
-                    <span>অফিসিয়াল কপি</span>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t py-6 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-            &copy; 2026 User Report Generator. All rights reserved.
-        </div>
-    </footer>
-
-    <!-- JavaScript Logic -->
     <script>
-        let globalSheetData = [];
-        let sheetHeaders = [];
+        // State Management (In-Memory array)
+        let tempMails = [
+            { id: Date.now(), name: "উদাহরণ টেম্প মেইল ১", url: "https://temp-mail.org" }
+        ];
 
-        function showMessage(elementId, text, isError = false) {
-            const el = document.getElementById(elementId);
-            el.textContent = text;
-            el.classList.remove('hidden', 'text-green-600', 'text-red-600');
-            el.classList.add(isError ? 'text-red-600' : 'text-green-600');
-        }
+        // DOM Elements
+        const form = document.getElementById('add-mail-form');
+        const container = document.getElementById('mails-container');
+        const emptyState = document.getElementById('empty-state');
+        const mailCount = document.getElementById('mail-count');
+        const toastContainer = document.getElementById('toast-container');
 
-        function toggleLoader(show) {
-            const btnText = document.getElementById('loadBtnText');
-            const spinner = document.getElementById('loadSpinner');
-            if (show) {
-                btnText.textContent = "লোড হচ্ছে...";
-                spinner.classList.remove('hidden');
+        // Initial Render
+        renderMails();
+
+        // Form Submit Handler
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('mailName').value.trim();
+            const urlInput = document.getElementById('mailUrl').value.trim();
+
+            if (nameInput && urlInput) {
+                const newMail = {
+                    id: Date.now(),
+                    name: nameInput,
+                    url: urlInput
+                };
+
+                tempMails.unshift(newMail); // Add to beginning
+                renderMails();
+                form.reset();
+                showToast('নতুন লিংক যুক্ত করা হয়েছে!', 'success');
+                
+                // নতুন মেইল এড করার সাথে সাথেই তা নতুন ট্যাবে ওপেন করার কোড
+                window.open(urlInput, '_blank');
+            }
+        });
+
+        // Render Mails Function
+        function renderMails() {
+            container.innerHTML = '';
+            mailCount.textContent = `মোট: ${tempMails.length}`;
+
+            if (tempMails.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
             } else {
-                btnText.textContent = "ডেটা লোড করুন";
-                spinner.classList.add('hidden');
-            }
-        }
+                emptyState.classList.add('hidden');
+                emptyState.classList.remove('flex');
 
-        function loadGoogleSheetData() {
-            let url = document.getElementById('csvUrl').value.trim();
-            const statusEl = document.getElementById('loadStatus');
-            
-            if (!url) {
-                showMessage('loadStatus', 'অনুগ্রহ করে গুগল শিটের লিংক প্রদান করুন।', true);
-                return;
-            }
-
-            // Convert standard share link to CSV export link dynamically
-            let csvUrl = url;
-            const sheetIdMatch = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
-            
-            if (url.includes('pub?output=csv')) {
-                csvUrl = url; // Already a published CSV link
-            } else if (sheetIdMatch && sheetIdMatch[1]) {
-                const sheetId = sheetIdMatch[1];
-                // Extract gid if exists for specific tabs
-                const gidMatch = url.match(/[#&]gid=([0-9]+)/);
-                const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
-                csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
-            } else {
-                showMessage('loadStatus', 'লিংকটি সঠিক নয়। গুগল শিটের সঠিক লিংক দিন।', true);
-                return;
-            }
-
-            toggleLoader(true);
-            statusEl.textContent = "";
-
-            Papa.parse(csvUrl, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    toggleLoader(false);
-                    if (results.data && results.data.length > 0) {
-                        globalSheetData = results.data;
-                        sheetHeaders = Object.keys(results.data[0]);
+                tempMails.forEach(mail => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-slate-800 rounded-lg p-3 md:p-4 flex items-center justify-between gap-3 md:gap-4 hover:bg-slate-700 transition-colors border border-slate-700/50 group';
+                    
+                    card.innerHTML = `
+                        <!-- Left: Clickable Info -->
+                        <a href="${escapeHTML(mail.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 md:gap-4 flex-1 min-w-0 cursor-pointer text-left" title="নতুন ট্যাবে ওপেন করুন">
+                            <div class="bg-blue-500/10 text-blue-400 p-2 md:p-3 rounded-full group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-slate-200 font-medium text-base md:text-lg truncate group-hover:text-white transition-colors">${escapeHTML(mail.name)}</h3>
+                                <p class="text-slate-400 text-xs md:text-sm truncate mt-0.5">${escapeHTML(mail.url)}</p>
+                            </div>
+                        </a>
                         
-                        showMessage('loadStatus', `সফলভাবে ${globalSheetData.length} টি রেকর্ড লোড হয়েছে!`, false);
-                        
-                        populateColumnDropdown();
-                        showSection('searchSection');
-                        
-                        // Hide report section if it was open
-                        document.getElementById('reportSection').classList.add('hidden');
-                        document.getElementById('reportSection').classList.remove('opacity-100');
-                    } else {
-                        showMessage('loadStatus', 'শিটে কোনো ডেটা পাওয়া যায়নি।', true);
-                    }
-                },
-                error: function(error) {
-                    toggleLoader(false);
-                    console.error("Error parsing CSV:", error);
-                    showMessage('loadStatus', 'ডেটা লোড করতে সমস্যা হয়েছে। শিটটি "Anyone with the link" করা আছে কিনা তা নিশ্চিত করুন।', true);
-                }
-            });
-        }
-
-        function populateColumnDropdown() {
-            const select = document.getElementById('idColumnSelect');
-            select.innerHTML = '';
-            
-            sheetHeaders.forEach(header => {
-                const option = document.createElement('option');
-                option.value = header;
-                option.textContent = header;
-                select.appendChild(option);
-            });
-            
-            // Try to auto-select a column that might contain 'ID'
-            const idCol = sheetHeaders.find(h => h.toLowerCase().includes('id'));
-            if(idCol) select.value = idCol;
-        }
-
-        function showSection(id) {
-            const section = document.getElementById(id);
-            section.classList.remove('hidden');
-            // Small delay to allow display block to apply before changing opacity for transition
-            setTimeout(() => {
-                section.classList.add('opacity-100');
-            }, 50);
-        }
-
-        function searchUser() {
-            const searchVal = document.getElementById('bulkIdsInput').value.trim();
-            const idCol = document.getElementById('idColumnSelect').value;
-            const errorEl = document.getElementById('searchError');
-            
-            if (!searchVal) {
-                errorEl.classList.remove('hidden');
-                return;
-            }
-            errorEl.classList.add('hidden');
-
-            // Split by comma, space or newline
-            const inputIds = searchVal.split(/[\n,\s]+/).map(id => id.trim()).filter(id => id);
-
-            if (inputIds.length === 0) {
-                errorEl.classList.remove('hidden');
-                return;
-            }
-
-            // Match against sheet
-            const results = inputIds.map(inputId => {
-                const matchedRow = globalSheetData.find(row => {
-                    const cellValue = row[idCol] ? row[idCol].toString().trim() : '';
-                    return cellValue.toLowerCase() === inputId.toLowerCase();
+                        <!-- Right: Action Buttons -->
+                        <div class="flex items-center gap-1 md:gap-2 flex-shrink-0">
+                            <button onclick="copyToClipboard('${mail.url.replace(/'/g, "\\'")}')" 
+                                class="p-2 md:p-2.5 text-slate-400 hover:text-white hover:bg-slate-600 rounded-lg transition-colors" title="লিংক কপি করুন">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                            <button onclick="deleteMail(${mail.id})" 
+                                class="p-2 md:p-2.5 text-slate-400 hover:text-red-400 hover:bg-slate-600 rounded-lg transition-colors" title="মুছে ফেলুন">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
                 });
-                return { id: inputId, found: !!matchedRow };
-            });
-
-            renderReport(results);
-            showSection('reportSection');
+            }
         }
 
-        function renderReport(results) {
-            const container = document.getElementById('reportContent');
-            container.innerHTML = ''; // Clear previous
+        // Delete Function
+        function deleteMail(id) {
+            tempMails = tempMails.filter(mail => mail.id !== id);
+            renderMails();
+            showToast('লিংক মুছে ফেলা হয়েছে!', 'error');
+        }
 
-            // Set Current Date
-            const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' };
-            document.getElementById('reportDate').textContent = new Date().toLocaleDateString('bn-BD', dateOpts);
-
-            const totalChecked = results.length;
-            const goodIdsCount = results.filter(r => r.found).length;
-            const badIdsCount = totalChecked - goodIdsCount;
-
-            // Top Stats Row
-            const statsDiv = document.createElement('div');
-            statsDiv.className = 'col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4 mb-6';
-            statsDiv.innerHTML = `
-                <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 text-center">
-                    <div class="text-sm text-gray-500 font-semibold mb-1">মোট আইডি চেক করা হয়েছে</div>
-                    <div class="text-2xl font-bold text-gray-800">${totalChecked}</div>
-                </div>
-                <div class="bg-red-50 p-4 rounded-lg border border-red-200 text-center">
-                    <div class="text-sm text-red-600 font-semibold mb-1">ভালো আইডি (শিটে আছে)</div>
-                    <div class="text-2xl font-bold text-red-600">${goodIdsCount}</div>
-                </div>
-                <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm">
-                    <div class="text-sm text-gray-500 font-semibold mb-1">অন্যান্য (শিটে নেই)</div>
-                    <div class="text-2xl font-bold text-gray-800">${badIdsCount}</div>
-                </div>
-            `;
-            container.appendChild(statsDiv);
-
-            // IDs Grid
-            const listDiv = document.createElement('div');
-            listDiv.className = 'col-span-1 md:col-span-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3';
+        // Copy Function (Using execCommand for iFrame compatibility)
+        function copyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
             
-            results.forEach(item => {
-                const itemBox = document.createElement('div');
-                if (item.found) {
-                    // লাল কালার (Red colored for Good IDs)
-                    itemBox.className = 'p-3 rounded bg-red-100 border border-red-400 text-center text-red-700 font-bold shadow-sm';
-                    itemBox.textContent = item.id;
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast('লিংক কপি করা হয়েছে!', 'success');
                 } else {
-                    // সাদা / সাধারণ (White/Normal for Bad IDs)
-                    itemBox.className = 'p-3 rounded bg-white border border-gray-300 text-center text-gray-800';
-                    itemBox.textContent = item.id;
+                    showToast('কপি করতে ব্যর্থ হয়েছে।', 'error');
                 }
-                listDiv.appendChild(itemBox);
-            });
+            } catch (err) {
+                showToast('কপি করতে ব্যর্থ হয়েছে।', 'error');
+            }
             
-            container.appendChild(listDiv);
+            document.body.removeChild(textArea);
         }
 
-        function downloadPDF() {
-            const element = document.getElementById('reportCard');
+        // Toast Notification System
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-emerald-500' : 'bg-red-500';
             
-            // Options for PDF generation
-            const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5],
-                filename:     `Verified_IDs_Report.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-            };
+            toast.className = `${bgColor} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 toast-enter max-w-sm`;
+            
+            const icon = type === 'success' 
+                ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
+                : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`;
+            
+            toast.innerHTML = `
+                ${icon}
+                <span class="font-medium">${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
 
-            // Generate and save
-            html2pdf().set(opt).from(element).save();
+        // Utility: Prevent XSS
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
         }
     </script>
 </body>
