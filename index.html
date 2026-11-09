@@ -78,6 +78,9 @@
             <div id="copy-toast" class="text-green-600 text-sm font-medium mt-3 opacity-0 transition-opacity">
                 <i class="fas fa-check-circle"></i> ইমেইল কপি করা হয়েছে!
             </div>
+            <div id="error-toast" class="text-red-600 text-sm font-medium mt-3 hidden bg-red-50 p-3 rounded-lg border border-red-200">
+                <i class="fas fa-exclamation-triangle"></i> <span id="error-text">ত্রুটি হয়েছে!</span>
+            </div>
         </div>
 
         <!-- Inbox Section -->
@@ -173,6 +176,7 @@
         async function generateNewEmail() {
             try {
                 clearInterval(checkInterval);
+                document.getElementById('error-toast').classList.add('hidden');
                 document.getElementById('email-address').value = "Generating...";
                 document.getElementById('mails-container').innerHTML = '';
                 document.getElementById('mails-container').classList.add('hidden');
@@ -181,32 +185,45 @@
 
                 // 1. Fetch available domains
                 const domainRes = await fetch(`${API_BASE}/domains`);
+                if (!domainRes.ok) throw new Error("Failed to load domains from API.");
                 const domainData = await domainRes.json();
                 
                 if (!domainData['hydra:member'] || domainData['hydra:member'].length === 0) {
-                    throw new Error("No domains available");
+                    throw new Error("No domains available at the moment.");
                 }
                 const domain = domainData['hydra:member'][0].domain;
 
                 // 2. Create Account
-                const randomStr = Math.random().toString(36).substring(2, 10);
+                const randomStr = Math.random().toString(36).substring(2, 10) + Date.now().toString(36).substring(4);
                 currentEmail = `${randomStr}@${domain}`;
-                currentPassword = Math.random().toString(36).substring(2, 12); // secure random password
+                currentPassword = Math.random().toString(36).substring(2, 15); // secure random password
 
                 const accRes = await fetch(`${API_BASE}/accounts`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify({ address: currentEmail, password: currentPassword })
                 });
 
-                if (!accRes.ok) throw new Error("Failed to create account");
+                if (!accRes.ok) {
+                    const errData = await accRes.json().catch(() => ({}));
+                    throw new Error(errData.message || errData.detail || "Account creation limit reached. Please wait or try a VPN.");
+                }
 
                 // 3. Get Auth Token
                 const tokenRes = await fetch(`${API_BASE}/token`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
                     body: JSON.stringify({ address: currentEmail, password: currentPassword })
                 });
+                
+                if (!tokenRes.ok) throw new Error("Failed to authenticate account.");
+                
                 const tokenData = await tokenRes.json();
                 token = tokenData.token;
                 
@@ -218,6 +235,9 @@
             } catch (error) {
                 console.error("Error generating email:", error);
                 document.getElementById('email-address').value = "Error! Try again.";
+                const errorToast = document.getElementById('error-toast');
+                document.getElementById('error-text').innerText = error.message === "Failed to fetch" ? "Network connection issue. Turn off VPN or Adblocker." : error.message;
+                errorToast.classList.remove('hidden');
             }
         }
 
