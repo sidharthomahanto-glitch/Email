@@ -135,29 +135,25 @@
         // --- Helper: Smart Fetch (CORS & Proxy বাইপাস করার জন্য) ---
         async function smartFetch(targetUrl, options) {
             let errorLogs = [];
+            
+            const proxies = [
+                { name: "Direct", url: targetUrl },
+                { name: "CorsOrg", url: "https://corsproxy.org/?" + encodeURIComponent(targetUrl) },
+                { name: "ThingProxy", url: "https://thingproxy.freeboard.io/fetch/" + targetUrl },
+                { name: "CodeTabs", url: "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl) }
+            ];
 
-            // ১. Direct Fetch (প্রথমে সরাসরি ট্রাই করবে)
-            try {
-                const res = await fetch(targetUrl, options);
-                if (res.ok) return res;
-                errorLogs.push(`Direct HTTP:${res.status}`);
-            } catch (e) { errorLogs.push(`Direct:${e.message}`); }
+            for (let proxy of proxies) {
+                try {
+                    const res = await fetch(proxy.url, options);
+                    if (res.ok) return res;
+                    errorLogs.push(`${proxy.name}:${res.status}`);
+                } catch (e) { 
+                    errorLogs.push(`${proxy.name}:Blocked`); 
+                }
+            }
 
-            // ২. CodeTabs Proxy
-            try {
-                const res = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl), options);
-                if (res.ok) return res;
-                errorLogs.push(`CodeTabs HTTP:${res.status}`);
-            } catch (e) { errorLogs.push(`CodeTabs:${e.message}`); }
-
-            // ৩. Fringe Zone Proxy (Backup)
-            try {
-                const res = await fetch("https://cors-proxy.fringe.zone/" + targetUrl, options);
-                if (res.ok) return res;
-                errorLogs.push(`Fringe HTTP:${res.status}`);
-            } catch (e) { errorLogs.push(`Fringe:${e.message}`); }
-
-            throw new Error(errorLogs.join(" || "));
+            throw new Error(errorLogs.join(" | "));
         }
 
         // --- Helper: Show Toast Notification ---
