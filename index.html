@@ -136,12 +136,17 @@
         async function smartFetch(targetUrl, options) {
             let errorLogs = [];
             
+            // corsproxy.io এর নতুন ?url= ফরম্যাট এবং GET এর জন্য allorigins
             const proxies = [
-                { name: "Direct", url: targetUrl },
-                { name: "CorsOrg", url: "https://corsproxy.org/?" + encodeURIComponent(targetUrl) },
-                { name: "ThingProxy", url: "https://thingproxy.freeboard.io/fetch/" + targetUrl },
-                { name: "CodeTabs", url: "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl) }
+                { name: "CorsProxy.io", url: "https://corsproxy.io/?url=" + encodeURIComponent(targetUrl) },
+                { name: "CodeTabs", url: "https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl) },
+                { name: "Direct", url: targetUrl }
             ];
+
+            // যদি GET রিকোয়েস্ট হয়, তবে AllOrigins সবচেয়ে ভালো কাজ করে
+            if (options.method === 'GET') {
+                proxies.unshift({ name: "AllOrigins", url: "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl) });
+            }
 
             for (let proxy of proxies) {
                 try {
@@ -149,7 +154,7 @@
                     if (res.ok) return res;
                     errorLogs.push(`${proxy.name}:${res.status}`);
                 } catch (e) { 
-                    errorLogs.push(`${proxy.name}:Blocked`); 
+                    errorLogs.push(`${proxy.name}:${e.message.replace('Failed to fetch', 'Blocked')}`); 
                 }
             }
 
