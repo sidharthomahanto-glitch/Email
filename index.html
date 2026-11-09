@@ -135,6 +135,11 @@
         // CORS Proxy URL (ব্রাউজার এরর সমাধানের জন্য)
         const proxyUrl = "https://corsproxy.io/?";
 
+        // --- Helper: Generate Random String ---
+        function generateRandomText(length) {
+            return Math.random().toString(36).substring(2, 2 + length);
+        }
+
         // --- Helper: Show Toast Notification ---
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -167,15 +172,31 @@
             document.getElementById('emailAddress').innerText = "Loading...";
             
             try {
-                // Mail.td API v1 Endpoint (প্রক্সির মাধ্যমে কল করা হচ্ছে)
-                const targetUrl = "https://api.mail.td/api/v1/inboxes";
+                // ১. প্রথমে Mail.td থেকে available ডোমেইনগুলো আনা হচ্ছে
+                const domainUrl = "https://api.mail.td/api/domains";
+                const domainRes = await fetch(proxyUrl + encodeURIComponent(domainUrl));
+                if (!domainRes.ok) throw new Error("Failed to fetch domains");
+                const domainData = await domainRes.json();
+                const selectedDomain = domainData.domains[0].domain;
+                
+                // ২. র‍্যান্ডম ইমেইল এড্রেস ও পাসওয়ার্ড তৈরি করা হচ্ছে
+                const randomPrefix = generateRandomText(8);
+                const newEmail = `${randomPrefix}@${selectedDomain}`;
+                const newPassword = generateRandomText(10);
+                
+                // ৩. Mail.td এর আসল API Endpoint (একাউন্ট তৈরি করার জন্য)
+                const targetUrl = "https://api.mail.td/api/accounts";
                 
                 const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
                     method: 'POST',
                     headers: { 
                         'Authorization': `Bearer ${currentApiKey}`,
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    body: JSON.stringify({
+                        address: newEmail,
+                        password: newPassword
+                    })
                 });
 
                 if (!response.ok) {
@@ -185,7 +206,7 @@
                 const data = await response.json();
                 
                 // ইমেইল এড্রেস সেট করা
-                currentEmailAddress = data.address || data.email || "error@domain.com";
+                currentEmailAddress = data.address || newEmail;
                 document.getElementById('emailAddress').innerText = currentEmailAddress;
                 
                 showToast("New email generated!");
@@ -213,8 +234,8 @@
             showToast("Checking for new OTPs...");
 
             try {
-                // Mail.td এর মেসেজ চেক করার API
-                const targetUrl = `https://api.mail.td/api/v1/messages?address=${currentEmailAddress}`;
+                // Mail.td এর ইনবক্স মেসেজ চেক করার সঠিক API লিংক
+                const targetUrl = `https://api.mail.td/api/accounts/${currentEmailAddress}/messages`;
                 
                 const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
                     method: 'GET',
@@ -225,8 +246,10 @@
                     throw new Error(`Failed to fetch messages: ${response.status}`);
                 }
 
-                const messages = await response.json();
-                renderInbox(messages || []);
+                const data = await response.json();
+                const messages = data.messages || []; // Mail.td 'messages' নামে লিস্ট পাঠায়
+                
+                renderInbox(messages);
                 showToast("Inbox refreshed successfully.");
 
             } catch (error) {
