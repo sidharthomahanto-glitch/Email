@@ -3,253 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টেম্প মেইল ম্যানেজার</title>
+    <title>TempMail - Free Temporary Email</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
         }
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05); 
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2); 
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3); 
-        }
-        
-        /* Toast Animation */
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        .toast-enter {
-            animation: slideIn 0.3s forwards;
-        }
-        .toast-exit {
-            animation: slideOut 0.3s forwards;
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-8 px-4 sm:px-6">
+<body class="min-h-screen text-gray-800 flex flex-col">
 
-    <!-- Header Section -->
-    <div class="w-full max-w-3xl mb-6 text-center">
-        <h1 class="text-3xl font-bold text-white mb-2">টেম্প মেইল ম্যানেজার</h1>
-        <p class="text-slate-400 text-sm">খুব সহজেই আপনার টেম্প মেইলগুলো সেভ করে রাখুন</p>
-    </div>
-
-    <!-- Input Form Section -->
-    <div class="w-full max-w-3xl bg-slate-800 rounded-xl p-4 mb-8 shadow-sm border border-slate-700/50">
-        <form id="add-mail-form" class="flex flex-col sm:flex-row gap-3">
-            <input type="text" id="mailName" required placeholder="মেইলের নাম (যেমন: Netflix)" 
-                class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
-            
-            <input type="url" id="mailUrl" required placeholder="লিংক (https://...)" 
-                class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors">
-            
-            <button type="submit" 
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors whitespace-nowrap flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                </svg>
-                যুক্ত করুন
-            </button>
-        </form>
-    </div>
-
-    <!-- Mails List Section -->
-    <div class="w-full max-w-3xl">
-        <div class="flex justify-between items-center mb-3 px-1">
-            <h2 class="text-lg font-medium text-slate-300">আপনার মেইলসমূহ</h2>
-            <span id="mail-count" class="text-slate-400 text-sm">মোট: 0</span>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <i class="fas fa-envelope-open-text"></i> TempMail
+            </div>
+            <div class="text-sm text-gray-500 hidden sm:block">
+                Disposable & Secure Email Service
+            </div>
         </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
         
-        <!-- List Container -->
-        <div id="mails-container" class="flex flex-col gap-3">
-            <!-- Mail Items will be injected here via JavaScript -->
+        <!-- Email Generator Section -->
+        <div class="glass-card rounded-2xl p-6 md:p-10 mb-8 text-center border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-blue-500"></div>
+            
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">আপনার অস্থায়ী ইমেইল ঠিকানা</h1>
+            <p class="text-gray-500 mb-8 text-sm md:text-base">এই ইমেইলটি ব্যবহার করে ওটিপি (OTP) বা ভেরিফিকেশন কোড গ্রহণ করুন।</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-4 max-w-2xl mx-auto">
+                <div class="relative w-full">
+                    <input type="text" id="email-address" readonly value="Loading..." 
+                           class="w-full bg-gray-50 border-2 border-gray-200 text-gray-700 font-semibold text-lg md:text-xl rounded-xl py-4 px-6 focus:outline-none focus:border-blue-400 transition-colors text-center shadow-inner">
+                </div>
+                
+                <div class="flex gap-2 w-full md:w-auto">
+                    <button onclick="copyEmail()" class="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-xl font-medium transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button onclick="generateNewEmail()" class="flex-1 md:flex-none bg-gray-200 hover:bg-gray-300 text-gray-700 py-4 px-6 rounded-xl font-medium transition-all shadow-sm flex items-center justify-center gap-2" title="New Email">
+                        <i class="fas fa-sync-alt"></i> New
+                    </button>
+                </div>
+            </div>
+            <div id="copy-toast" class="text-green-600 text-sm font-medium mt-3 opacity-0 transition-opacity">
+                <i class="fas fa-check-circle"></i> ইমেইল কপি করা হয়েছে!
+            </div>
         </div>
 
-        <!-- Empty State -->
-        <div id="empty-state" class="hidden flex-col items-center justify-center py-12 text-center bg-slate-800/50 rounded-xl border border-slate-700/50 border-dashed">
-            <p class="text-slate-400">এখনো কোনো মেইল যুক্ত করা হয়নি!</p>
+        <!-- Inbox Section -->
+        <div class="glass-card rounded-2xl border border-gray-100 overflow-hidden flex flex-col" style="min-h: 400px;">
+            <div class="bg-gray-50 border-b border-gray-200 p-4 md:p-6 flex justify-between items-center">
+                <h2 class="text-lg md:text-xl font-semibold flex items-center gap-2">
+                    <i class="fas fa-inbox text-blue-500"></i> ইনবক্স (Inbox)
+                </h2>
+                <div class="flex items-center gap-3 text-sm text-gray-500">
+                    <span id="refresh-status" class="flex items-center gap-2">
+                        <div class="loader hidden" id="sync-loader"></div>
+                        Auto-refreshing
+                    </span>
+                    <button onclick="checkMails()" class="text-blue-500 hover:text-blue-700 bg-blue-50 px-3 py-1 rounded-lg">
+                        <i class="fas fa-redo"></i> Refresh Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- Email List -->
+            <div id="email-list" class="flex-grow overflow-y-auto bg-white">
+                <!-- Empty State -->
+                <div id="empty-inbox" class="h-full flex flex-col items-center justify-center py-20 text-gray-400">
+                    <i class="fas fa-envelope-open text-6xl mb-4 opacity-20"></i>
+                    <p class="text-lg">ইনবক্স খালি আছে</p>
+                    <p class="text-sm">নতুন ইমেইলের জন্য অপেক্ষা করা হচ্ছে...</p>
+                </div>
+                
+                <!-- List (Populated via JS) -->
+                <ul id="mails-container" class="divide-y divide-gray-100 hidden">
+                    <!-- Emails will be injected here -->
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Email Reader Modal -->
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-gray-50 border-b border-gray-200 p-4 md:p-6 flex justify-between items-center">
+                <h3 class="font-bold text-lg text-gray-800 truncate pr-4" id="modal-subject">Subject</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition-colors bg-white rounded-full p-2 shadow-sm">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Info -->
+            <div class="p-4 md:p-6 border-b border-gray-100 bg-white">
+                <div class="flex flex-col md:flex-row justify-between md:items-center gap-2">
+                    <div>
+                        <p class="text-sm text-gray-500">From:</p>
+                        <p class="font-semibold text-gray-800" id="modal-from">sender@example.com</p>
+                    </div>
+                    <div class="text-left md:text-right">
+                        <p class="text-sm text-gray-500">Date:</p>
+                        <p class="text-sm font-medium text-gray-700" id="modal-date">Time</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-4 md:p-6 overflow-y-auto flex-grow bg-white text-gray-700" id="modal-body">
+                <div class="flex justify-center py-10">
+                    <div class="loader"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Toast Notification Container -->
-    <div id="toast-container" class="fixed bottom-5 right-5 flex flex-col gap-2 z-50"></div>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-auto py-6">
+        <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 TempMail. Built for quick and secure temporary communication.</p>
+        </div>
+    </footer>
 
     <script>
-        // State Management (In-Memory array)
-        let tempMails = [
-            { id: Date.now(), name: "উদাহরণ টেম্প মেইল ১", url: "https://temp-mail.org" }
-        ];
+        const API_BASE = "https://api.mail.tm";
+        let currentEmail = "";
+        let currentPassword = "";
+        let token = "";
+        let checkInterval;
+        let knownMessageIds = new Set();
 
-        // DOM Elements
-        const form = document.getElementById('add-mail-form');
-        const container = document.getElementById('mails-container');
-        const emptyState = document.getElementById('empty-state');
-        const mailCount = document.getElementById('mail-count');
-        const toastContainer = document.getElementById('toast-container');
-
-        // Initial Render
-        renderMails();
-
-        // Form Submit Handler
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nameInput = document.getElementById('mailName').value.trim();
-            const urlInput = document.getElementById('mailUrl').value.trim();
-
-            if (nameInput && urlInput) {
-                const newMail = {
-                    id: Date.now(),
-                    name: nameInput,
-                    url: urlInput
-                };
-
-                tempMails.unshift(newMail); // Add to beginning
-                renderMails();
-                form.reset();
-                showToast('নতুন লিংক যুক্ত করা হয়েছে!', 'success');
-                
-                // নতুন মেইল এড করার সাথে সাথেই তা নতুন ট্যাবে ওপেন করার কোড
-                window.open(urlInput, '_blank');
-            }
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            generateNewEmail();
         });
 
-        // Render Mails Function
-        function renderMails() {
-            container.innerHTML = '';
-            mailCount.textContent = `মোট: ${tempMails.length}`;
+        // Generate a new random email using Mail.tm
+        async function generateNewEmail() {
+            try {
+                clearInterval(checkInterval);
+                document.getElementById('email-address').value = "Generating...";
+                document.getElementById('mails-container').innerHTML = '';
+                document.getElementById('mails-container').classList.add('hidden');
+                document.getElementById('empty-inbox').classList.remove('hidden');
+                knownMessageIds.clear();
 
-            if (tempMails.length === 0) {
-                emptyState.classList.remove('hidden');
-                emptyState.classList.add('flex');
-            } else {
-                emptyState.classList.add('hidden');
-                emptyState.classList.remove('flex');
+                // 1. Fetch available domains
+                const domainRes = await fetch(`${API_BASE}/domains`);
+                const domainData = await domainRes.json();
+                
+                if (!domainData['hydra:member'] || domainData['hydra:member'].length === 0) {
+                    throw new Error("No domains available");
+                }
+                const domain = domainData['hydra:member'][0].domain;
 
-                tempMails.forEach(mail => {
-                    const card = document.createElement('div');
-                    card.className = 'bg-slate-800 rounded-lg p-3 md:p-4 flex items-center justify-between gap-3 md:gap-4 hover:bg-slate-700 transition-colors border border-slate-700/50 group';
-                    
-                    card.innerHTML = `
-                        <!-- Left: Clickable Info -->
-                        <a href="${escapeHTML(mail.url)}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 md:gap-4 flex-1 min-w-0 cursor-pointer text-left" title="নতুন ট্যাবে ওপেন করুন">
-                            <div class="bg-blue-500/10 text-blue-400 p-2 md:p-3 rounded-full group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <h3 class="text-slate-200 font-medium text-base md:text-lg truncate group-hover:text-white transition-colors">${escapeHTML(mail.name)}</h3>
-                                <p class="text-slate-400 text-xs md:text-sm truncate mt-0.5">${escapeHTML(mail.url)}</p>
-                            </div>
-                        </a>
-                        
-                        <!-- Right: Action Buttons -->
-                        <div class="flex items-center gap-1 md:gap-2 flex-shrink-0">
-                            <button onclick="copyToClipboard('${mail.url.replace(/'/g, "\\'")}')" 
-                                class="p-2 md:p-2.5 text-slate-400 hover:text-white hover:bg-slate-600 rounded-lg transition-colors" title="লিংক কপি করুন">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                            </button>
-                            <button onclick="deleteMail(${mail.id})" 
-                                class="p-2 md:p-2.5 text-slate-400 hover:text-red-400 hover:bg-slate-600 rounded-lg transition-colors" title="মুছে ফেলুন">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        </div>
-                    `;
-                    container.appendChild(card);
+                // 2. Create Account
+                const randomStr = Math.random().toString(36).substring(2, 10);
+                currentEmail = `${randomStr}@${domain}`;
+                currentPassword = Math.random().toString(36).substring(2, 12); // secure random password
+
+                const accRes = await fetch(`${API_BASE}/accounts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: currentEmail, password: currentPassword })
                 });
+
+                if (!accRes.ok) throw new Error("Failed to create account");
+
+                // 3. Get Auth Token
+                const tokenRes = await fetch(`${API_BASE}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address: currentEmail, password: currentPassword })
+                });
+                const tokenData = await tokenRes.json();
+                token = tokenData.token;
+                
+                document.getElementById('email-address').value = currentEmail;
+                
+                // Start checking for mails
+                checkMails();
+                checkInterval = setInterval(checkMails, 10000); // Check every 10 seconds
+            } catch (error) {
+                console.error("Error generating email:", error);
+                document.getElementById('email-address').value = "Error! Try again.";
             }
         }
 
-        // Delete Function
-        function deleteMail(id) {
-            tempMails = tempMails.filter(mail => mail.id !== id);
-            renderMails();
-            showToast('লিংক মুছে ফেলা হয়েছে!', 'error');
+        // Copy Email to Clipboard
+        function copyEmail() {
+            const emailInput = document.getElementById('email-address');
+            if(emailInput.value && emailInput.value !== "Generating..." && emailInput.value !== "Error! Try again.") {
+                const textArea = document.createElement("textarea");
+                textArea.value = emailInput.value;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const toast = document.getElementById('copy-toast');
+                    toast.classList.remove('opacity-0');
+                    setTimeout(() => toast.classList.add('opacity-0'), 2000);
+                } catch (err) {
+                    console.error('Failed to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
         }
 
-        // Copy Function (Using execCommand for iFrame compatibility)
-        function copyToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.position = "fixed";
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
+        // Check for new emails using JWT Token
+        async function checkMails() {
+            if (!token) return;
+            
+            const loader = document.getElementById('sync-loader');
+            loader.classList.remove('hidden');
             
             try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showToast('লিংক কপি করা হয়েছে!', 'success');
-                } else {
-                    showToast('কপি করতে ব্যর্থ হয়েছে।', 'error');
+                const response = await fetch(`${API_BASE}/messages`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                const messages = data['hydra:member'];
+                
+                if (messages && messages.length > 0) {
+                    document.getElementById('empty-inbox').classList.add('hidden');
+                    const container = document.getElementById('mails-container');
+                    container.classList.remove('hidden');
+                    
+                    // mail.tm returns newest first usually, processing them backwards 
+                    // helps rendering them correctly if we insert at the top.
+                    [...messages].reverse().forEach(msg => {
+                        if (!knownMessageIds.has(msg.id)) {
+                            knownMessageIds.add(msg.id);
+                            renderEmailItem(msg, container);
+                        }
+                    });
                 }
-            } catch (err) {
-                showToast('কপি করতে ব্যর্থ হয়েছে।', 'error');
+            } catch (error) {
+                console.error("Error checking mails:", error);
+            } finally {
+                setTimeout(() => loader.classList.add('hidden'), 500);
             }
-            
-            document.body.removeChild(textArea);
         }
 
-        // Toast Notification System
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            const bgColor = type === 'success' ? 'bg-emerald-500' : 'bg-red-500';
+        // Render individual email item in the list
+        function renderEmailItem(msg, container) {
+            const li = document.createElement('li');
+            li.className = "hover:bg-blue-50 cursor-pointer transition-colors p-4 md:p-5 flex flex-col md:flex-row md:items-center justify-between border-l-4 border-transparent hover:border-blue-500 group";
+            li.onclick = () => openMessage(msg.id);
             
-            toast.className = `${bgColor} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 toast-enter max-w-sm`;
-            
-            const icon = type === 'success' 
-                ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>`
-                : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>`;
-            
-            toast.innerHTML = `
-                ${icon}
-                <span class="font-medium">${message}</span>
+            const fromText = msg.from ? (msg.from.name || msg.from.address) : "Unknown Sender";
+            const dateStr = msg.createdAt;
+
+            li.innerHTML = `
+                <div class="flex-grow min-w-0 pr-4">
+                    <div class="flex justify-between items-start mb-1">
+                        <span class="font-bold text-gray-800 truncate">${escapeHTML(fromText)}</span>
+                        <span class="text-xs text-gray-500 whitespace-nowrap md:hidden">${formatDate(dateStr)}</span>
+                    </div>
+                    <p class="text-gray-700 font-medium truncate">${escapeHTML(msg.subject || "(No Subject)")}</p>
+                </div>
+                <div class="text-right hidden md:block pl-4 min-w-[120px]">
+                    <span class="text-sm text-gray-500">${formatDate(dateStr)}</span>
+                    <button class="mt-2 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity text-sm bg-white rounded-md px-3 py-1 border border-blue-200">
+                        View <i class="fas fa-arrow-right text-xs ml-1"></i>
+                    </button>
+                </div>
             `;
             
-            toastContainer.appendChild(toast);
-            
-            // Remove toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('toast-enter');
-                toast.classList.add('toast-exit');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
+            // Add new message to the top
+            container.insertBefore(li, container.firstChild);
         }
 
-        // Utility: Prevent XSS
+        // Open and fetch message details
+        async function openMessage(id) {
+            const modal = document.getElementById('message-modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            // Reset modal content
+            document.getElementById('modal-subject').innerText = "Loading...";
+            document.getElementById('modal-from').innerText = "...";
+            document.getElementById('modal-date').innerText = "...";
+            modalBody.innerHTML = `<div class="flex justify-center py-10"><div class="loader"></div></div>`;
+            
+            modal.classList.remove('hidden');
+            
+            try {
+                const response = await fetch(`${API_BASE}/messages/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const messageData = await response.json();
+                
+                const fromDetails = messageData.from ? (messageData.from.name ? `${messageData.from.name} <${messageData.from.address}>` : messageData.from.address) : "Unknown Sender";
+
+                document.getElementById('modal-subject').innerText = messageData.subject || "(No Subject)";
+                document.getElementById('modal-from').innerText = fromDetails;
+                document.getElementById('modal-date').innerText = formatDate(messageData.createdAt);
+                
+                // Show HTML content if available, otherwise text body
+                // API might return array of strings for html/text, converting to single string safely
+                let htmlContent = messageData.html;
+                if (Array.isArray(htmlContent)) htmlContent = htmlContent.join('');
+                
+                let textContent = messageData.text;
+                if (Array.isArray(textContent)) textContent = textContent.join('');
+
+                if (htmlContent && htmlContent.trim().length > 0) {
+                    modalBody.innerHTML = `<iframe id="mail-iframe" class="w-full min-h-[300px] border-0" sandbox="allow-same-origin"></iframe>`;
+                    const iframe = document.getElementById('mail-iframe');
+                    iframe.contentWindow.document.open();
+                    iframe.contentWindow.document.write(htmlContent);
+                    iframe.contentWindow.document.close();
+                } else {
+                    modalBody.innerHTML = `<pre class="whitespace-pre-wrap font-sans text-gray-700">${escapeHTML(textContent || "No Content")}</pre>`;
+                }
+                
+                // Show Attachments if any
+                if(messageData.hasAttachments && messageData.attachments && messageData.attachments.length > 0) {
+                    let attachmentsHtml = `<div class="mt-6 pt-4 border-t border-gray-200">
+                                            <h4 class="font-semibold text-gray-700 mb-3"><i class="fas fa-paperclip mr-2"></i>Attachments</h4>
+                                            <div class="flex flex-wrap gap-2">`;
+                    
+                    messageData.attachments.forEach(att => {
+                        // Mail.tm requires token to download attachment
+                        attachmentsHtml += `
+                            <button onclick="downloadAttachment('${id}', '${att.id}', '${escapeHTML(att.filename)}')" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-700 transition-colors border border-gray-200 cursor-pointer">
+                                <i class="fas fa-file-alt text-blue-500"></i>
+                                ${escapeHTML(att.filename)} <span class="text-gray-400 text-xs">(${formatBytes(att.size)})</span>
+                            </button>
+                        `;
+                    });
+                    attachmentsHtml += `</div></div>`;
+                    modalBody.innerHTML += attachmentsHtml;
+                }
+
+            } catch (error) {
+                console.error("Error reading message:", error);
+                modalBody.innerHTML = `<div class="text-red-500 text-center py-10"><i class="fas fa-exclamation-triangle text-3xl mb-2"></i><br>Failed to load message content.</div>`;
+            }
+        }
+        
+        // Handle Secure Attachment Downloads
+        async function downloadAttachment(msgId, attId, filename) {
+            try {
+                const res = await fetch(`${API_BASE}/messages/${msgId}/attachment/${attId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error("Download Error:", error);
+                alert("অ্যাটাচমেন্ট ডাউনলোড করতে সমস্যা হচ্ছে!");
+            }
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('message-modal').classList.add('hidden');
+        }
+
+        // Utility: Format Date
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ', ' + date.toLocaleDateString();
+        }
+
+        // Utility: Escape HTML to prevent XSS in plain text
         function escapeHTML(str) {
+            if (!str) return '';
             return str.replace(/[&<>'"]/g, 
                 tag => ({
                     '&': '&amp;',
@@ -259,6 +418,16 @@
                     '"': '&quot;'
                 }[tag] || tag)
             );
+        }
+
+        // Utility: Format Bytes
+        function formatBytes(bytes, decimals = 2) {
+            if (!+bytes) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
         }
     </script>
 </body>
