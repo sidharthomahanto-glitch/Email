@@ -50,13 +50,13 @@
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
                 <h2 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">1. API Setup</h2>
                 <div class="flex flex-col md:flex-row gap-3">
-                    <input type="text" id="apiInput" placeholder="Enter your API Key or URL here..." 
+                    <input type="text" id="apiInput" placeholder="Enter your API Key..." value="td_136ec2073f123ba880ad2013cfea3e94a5c6d817033b6589f55d4523cfeb1522"
                         class="flex-1 px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
-                    <button onclick="initializeAPI()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-colors">
+                    <button onclick="initializeAPI()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap">
                         Connect API
                     </button>
                 </div>
-                <p class="text-xs text-slate-400 mt-2">আপনার API key দিলে কোডের ভেতরের লজিক অনুযায়ী কানেক্ট হবে।</p>
+                <p class="text-xs text-slate-400 mt-2">আপনার Mail.td API key দিন এবং Connect এ ক্লিক করুন।</p>
             </div>
 
             <!-- Email Display Section -->
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <!-- Toast Notification (Replaces alert()) -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50">
         Message goes here
     </div>
@@ -131,8 +131,10 @@
         // --- State Variables ---
         let currentApiKey = '';
         let currentEmailAddress = 'waiting_for_api@example.com';
-        let currentAccountId = null; // Mail.td এর অ্যাকাউন্ট আইডি সংরক্ষণের জন্য
         
+        // CORS Proxy URL (ব্রাউজার এরর সমাধানের জন্য)
+        const proxyUrl = "https://corsproxy.io/?";
+
         // --- Helper: Show Toast Notification ---
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -147,13 +149,11 @@
         function initializeAPI() {
             const input = document.getElementById('apiInput').value.trim();
             if (!input) {
-                showToast("Please enter a valid API Key or URL.");
+                showToast("Please enter a valid API Key.");
                 return;
             }
             currentApiKey = input;
-            showToast("API Connected successfully!");
-            
-            // Auto generate email after connecting
+            showToast("API Connected! Generating email...");
             generateNewEmail();
         }
 
@@ -167,45 +167,27 @@
             document.getElementById('emailAddress').innerText = "Loading...";
             
             try {
-                // ১. প্রথমে Mail.td থেকে এভেইলএবল ডোমেইন লিস্ট আনছি
-                const domainRes = await fetch('https://api.mail.td/api/domains');
-                const domainData = await domainRes.json();
+                // Mail.td API v1 Endpoint (প্রক্সির মাধ্যমে কল করা হচ্ছে)
+                const targetUrl = "https://api.mail.td/api/v1/inboxes";
                 
-                if (!domainData.domains || domainData.domains.length === 0) {
-                    throw new Error("No domains available");
-                }
-                
-                // ২. ডোমেইন ও রেন্ডম নাম ব্যবহার করে নতুন ইমেইল এড্রেস তৈরি
-                const selectedDomain = domainData.domains[0].domain;
-                const randomName = Math.random().toString(36).substring(2, 10);
-                const newAddress = `${randomName}@${selectedDomain}`;
-                const randomPassword = Math.random().toString(36).substring(2, 12);
-                
-                // ৩. আপনার API Key ব্যবহার করে আসল ইমেইল একাউন্ট তৈরি (Mail.td API)
-                const createRes = await fetch('https://api.mail.td/api/accounts', {
+                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
                     method: 'POST',
                     headers: { 
                         'Authorization': `Bearer ${currentApiKey}`,
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        address: newAddress,
-                        password: randomPassword
-                    })
+                    }
                 });
 
-                if (!createRes.ok) {
-                    const errText = await createRes.text();
-                    throw new Error(`API Error: ${errText}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP Error: ${response.status}`);
                 }
 
-                const accountData = await createRes.json();
+                const data = await response.json();
                 
-                // আইডি এবং ইমেইল সেভ করা হলো
-                currentAccountId = accountData.id;
-                currentEmailAddress = accountData.address;
-
+                // ইমেইল এড্রেস সেট করা
+                currentEmailAddress = data.address || data.email || "error@domain.com";
                 document.getElementById('emailAddress').innerText = currentEmailAddress;
+                
                 showToast("New email generated!");
                 
                 // Clear old inbox
@@ -214,40 +196,38 @@
 
             } catch (error) {
                 console.error(error);
-                let errorMsg = error.message;
-                if (errorMsg.includes("Failed to fetch")) {
-                    errorMsg = "Network Error! ব্রাউজারের Adblocker API ব্লক করছে অথবা CORS সমস্যা।";
-                }
-                showToast("Error: " + errorMsg.substring(0, 50));
                 document.getElementById('emailAddress').innerText = "API Error!";
-                document.getElementById('inboxList').innerHTML = `<div class="text-center py-5 text-red-500 font-medium text-sm border border-red-200 bg-red-50 rounded-xl">Error Details:<br>${errorMsg}</div>`;
+                document.getElementById('inboxList').innerHTML = `<div class="text-center py-5 text-red-500 font-medium text-sm border border-red-200 bg-red-50 rounded-xl">Connection Error. Please check your API Key or Network.<br>${error.message}</div>`;
             }
         }
 
         // --- 3. Refresh/Check Inbox ---
         async function refreshInbox() {
-            if (!currentAccountId || !currentApiKey) {
+            if (!currentApiKey || currentEmailAddress === 'waiting_for_api@example.com' || currentEmailAddress === 'Loading...' || currentEmailAddress === 'API Error!') {
                 showToast("Generate an email first!");
                 return;
             }
 
             const btn = document.querySelector('button[onclick="refreshInbox()"]');
             btn.classList.add('animate-pulse');
+            showToast("Checking for new OTPs...");
 
             try {
-                // Mail.td এর মেসেজ চেক করার আসল API Call
-                const response = await fetch(`https://api.mail.td/api/accounts/${currentAccountId}/messages`, {
+                // Mail.td এর মেসেজ চেক করার API
+                const targetUrl = `https://api.mail.td/api/v1/messages?address=${currentEmailAddress}`;
+                
+                const response = await fetch(proxyUrl + encodeURIComponent(targetUrl), {
                     method: 'GET',
                     headers: { 'Authorization': `Bearer ${currentApiKey}` }
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch messages");
+                    throw new Error(`Failed to fetch messages: ${response.status}`);
                 }
 
-                const data = await response.json();
-                renderInbox(data.messages || []);
-                showToast("Inbox refreshed.");
+                const messages = await response.json();
+                renderInbox(messages || []);
+                showToast("Inbox refreshed successfully.");
 
             } catch (error) {
                 console.error(error);
@@ -270,24 +250,28 @@
                 return;
             }
 
-            inboxList.innerHTML = ''; // Clear current
+            inboxList.innerHTML = ''; 
             
             emails.forEach(email => {
                 const mailEl = document.createElement('div');
                 mailEl.className = "p-4 border border-slate-200 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors";
                 
-                // মেসেজে ক্লিক করলে পুরো মেসেজটি লোড হবে
-                mailEl.onclick = () => openEmailModal(email.id, email.subject, email.from);
+                // ইমেইল বডি টেক্সট রেডি করা
+                const emailContent = email.text || email.html || email.preview_text || "No content found.";
+                const safeContent = emailContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+                // মেসেজে ক্লিক করলে পপ-আপ ওপেন হবে
+                mailEl.onclick = () => openEmailModal(email.subject, email.from, safeContent);
                 
-                const timeStr = email.created_at ? new Date(email.created_at).toLocaleTimeString() : 'New';
+                const timeStr = email.createdAt ? new Date(email.createdAt).toLocaleTimeString() : 'Just now';
                 
                 mailEl.innerHTML = `
                     <div class="flex justify-between items-start mb-1">
-                        <span class="font-semibold text-slate-800 text-sm truncate pr-2">${email.from || email.sender || 'Unknown'}</span>
+                        <span class="font-semibold text-slate-800 text-sm truncate pr-2">${email.from || 'Unknown'}</span>
                         <span class="text-xs text-slate-400 whitespace-nowrap">${timeStr}</span>
                     </div>
                     <div class="text-sm font-medium text-slate-900 truncate">${email.subject || '(No Subject)'}</div>
-                    <div class="text-xs text-slate-500 truncate mt-1">${(email.preview_text || '').replace(/\n/g, ' ')}</div>
+                    <div class="text-xs text-slate-500 truncate mt-1">${(email.text || '').substring(0, 50)}...</div>
                 `;
                 inboxList.appendChild(mailEl);
             });
@@ -296,12 +280,10 @@
         // --- UI Interactions ---
         function copyEmail() {
             const emailText = document.getElementById('emailAddress').innerText;
-            if (emailText && emailText !== 'waiting_for_api@example.com' && emailText !== 'Loading...') {
-                // For modern browsers
+            if (emailText && emailText !== 'waiting_for_api@example.com' && emailText !== 'Loading...' && emailText !== 'API Error!') {
                 navigator.clipboard.writeText(emailText).then(() => {
                     showToast("Email address copied!");
                 }).catch(err => {
-                    // Fallback
                     const textArea = document.createElement("textarea");
                     textArea.value = emailText;
                     document.body.appendChild(textArea);
@@ -315,37 +297,22 @@
                     document.body.removeChild(textArea);
                 });
             } else {
-                showToast("Nothing to copy yet.");
+                showToast("No valid email to copy.");
             }
         }
 
-        async function openEmailModal(messageId, subject, from) {
+        function openEmailModal(subject, from, content) {
             const modal = document.getElementById('emailModal');
             document.getElementById('modalSubject').innerText = subject || '(No Subject)';
             document.getElementById('modalSender').innerText = `From: ${from || 'Unknown'}`;
-            document.getElementById('modalBody').innerText = "Loading message content...";
+            
+            // HTML Entity গুলোকে ডিকোড করে প্লেইন টেক্সট হিসেবে শো করানো
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            document.getElementById('modalBody').innerText = tempDiv.textContent || tempDiv.innerText || content;
             
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-
-            try {
-                // মেইলে ক্লিক করলে Mail.td থেকে মেইলের বিস্তারিত (OTP সহ) আনবে
-                const response = await fetch(`https://api.mail.td/api/accounts/${currentAccountId}/messages/${messageId}`, {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${currentApiKey}` }
-                });
-
-                if (!response.ok) throw new Error("Could not load full message");
-                
-                const data = await response.json();
-                // মেসেজের টেক্সট বডি অথবা প্রিভিউ শো করবে
-                const bodyContent = data.text_body || data.html_body || data.preview_text || "Empty message.";
-                document.getElementById('modalBody').innerText = bodyContent;
-                
-            } catch (error) {
-                console.error(error);
-                document.getElementById('modalBody').innerText = "Failed to load message content. Please try again.";
-            }
         }
 
         function closeModal() {
