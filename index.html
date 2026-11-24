@@ -81,9 +81,9 @@
           </div>
           <div class="min-w-0">
             <h1 id="header-store-name" class="font-bold text-lg leading-tight truncate">Digital Store BD</h1>
-            <p class="text-xs text-indigo-100/90 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
-              অটো ডিজিটাল শপ
+            <p id="header-cloud-status" class="text-xs text-indigo-100/90 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block animate-pulse"></span>
+              <span>লাইভ ডাটাবেস সংযুক্ত হচ্ছে...</span>
             </p>
           </div>
         </div>
@@ -204,6 +204,8 @@
       selectedPaymentId: 'bkash',
       depositInputBdt: '',
       adminUnlocked: false,
+      cloudStatus: 'connecting',    // 'connecting' | 'online' | 'offline' | 'error'
+      authUid: '',                  // Full Authenticated Cloud User ID
 
       // Store & Payment Settings (Editable from Admin Panel)
       settings: {
@@ -226,7 +228,8 @@
           phone: '01711-000101',
           balance: 0,
           blocked: false,
-          joinedAt: 'আজ, ১০:০০ AM'
+          joinedAt: 'আজ, ১০:০০ AM',
+          createdAtTs: 1700000300000
         },
         {
           id: 'USR_102',
@@ -234,7 +237,8 @@
           phone: '01822-334455',
           balance: 240,
           blocked: false,
-          joinedAt: 'গতকাল, ৪:২০ PM'
+          joinedAt: 'গতকাল, ৪:২০ PM',
+          createdAtTs: 1700000200000
         },
         {
           id: 'USR_103',
@@ -242,7 +246,8 @@
           phone: '01933-778899',
           balance: 50,
           blocked: false,
-          joinedAt: '২ দিন আগে'
+          joinedAt: '২ দিন আগে',
+          createdAtTs: 1700000100000
         }
       ],
 
@@ -313,7 +318,10 @@
           icon: '📧',
           logoUrl: '',
           deliveryMode: 'auto',
+          manualStock: null,
           sheetUrl: 'https://docs.google.com/spreadsheets/d/example-hotmail-sheet/edit',
+          sheetSkipHeader: false,
+          sheetTotalCount: 0,
           directLink: '',
           fileName: '',
           fileUrl: ''
@@ -324,7 +332,10 @@
           icon: '✉️',
           logoUrl: '',
           deliveryMode: 'sheet',
+          manualStock: null,
           sheetUrl: 'https://docs.google.com/spreadsheets/d/example-gmail-sheet/edit',
+          sheetSkipHeader: false,
+          sheetTotalCount: 0,
           directLink: '',
           fileName: '',
           fileUrl: ''
@@ -335,7 +346,10 @@
           icon: '🛡️',
           logoUrl: '',
           deliveryMode: 'manual',
+          manualStock: 23,
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetTotalCount: 0,
           directLink: '',
           fileName: '',
           fileUrl: ''
@@ -346,14 +360,17 @@
           icon: '⚡',
           logoUrl: '',
           deliveryMode: 'link',
+          manualStock: null,
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetTotalCount: 0,
           directLink: 'https://www.canva.com/brand/join?token=demo-invite-link',
           fileName: '',
           fileUrl: ''
         }
       ],
 
-      // Products Catalog (Supports 'inherit', 'auto', 'sheet', 'file', 'link', or 'manual' delivery)
+      // Products Catalog (Supports 'inherit', 'auto', 'sheet', 'file', 'link', or 'manual' delivery + Google Sheet Col A Sync)
       products: [
         {
           id: 'prod_1',
@@ -363,6 +380,10 @@
           stock: 45,
           deliveryMode: 'inherit',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 0,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
@@ -381,10 +402,14 @@
           stock: 18,
           deliveryMode: 'sheet',
           sheetUrl: 'https://docs.google.com/spreadsheets/d/example-aged-hotmail-2022/edit',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 18,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
-          description: 'পুরাতন এজড হটমেইল শিট ফাইল। অর্ডার করলেই গুগল শিট লিংক পাবেন।',
+          description: 'পুরাতন এজড হটমেইল শিট ফাইল। অর্ডার করলেই টেক্সট বা গুগল শিট ফাইলে পাবেন।',
           stockItems: []
         },
         {
@@ -395,10 +420,14 @@
           stock: 32,
           deliveryMode: 'inherit',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 32,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
-          description: 'ফোন ভেরিফাইড ফ্রেশ জিমেইল অ্যাকাউন্ট। সরাসরি গুগল শিট ফাইলে ডেলিভারি হবে।',
+          description: 'ফোন ভেরিফাইড ফ্রেশ জিমেইল অ্যাকাউন্ট। টেক্সট অথবা গুগল শিট ফাইলে ডেলিভারি হবে।',
           stockItems: []
         },
         {
@@ -409,6 +438,10 @@
           stock: 12,
           deliveryMode: 'manual',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 0,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
@@ -423,6 +456,10 @@
           stock: 15,
           deliveryMode: 'auto',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 0,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
@@ -439,6 +476,10 @@
           stock: 8,
           deliveryMode: 'inherit',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 0,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
@@ -453,6 +494,10 @@
           stock: 50,
           deliveryMode: 'inherit',
           sheetUrl: '',
+          sheetSkipHeader: false,
+          sheetDeliveredCount: 0,
+          sheetTotalCount: 0,
+          sheetLastSynced: '',
           directLink: '',
           fileName: '',
           fileUrl: '',
@@ -473,7 +518,8 @@
           usdAmount: null,
           txId: 'BKH92KL81P',
           status: 'approved',
-          createdAt: 'গতকাল, ৫:১০ PM'
+          createdAt: 'গতকাল, ৫:১০ PM',
+          createdAtTs: 1700000200000
         },
         {
           id: 'DEP_DEMO2',
@@ -485,7 +531,8 @@
           usdAmount: '2.00',
           txId: 'BN883920144',
           status: 'approved',
-          createdAt: '২ দিন আগে'
+          createdAt: '২ দিন আগে',
+          createdAtTs: 1700000100000
         }
       ],
 
@@ -508,7 +555,8 @@
           deliveredDirectLink: '',
           deliveredFileUrl: '',
           deliveredFileName: '',
-          createdAt: 'গতকাল, ৬:০০ PM'
+          createdAt: 'গতকাল, ৬:০০ PM',
+          createdAtTs: 1700000200000
         },
         {
           id: 'ORD_DEMO2',
@@ -527,12 +575,95 @@
           deliveredDirectLink: '',
           deliveredFileUrl: '',
           deliveredFileName: '',
-          createdAt: '২ দিন আগে'
+          createdAt: '২ দিন আগে',
+          createdAtTs: 1700000100000
         }
       ],
 
       // Admin Balance Adjustments Log (Tracks manual balance add/deduct by Admin)
       balanceLogs: []
+    };
+
+    // Cloud Sync Bridge Helpers (Connected by the Cloud Module Script below)
+    function cloudSaveConfig() {
+      if (window.cloudDb && typeof window.cloudDb.saveConfig === 'function') {
+        window.cloudDb.saveConfig(state.settings, state.paymentMethods);
+      }
+    }
+
+    function cloudSaveDoc(collectionName, docId, data) {
+      if (window.cloudDb && typeof window.cloudDb.saveDoc === 'function') {
+        window.cloudDb.saveDoc(collectionName, docId, data);
+      }
+    }
+
+    function cloudDeleteDoc(collectionName, docId) {
+      if (window.cloudDb && typeof window.cloudDb.deleteDoc === 'function') {
+        window.cloudDb.deleteDoc(collectionName, docId);
+      }
+    }
+
+    function copyAppLink() {
+      const currentUrl = window.location.href;
+      if (currentUrl.startsWith('http://') || currentUrl.startsWith('https://')) {
+        copyText(currentUrl, 'মিনি অ্যাপের লিংক কপি করা হয়েছে!');
+      } else {
+        showToast('ফাইলটি Netlify Drop বা GitHub Pages-এ আপলোড করলে আপনার লাইভ লিংক তৈরি হবে।', 'info');
+      }
+    }
+
+    // Expose safe callbacks for the Cloud Sync Module
+    window.__storeBridge = {
+      getInitialSnapshot: () => ({
+        settings: state.settings,
+        paymentMethods: state.paymentMethods,
+        categories: state.categories,
+        products: state.products,
+        users: state.users,
+        deposits: state.deposits,
+        orders: state.orders,
+        balanceLogs: state.balanceLogs
+      }),
+      setCloudStatus: (status, uid = '') => {
+        state.cloudStatus = status;
+        if (uid) state.authUid = uid;
+        updateHeaderAndNav();
+      },
+      ensureAuthUserProfile: (uid) => {
+        state.authUid = uid;
+        state.currentUserId = uid;
+        const existing = state.users.find(u => u.id === uid);
+        if (!existing) {
+          const newProfile = {
+            id: uid,
+            name: 'ইউজার ' + uid.slice(-4).toUpperCase(),
+            phone: 'নাম্বার যুক্ত করুন',
+            balance: 0,
+            blocked: false,
+            joinedAt: getNowTime(),
+            createdAtTs: Date.now()
+          };
+          state.users.unshift(newProfile);
+          cloudSaveDoc('users', uid, newProfile);
+        }
+        renderApp();
+      },
+      applyRemoteConfig: (data) => {
+        if (data.settings) state.settings = { ...state.settings, ...data.settings };
+        if (Array.isArray(data.paymentMethods)) state.paymentMethods = data.paymentMethods;
+        renderApp();
+      },
+      applyRemoteCollection: (key, items) => {
+        if (key === 'deposits' || key === 'orders' || key === 'users' || key === 'balanceLogs') {
+          items.sort((a, b) => (b.createdAtTs || 0) - (a.createdAtTs || 0));
+        }
+        state[key] = items;
+        if (key === 'users' && state.authUid && !state.users.some(u => u.id === state.currentUserId)) {
+          const myDoc = state.users.find(u => u.id === state.authUid);
+          if (myDoc) state.currentUserId = myDoc.id;
+        }
+        renderApp();
+      }
     };
 
     // Temporary holder for files/photos picked from device gallery inside active modals
@@ -630,6 +761,7 @@
       const blobUrl = URL.createObjectURL(file);
       if (targetKey === 'storeLogo') {
         state.settings.storeLogoUrl = blobUrl;
+        cloudSaveConfig();
         showToast('মিনি অ্যাপের নতুন লোগো গ্যালারি থেকে যুক্ত হয়েছে!', 'success');
         renderApp();
         return;
@@ -658,24 +790,460 @@
       showToast(`"${file.name}" ফাইলটি যুক্ত হয়েছে!`, 'success');
     }
 
-    // Calculate live Deposit & Purchase stats for any user
-    function getUserStats(userId) {
-      const userDeposits = state.deposits.filter(d => d.userId === userId);
-      const userOrders = state.orders.filter(o => o.userId === userId);
-      const totalDeposited = userDeposits
-        .filter(d => d.status === 'approved')
-        .reduce((sum, d) => sum + d.amountBdt, 0);
-      const totalSpent = userOrders.reduce((sum, o) => sum + o.totalPrice, 0);
-      const totalItemsBought = userOrders.reduce((sum, o) => sum + o.qty, 0);
+    /**
+     * ===================================================================
+     * 3B. GOOGLE SHEET COLUMN A PARSER, AUTO-STOCK SYNC & FORMAT EXPORTERS
+     * ===================================================================
+     */
+    // Extract Google Sheet ID & optional Tab GID from any standard Google Sheets URL
+    function parseGoogleSheetUrl(url) {
+      if (!url || typeof url !== 'string') return null;
+      const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (!idMatch) return null;
+      const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
       return {
-        depositsCount: userDeposits.length,
-        ordersCount: userOrders.length,
-        totalDeposited,
-        totalSpent,
-        totalItemsBought,
-        userDeposits,
-        userOrders
+        sheetId: idMatch[1],
+        gid: gidMatch ? gidMatch[1] : null
       };
+    }
+
+    // Format a multi-column row cleanly as one serial stock entry (Preserves Col A, B, C, D...)
+    function formatRowCellsToLine(cells) {
+      return cells.map(c => String(c || '').trim()).join(' | ');
+    }
+
+    // Split a stored stock/delivery line back into separate columns (Col A, B, C...) for Google Sheet CSV export
+    function splitLineToColumns(line) {
+      const text = String(line || '').trim();
+      if (!text) return [];
+      if (text.includes('\t')) {
+        return text.split('\t').map(c => c.trim());
+      }
+      if (text.includes(' | ')) {
+        return text.split(' | ').map(c => c.trim());
+      }
+      if (text.includes('|')) {
+        return text.split('|').map(c => c.trim());
+      }
+      return [text];
+    }
+
+    // RFC-4180 Compliant CSV Parser:
+    // Counts stock STRICTLY by non-empty Column A rows (1, 2, 3...) while preserving Column B, C, D... data together
+    function extractColumnAFromCsv(csvText, skipHeader = false) {
+      const rows = [];
+      let currentRow = [];
+      let currentField = '';
+      let inQuotes = false;
+
+      for (let i = 0; i < csvText.length; i++) {
+        const ch = csvText[i];
+        const next = csvText[i + 1];
+
+        if (inQuotes) {
+          if (ch === '"' && next === '"') {
+            currentField += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuotes = false;
+          } else {
+            currentField += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ',') {
+            currentRow.push(currentField);
+            currentField = '';
+          } else if (ch === '\r' && next === '\n') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+            i++;
+          } else if (ch === '\n' || ch === '\r') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+          } else {
+            currentField += ch;
+          }
+        }
+      }
+      if (currentField.length > 0 || currentRow.length > 0) {
+        currentRow.push(currentField);
+        rows.push(currentRow);
+      }
+
+      const startIndex = skipHeader ? 1 : 0;
+      const serialItems = [];
+      let maxCols = 1;
+
+      for (let r = startIndex; r < rows.length; r++) {
+        const row = rows[r];
+        // Main stock count rule: Column A (index 0) MUST have data for this row to count as 1 serial piece
+        const colA = (row[0] || '').trim();
+        if (colA === '') continue;
+
+        // Trim only trailing empty columns so Column B, C, D... remain intact even if an intermediate cell exists
+        let lastNonEmptyIdx = 0;
+        for (let c = 0; c < row.length; c++) {
+          if ((row[c] || '').trim() !== '') {
+            lastNonEmptyIdx = c;
+          }
+        }
+        const activeCells = row.slice(0, lastNonEmptyIdx + 1).map(cell => (cell || '').trim());
+        if (activeCells.length > maxCols) maxCols = activeCells.length;
+        serialItems.push(formatRowCellsToLine(activeCells));
+      }
+
+      return { items: serialItems, maxCols };
+    }
+
+    // Helper to display column letters cleanly (e.g., 1 -> "A", 3 -> "A, B, C")
+    function formatColumnLabels(colCount) {
+      const count = Math.max(1, Math.min(colCount || 1, 10));
+      const letters = [];
+      for (let i = 0; i < count; i++) {
+        letters.push(String.fromCharCode(65 + i));
+      }
+      return letters.join(', ');
+    }
+
+    // Fetch live Google Sheet rows counted by Column A (with B, C, D... preserved) via CORS-friendly gviz CSV endpoint
+    async function fetchGoogleSheetColumnA(sheetUrl, skipHeader = false) {
+      const parsed = parseGoogleSheetUrl(sheetUrl);
+      if (!parsed) {
+        return { ok: false, error: 'সঠিক গুগল শিট লিংক দিন (যেমন: https://docs.google.com/spreadsheets/d/...)' };
+      }
+      const endpoints = [
+        `https://docs.google.com/spreadsheets/d/${parsed.sheetId}/gviz/tq?tqx=out:csv${parsed.gid ? `&gid=${parsed.gid}` : ''}`,
+        `https://docs.google.com/spreadsheets/d/${parsed.sheetId}/export?format=csv${parsed.gid ? `&gid=${parsed.gid}` : ''}`
+      ];
+
+      let lastErr = '';
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(endpoint, { mode: 'cors' });
+          if (!res.ok) {
+            lastErr = `HTTP ${res.status}`;
+            continue;
+          }
+          const text = await res.text();
+          // Detect HTML login redirect if sheet is private
+          if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+            return {
+              ok: false,
+              error: 'শিটটি প্রাইভেট! গুগল শিটে Share → Anyone with the link → Viewer করে আবার চেষ্টা করুন।'
+            };
+          }
+          const parsedSheet = extractColumnAFromCsv(text, skipHeader);
+          return {
+            ok: true,
+            items: parsedSheet.items,
+            totalCount: parsedSheet.items.length,
+            maxCols: parsedSheet.maxCols
+          };
+        } catch (err) {
+          lastErr = err.message || 'Network error';
+        }
+      }
+      return {
+        ok: false,
+        error: `গুগল শিট পড়া যায়নি (${lastErr})। শিটটি "Anyone with the link (Viewer)" পাবলিক আছে কিনা চেক করুন।`
+      };
+    }
+
+    // Calculate live available stock for a Category (uses explicit manualStock if set, else sum of product stocks)
+    function getCategoryStockInfo(cat) {
+      const catProducts = state.products.filter(p => p.categoryId === cat.id);
+      const productsSum = catProducts.reduce((sum, p) => sum + (Number(p.stock) || 0), 0);
+      const hasManualStock = cat.manualStock !== null && cat.manualStock !== undefined && cat.manualStock !== '';
+      const displayStock = hasManualStock ? Math.max(0, Number(cat.manualStock) || 0) : productsSum;
+      return {
+        displayStock,
+        productsSum,
+        hasManualStock,
+        productCount: catProducts.length
+      };
+    }
+
+    // Sync a Category's Google Sheet Column A count directly into its Stock
+    async function syncCategorySheetStock(catId) {
+      const cat = state.categories.find(c => c.id === catId);
+      if (!cat || !cat.sheetUrl) {
+        showToast('এই ক্যাটাগরিতে কোনো গুগল শিট লিংক সেট করা নেই।', 'warning');
+        return;
+      }
+      showToast(`"${cat.name}" এর গুগল শিট (কলাম A সিরিয়াল) চেক করা হচ্ছে...`, 'info');
+      const result = await fetchGoogleSheetColumnA(cat.sheetUrl, Boolean(cat.sheetSkipHeader));
+      if (!result.ok) {
+        showToast(result.error, 'error');
+        return;
+      }
+      cat.sheetTotalCount = result.totalCount;
+      cat.manualStock = result.totalCount;
+      cloudSaveDoc('categories', cat.id, cat);
+      const colInfo = formatColumnLabels(result.maxCols);
+      showToast(`✓ "${cat.name}" এর A কলাম অনুযায়ী মোট ${result.totalCount} পিস (কলাম ${colInfo} সহ) স্টকে আপডেট হয়েছে!`, 'success');
+      renderApp();
+    }
+
+    // Sync a Product's Google Sheet Column A serial list (with Col B, C... intact) into stock & auto-delivery queue
+    async function syncProductSheetStock(prodId) {
+      const prod = state.products.find(p => p.id === prodId);
+      if (!prod) return;
+      const { sheetUrl } = getEffectiveDeliveryConfig(prod);
+      if (!sheetUrl) {
+        showToast('এই প্রোডাক্ট বা ক্যাটাগরিতে কোনো গুগল শিট লিংক সেট করা নেই।', 'warning');
+        return;
+      }
+      showToast(`"${prod.name}" এর গুগল শিট (A কলাম সিরিয়াল) সিঙ্ক হচ্ছে...`, 'info');
+      const result = await fetchGoogleSheetColumnA(sheetUrl, Boolean(prod.sheetSkipHeader));
+      if (!result.ok) {
+        showToast(result.error, 'error');
+        return;
+      }
+      const alreadyDelivered = Math.max(0, Number(prod.sheetDeliveredCount) || 0);
+      const remainingItems = result.items.slice(alreadyDelivered);
+      prod.sheetTotalCount = result.totalCount;
+      prod.stockItems = remainingItems;
+      prod.stock = remainingItems.length;
+      prod.sheetLastSynced = getNowTime();
+      cloudSaveDoc('products', prod.id, prod);
+      const colInfo = formatColumnLabels(result.maxCols);
+      showToast(
+        `✓ A কলাম সিরিয়াল: মোট ${result.totalCount} পিস (কলাম ${colInfo} সহ • বাকি ${remainingItems.length} পিস)!`,
+        'success'
+      );
+      renderApp();
+    }
+
+    // Trigger clean downloadable Google Sheet-compatible CSV file preserving Column A, B, C... separately!
+    function downloadOrderAsSheetCsv(orderId) {
+      const order = state.orders.find(o => o.id === orderId);
+      if (!order) return;
+      const lines = (order.deliveredData || '')
+        .split('\n')
+        .map(l => l.trim())
+        .filter(Boolean);
+      if (lines.length === 0) {
+        showToast('ডাউনলোড করার মতো কোনো আইটেম পাওয়া যায়নি।', 'warning');
+        return;
+      }
+      // Build UTF-8 BOM CSV keeping Column A, Column B, Column C... in their exact separate spreadsheet columns
+      const csvRows = lines.map(line => {
+        const cols = splitLineToColumns(line);
+        return cols.map(cell => `"${cell.replace(/"/g, '""')}"`).join(',');
+      });
+      const csvContent = '\uFEFF' + csvRows.join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${order.id}_GoogleSheet.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      showToast('গুগল শিট ফাইল (.csv) ডাউনলোড হয়েছে! কলাম A, B, C আলাদা ঘরে সুন্দরভাবে ওপেন হবে।', 'success');
+    }
+        } else {
+          if (ch === '"') {
+            inQuotes = true;
+          } else if (ch === ',') {
+            currentRow.push(currentField);
+            currentField = '';
+          } else if (ch === '\r' && next === '\n') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+            i++;
+          } else if (ch === '\n' || ch === '\r') {
+            currentRow.push(currentField);
+            rows.push(currentRow);
+            currentRow = [];
+            currentField = '';
+          } else {
+            currentField += ch;
+          }
+        }
+      }
+      if (currentField.length > 0 || currentRow.length > 0) {
+        currentRow.push(currentField);
+        rows.push(currentRow);
+      }
+
+      const startIndex = skipHeader ? 1 : 0;
+      const colAItems = [];
+      for (let r = startIndex; r < rows.length; r++) {
+        const val = (rows[r][0] || '').trim();
+        if (val !== '') {
+          colAItems.push(val);
+        }
+      }
+      return colAItems;
+    }
+
+    // Fetch live Google Sheet Column A entries via CORS-friendly gviz CSV endpoint (with export fallback)
+    async function fetchGoogleSheetColumnA(sheetUrl, skipHeader = false) {
+      const parsed = parseGoogleSheetUrl(sheetUrl);
+      if (!parsed) {
+        return { ok: false, error: 'সঠিক গুগল শিট লিংক দিন (যেমন: https://docs.google.com/spreadsheets/d/...)' };
+      }
+      const endpoints = [
+        `https://docs.google.com/spreadsheets/d/${parsed.sheetId}/gviz/tq?tqx=out:csv${parsed.gid ? `&gid=${parsed.gid}` : ''}`,
+        `https://docs.google.com/spreadsheets/d/${parsed.sheetId}/export?format=csv${parsed.gid ? `&gid=${parsed.gid}` : ''}`
+      ];
+
+      let lastErr = '';
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(endpoint, { mode: 'cors' });
+          if (!res.ok) {
+            lastErr = `HTTP ${res.status}`;
+            continue;
+          }
+          const text = await res.text();
+          // Detect HTML login redirect if sheet is private
+          if (text.trim().startsWith('<!DOCTYPE') || text.trim().startsWith('<html')) {
+            return {
+              ok: false,
+              error: 'শিটটি প্রাইভেট! গুগল শিটে Share → Anyone with the link → Viewer করে আবার চেষ্টা করুন।'
+            };
+          }
+          const items = extractColumnAFromCsv(text, skipHeader);
+          return { ok: true, items, totalCount: items.length };
+        } catch (err) {
+          lastErr = err.message || 'Network error';
+        }
+      }
+      return {
+        ok: false,
+        error: `গুগল শিট পড়া যায়নি (${lastErr})। শিটটি "Anyone with the link (Viewer)" পাবলিক আছে কিনা চেক করুন।`
+      };
+    }
+
+    // Calculate live available stock for a Category (uses explicit manualStock if set, else sum of product stocks)
+    function getCategoryStockInfo(cat) {
+      const catProducts = state.products.filter(p => p.categoryId === cat.id);
+      const productsSum = catProducts.reduce((sum, p) => sum + (Number(p.stock) || 0), 0);
+      const hasManualStock = cat.manualStock !== null && cat.manualStock !== undefined && cat.manualStock !== '';
+      const displayStock = hasManualStock ? Math.max(0, Number(cat.manualStock) || 0) : productsSum;
+      return {
+        displayStock,
+        productsSum,
+        hasManualStock,
+        productCount: catProducts.length
+      };
+    }
+
+    // Sync a Category's Google Sheet Column A count directly into its Stock
+    async function syncCategorySheetStock(catId) {
+      const cat = state.categories.find(c => c.id === catId);
+      if (!cat || !cat.sheetUrl) {
+        showToast('এই ক্যাটাগরিতে কোনো গুগল শিট লিংক সেট করা নেই।', 'warning');
+        return;
+      }
+      showToast(`"${cat.name}" এর গুগল শিট (কলাম A) চেক করা হচ্ছে...`, 'info');
+      const result = await fetchGoogleSheetColumnA(cat.sheetUrl, Boolean(cat.sheetSkipHeader));
+      if (!result.ok) {
+        showToast(result.error, 'error');
+        return;
+      }
+      cat.sheetTotalCount = result.totalCount;
+      cat.manualStock = result.totalCount;
+      cloudSaveDoc('categories', cat.id, cat);
+      showToast(`✓ "${cat.name}" শিটের A কলামে মোট ${result.totalCount} পিস পাওয়া গেছে এবং স্টক আপডেট হয়েছে!`, 'success');
+      renderApp();
+    }
+
+    // Sync a Product's Google Sheet Column A serial list directly into stock & auto-delivery queue
+    async function syncProductSheetStock(prodId) {
+      const prod = state.products.find(p => p.id === prodId);
+      if (!prod) return;
+      const { sheetUrl } = getEffectiveDeliveryConfig(prod);
+      if (!sheetUrl) {
+        showToast('এই প্রোডাক্ট বা ক্যাটাগরিতে কোনো গুগল শিট লিংক সেট করা নেই।', 'warning');
+        return;
+      }
+      showToast(`"${prod.name}" এর গুগল শিট (A কলাম) সিঙ্ক হচ্ছে...`, 'info');
+      const result = await fetchGoogleSheetColumnA(sheetUrl, Boolean(prod.sheetSkipHeader));
+      if (!result.ok) {
+        showToast(result.error, 'error');
+        return;
+      }
+      const alreadyDelivered = Math.max(0, Number(prod.sheetDeliveredCount) || 0);
+      const remainingItems = result.items.slice(alreadyDelivered);
+      prod.sheetTotalCount = result.totalCount;
+      prod.stockItems = remainingItems;
+      prod.stock = remainingItems.length;
+      prod.sheetLastSynced = getNowTime();
+      cloudSaveDoc('products', prod.id, prod);
+      showToast(
+        `✓ A কলামে মোট ${result.totalCount} পিস (${alreadyDelivered} ডেলিভারড, ${remainingItems.length} পিস স্টকে বাকি)!`,
+        'success'
+      );
+      renderApp();
+    }
+
+    // Trigger clean downloadable Google Sheet-compatible CSV file (Column A serial rows) for any Order
+    function downloadOrderAsSheetCsv(orderId) {
+      const order = state.orders.find(o => o.id === orderId);
+      if (!order) return;
+      const lines = (order.deliveredData || '')
+        .split('\n')
+        .map(l => l.trim())
+        .filter(Boolean);
+      if (lines.length === 0) {
+        showToast('ডাউনলোড করার মতো কোনো আইটেম পাওয়া যায়নি।', 'warning');
+        return;
+      }
+      // Build UTF-8 BOM CSV with Column A containing every serial item cleanly for Google Sheets / Excel
+      const csvRows = lines.map(item => `"${item.replace(/"/g, '""')}"`);
+      const csvContent = '\uFEFF' + csvRows.join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${order.id}_GoogleSheet_ColA.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      showToast('গুগল শিট ফাইল (.csv) ডাউনলোড হয়েছে! এটি সরাসরি Google Sheets-এ ওপেন করতে পারবেন।', 'success');
+    }
+
+    // Trigger clean downloadable Text (.txt) file for any Order
+    function downloadOrderAsTextFile(orderId) {
+      const order = state.orders.find(o => o.id === orderId);
+      if (!order || !order.deliveredData) {
+        showToast('ডাউনলোড করার মতো কোনো টেক্সট পাওয়া যায়নি।', 'warning');
+        return;
+      }
+      const blob = new Blob([order.deliveredData], { type: 'text/plain;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${order.id}_Delivery.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      showToast('টেক্সট ফাইল (.txt) ডাউনলোড হয়েছে!', 'success');
+    }
+
+    // Format label helper for user's chosen delivery format
+    function renderFormatPreferenceBadge(pref) {
+      if (pref === 'text') {
+        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">📝 টেক্সট ফরম্যাট</span>`;
+      }
+      if (pref === 'sheet') {
+        return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200">📊 গুগল শিট ফরম্যাট</span>`;
+      }
+      return `<span class="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">✨ টেক্সট + গুগল শিট</span>`;
     }
 
     // Escape HTML to safely render user/admin text
@@ -819,54 +1387,92 @@
       const shortNameEl = document.getElementById('header-user-short');
       if (shortNameEl) shortNameEl.textContent = currentUser.name.split(' ')[0];
 
+      // Update Cloud Sync Status Indicator in Header
+      const cloudStatusEl = document.getElementById('header-cloud-status');
+      if (cloudStatusEl) {
+        if (state.cloudStatus === 'online') {
+          cloudStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span><span>লাইভ অটো ডিজিটাল শপ</span>`;
+        } else if (state.cloudStatus === 'offline') {
+          cloudStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block"></span><span>ডেমো মোড (অটো শপ)</span>`;
+        } else if (state.cloudStatus === 'error') {
+          cloudStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block"></span><span>অফলাইন ব্যাকআপ মোড</span>`;
+        } else {
+          cloudStatusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-300 inline-block animate-pulse"></span><span>লাইভ ডাটাবেস সংযুক্ত হচ্ছে...</span>`;
+        }
+      }
+
       // Update Bottom Nav Active State
       document.querySelectorAll('.nav-btn').forEach(btn => {
         const isActive = btn.dataset.tab === state.activeTab;
-        if (isActive) {
-          btn.classList.add('text-indigo-600', 'bg-indigo-50');
-          btn.classList.remove('text-slate-500', 'hover:text-slate-700');
-        } else {
-          btn.classList.remove('text-indigo-600', 'bg-indigo-50');
-          btn.classList.add('text-slate-500', 'hover:text-slate-700');
-        }
+        btn.className = `nav-btn flex flex-col items-center justify-center py-2 px-1 rounded-2xl transition-all relative ${
+          isActive
+            ? 'text-indigo-700 bg-indigo-50/90 font-bold'
+            : 'text-slate-500 hover:text-slate-700 hover:bg-slate-100/70'
+        }`;
       });
 
-      // Current User's Orders badge
+      // Update User Orders Badge
       const myOrdersCount = state.orders.filter(o => o.userId === currentUser.id).length;
       const ordersBadge = document.getElementById('nav-orders-badge');
-      if (myOrdersCount > 0) {
-        ordersBadge.textContent = myOrdersCount;
-        ordersBadge.classList.remove('hidden');
-      } else {
-        ordersBadge.classList.add('hidden');
+      if (ordersBadge) {
+        if (myOrdersCount > 0) {
+          ordersBadge.textContent = myOrdersCount;
+          ordersBadge.classList.remove('hidden');
+        } else {
+          ordersBadge.classList.add('hidden');
+        }
       }
 
-      // Admin pending badge (Pending Deposits + Pending Orders)
+      // Update Admin Pending Requests Badge
       const pendingCount = state.deposits.filter(d => d.status === 'pending').length +
                            state.orders.filter(o => o.status === 'pending').length;
       const adminBadge = document.getElementById('nav-admin-badge');
-      if (pendingCount > 0) {
-        adminBadge.textContent = pendingCount;
-        adminBadge.classList.remove('hidden');
-      } else {
-        adminBadge.classList.add('hidden');
+      if (adminBadge) {
+        if (pendingCount > 0) {
+          adminBadge.textContent = pendingCount;
+          adminBadge.classList.remove('hidden');
+        } else {
+          adminBadge.classList.add('hidden');
+        }
       }
     }
 
-    // User Switcher / New User Registration Modal (Makes testing multi-user & block/unblock effortless)
+    // User Profile & Switcher Modal (Shows Complete User ID + Profile Edit + Account Switching)
     function openUserSwitcherModal() {
       const current = getCurrentUser();
       openModal(`
         <div class="p-5 space-y-4">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="font-bold text-base text-slate-900">ইউজার অ্যাকাউন্ট পরিবর্তন</h3>
-              <p class="text-xs text-slate-500">টেস্ট করার জন্য ইউজার সুইচ বা নতুন ইউজার তৈরি করুন</p>
+              <h3 class="font-bold text-base text-slate-900">আপনার প্রোফাইল ও অ্যাকাউন্ট</h3>
+              <p class="text-xs text-slate-500">আপনার নাম-নাম্বার সেট করুন বা অ্যাকাউন্ট পরিবর্তন করুন</p>
             </div>
             <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">✕</button>
           </div>
 
-          <div class="space-y-2 max-h-60 overflow-y-auto">
+          <!-- Current User Complete ID Card -->
+          <div class="bg-indigo-50/70 border border-indigo-200/80 rounded-2xl p-3 space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-bold text-indigo-900">আপনার ইউজার আইডি (User ID)</span>
+              <button type="button" onclick="copyText('${escapeHtml(current.id)}', 'ইউজার আইডি কপি হয়েছে!')" class="text-[11px] font-bold text-indigo-700 bg-white border border-indigo-200 px-2 py-0.5 rounded-lg">কপি</button>
+            </div>
+            <p class="font-mono text-xs text-slate-800 break-all select-all">${escapeHtml(current.id)}</p>
+          </div>
+
+          <!-- Edit Current User Name & Phone -->
+          <form onsubmit="updateCurrentUserProfile(event)" class="bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2.5">
+            <p class="text-xs font-bold text-slate-700">আপনার তথ্য আপডেট করুন</p>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="text" id="edit-profile-name" required value="${escapeHtml(current.name)}" placeholder="আপনার নাম" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500" />
+              <input type="text" id="edit-profile-phone" required value="${escapeHtml(current.phone)}" placeholder="মোবাইল নাম্বার" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-indigo-500" />
+            </div>
+            <button type="submit" class="w-full py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs">
+              প্রোফাইল সেভ করুন
+            </button>
+          </form>
+
+          <div class="space-y-2 max-h-48 overflow-y-auto">
+            <p class="text-xs font-bold text-slate-600">অন্য অ্যাকাউন্টে সুইচ করুন (${state.users.length})</p>
             ${state.users.map(u => `
               <button onclick="switchActiveUser('${u.id}')" class="w-full flex items-center justify-between p-3 rounded-2xl border-2 text-left transition ${
                 u.id === current.id ? 'border-indigo-600 bg-indigo-50/50' : 'border-slate-200 bg-white hover:border-slate-300'
@@ -900,6 +1506,20 @@
       `);
     }
 
+    function updateCurrentUserProfile(e) {
+      e.preventDefault();
+      const user = getCurrentUser();
+      const name = document.getElementById('edit-profile-name').value.trim();
+      const phone = document.getElementById('edit-profile-phone').value.trim();
+      if (!name || !phone) return;
+      user.name = name;
+      user.phone = phone;
+      cloudSaveDoc('users', user.id, user);
+      closeModal();
+      showToast('আপনার প্রোফাইল আপডেট হয়েছে!', 'success');
+      renderApp();
+    }
+
     function switchActiveUser(userId) {
       state.currentUserId = userId;
       closeModal();
@@ -919,10 +1539,12 @@
         phone,
         balance: 0,
         blocked: false,
-        joinedAt: getNowTime()
+        joinedAt: getNowTime(),
+        createdAtTs: Date.now()
       };
       state.users.unshift(newUser);
       state.currentUserId = newUser.id;
+      cloudSaveDoc('users', newUser.id, newUser);
       closeModal();
       showToast(`নতুন ইউজার "${name}" তৈরি হয়েছে!`, 'success');
       renderApp();
@@ -1009,14 +1631,15 @@
           <div class="grid grid-cols-2 gap-3">
             ${state.categories.map(cat => {
               const catProducts = state.products.filter(p => p.categoryId === cat.id);
-              const totalStock = catProducts.reduce((s, p) => s + p.stock, 0);
+              const stockInfo = getCategoryStockInfo(cat);
+              const totalStock = stockInfo.displayStock;
               const minPrice = catProducts.length > 0 ? Math.min(...catProducts.map(p => p.price)) : 0;
               return `
                 <button onclick="selectCategory('${cat.id}')" class="group bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-400 hover:shadow-md active:scale-[0.98] p-4 text-left transition-all flex flex-col justify-between gap-3 shadow-sm">
                   <div class="flex items-start justify-between gap-2">
                     ${renderCategoryVisual(cat, 'w-12 h-12')}
                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg ${totalStock > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-600'}">
-                      স্টক: ${totalStock}
+                      স্টক: ${totalStock} পিস
                     </span>
                   </div>
                   <div>
@@ -1197,7 +1820,7 @@
     }
 
     // Buy Product Modal
-    let currentBuyState = { productId: null, qty: 1 };
+    let currentBuyState = { productId: null, qty: 1, preferredFormat: 'both' };
 
     function openBuyModal(productId) {
       const currentUser = getCurrentUser();
@@ -1210,7 +1833,12 @@
         showToast('দুঃখিত, এই প্রোডাক্টটি বর্তমানে স্টকে নেই।', 'error');
         return;
       }
-      currentBuyState = { productId, qty: 1 };
+      currentBuyState = { productId, qty: 1, preferredFormat: 'both' };
+      renderBuyModalContent();
+    }
+
+    function setBuyFormat(fmt) {
+      currentBuyState.preferredFormat = fmt;
       renderBuyModalContent();
     }
 
@@ -1233,6 +1861,7 @@
       const totalCost = prod.price * currentBuyState.qty;
       const hasEnoughBalance = currentUser.balance >= totalCost;
       const shortfall = Math.max(0, totalCost - currentUser.balance);
+      const pref = currentBuyState.preferredFormat || 'both';
 
       openModal(`
         <div class="p-5">
@@ -1251,15 +1880,40 @@
           </div>
 
           <!-- Quantity Selector -->
-          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 flex items-center justify-between mb-4">
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 flex items-center justify-between mb-3.5">
             <div>
               <span class="text-sm font-bold text-slate-700 block">পরিমাণ (Quantity)</span>
-              <span class="text-xs text-slate-500">স্টকে আছে: ${prod.stock}টি • প্রতি পিস ${formatBDT(prod.price)}</span>
+              <span class="text-xs text-slate-500">স্টকে আছে: <strong>${prod.stock} পিস</strong> • প্রতি পিস ${formatBDT(prod.price)}</span>
             </div>
             <div class="flex items-center gap-2">
               <button onclick="updateBuyQty(-1)" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-lg text-slate-700 hover:bg-slate-100 active:scale-95">−</button>
               <span class="w-8 text-center font-bold text-base">${currentBuyState.qty}</span>
               <button onclick="updateBuyQty(1)" class="w-9 h-9 rounded-xl bg-white border border-slate-200 font-bold text-lg text-slate-700 hover:bg-slate-100 active:scale-95">+</button>
+            </div>
+          </div>
+
+          <!-- User Delivery Format Preference: Text OR Google Sheet File OR Both -->
+          <div class="mb-4">
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">আপনি কীভাবে ডেলিভারি নিতে চান?</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" onclick="setBuyFormat('text')" class="p-2.5 rounded-2xl border-2 text-center transition ${
+                pref === 'text' ? 'border-indigo-600 bg-indigo-50 text-indigo-800 shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              }">
+                <span class="block text-base">📝</span>
+                <span class="block text-[11px] font-bold mt-0.5">টেক্সট আকারে</span>
+              </button>
+              <button type="button" onclick="setBuyFormat('sheet')" class="p-2.5 rounded-2xl border-2 text-center transition ${
+                pref === 'sheet' ? 'border-emerald-600 bg-emerald-50 text-emerald-800 shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              }">
+                <span class="block text-base">📊</span>
+                <span class="block text-[11px] font-bold mt-0.5">গুগল শিট ফাইল</span>
+              </button>
+              <button type="button" onclick="setBuyFormat('both')" class="p-2.5 rounded-2xl border-2 text-center transition ${
+                pref === 'both' ? 'border-violet-600 bg-violet-50 text-violet-800 shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+              }">
+                <span class="block text-base">✨</span>
+                <span class="block text-[11px] font-bold mt-0.5">উভয়ই নিন</span>
+              </button>
             </div>
           </div>
 
@@ -1276,7 +1930,7 @@
             <div class="flex justify-between text-slate-600 text-xs pt-1 border-t border-slate-100">
               <span>ডেলিভারি ধরন</span>
               <span class="font-semibold text-slate-800">
-                ${mode === 'sheet' ? 'গুগল শিট ফাইল (অটো)' : mode === 'file' ? 'ফাইল ডাউনলোড (অটো)' : mode === 'link' ? 'ডাইরেক্ট লিংক (অটো)' : mode === 'manual' ? 'ম্যানুয়াল (এডমিন ডেলিভারি)' : 'অটোমেটিক ইনস্ট্যান্ট'}
+                ${mode === 'sheet' ? 'গুগল শিট A কলাম (অটো)' : mode === 'file' ? 'ফাইল ডাউনলোড (অটো)' : mode === 'link' ? 'ডাইরেক্ট লিংক (অটো)' : mode === 'manual' ? 'ম্যানুয়াল (এডমিন ডেলিভারি)' : 'অটোমেটিক ইনস্ট্যান্ট'}
               </span>
             </div>
           </div>
@@ -1310,6 +1964,7 @@
       const prod = state.products.find(p => p.id === currentBuyState.productId);
       if (!prod) return;
       const qty = currentBuyState.qty;
+      const preferredFormat = currentBuyState.preferredFormat || 'both';
       const total = prod.price * qty;
 
       if (prod.stock < qty) {
@@ -1321,9 +1976,16 @@
         return;
       }
 
-      // Deduct balance & stock
+      // Deduct user balance & product stock
       currentUser.balance -= total;
       prod.stock -= qty;
+
+      // Also sync Category explicit manualStock if set by Admin
+      const cat = state.categories.find(c => c.id === prod.categoryId);
+      if (cat && cat.manualStock !== null && cat.manualStock !== undefined && cat.manualStock !== '') {
+        cat.manualStock = Math.max(0, Number(cat.manualStock) - qty);
+        cloudSaveDoc('categories', cat.id, cat);
+      }
 
       const { mode, sheetUrl, directLink, fileUrl, fileName } = getEffectiveDeliveryConfig(prod);
       let status = 'pending';
@@ -1333,10 +1995,21 @@
       let deliveredFileUrl = '';
       let deliveredFileName = '';
 
-      if (mode === 'sheet' && sheetUrl) {
-        status = 'completed';
-        deliveredSheetUrl = sheetUrl;
-        deliveredData = `আপনার ${prod.name} (×${qty}) এর গুগল শিট ফাইল লিংক নিচে দেওয়া হলো।`;
+      if (mode === 'sheet') {
+        // Pull exact serial rows from synced Column A queue if available, plus include Google Sheet URL
+        if (Array.isArray(prod.stockItems) && prod.stockItems.length >= qty) {
+          const serialLines = prod.stockItems.splice(0, qty);
+          prod.sheetDeliveredCount = (Number(prod.sheetDeliveredCount) || 0) + qty;
+          status = 'completed';
+          deliveredData = serialLines.join('\n');
+          if (sheetUrl) deliveredSheetUrl = sheetUrl;
+        } else if (sheetUrl) {
+          status = 'completed';
+          deliveredSheetUrl = sheetUrl;
+          deliveredData = `আপনার ${prod.name} (×${qty}) এর গুগল শিট ফাইল লিংক নিচে দেওয়া হলো।`;
+        } else {
+          status = 'pending';
+        }
       } else if (mode === 'file' && fileUrl) {
         status = 'completed';
         deliveredFileUrl = fileUrl;
@@ -1349,6 +2022,9 @@
       } else if (mode === 'auto') {
         if (Array.isArray(prod.stockItems) && prod.stockItems.length >= qty) {
           const deliveredLines = prod.stockItems.splice(0, qty);
+          if (prod.sheetUrl || (cat && cat.sheetUrl)) {
+            prod.sheetDeliveredCount = (Number(prod.sheetDeliveredCount) || 0) + qty;
+          }
           status = 'completed';
           deliveredData = deliveredLines.join('\n');
         } else {
@@ -1358,15 +2034,16 @@
         status = 'pending';
       }
 
-      const cat = state.categories.find(c => c.id === prod.categoryId);
       const newOrder = {
         id: generateId('ORD'),
         userId: currentUser.id,
         userName: currentUser.name,
         productId: prod.id,
         productName: prod.name,
+        categoryId: prod.categoryId,
         categoryName: cat ? cat.name : 'সাধারণ',
         deliveryMode: mode,
+        preferredFormat: preferredFormat,
         qty: qty,
         unitPrice: prod.price,
         totalPrice: total,
@@ -1376,14 +2053,19 @@
         deliveredDirectLink: deliveredDirectLink,
         deliveredFileUrl: deliveredFileUrl,
         deliveredFileName: deliveredFileName,
-        createdAt: getNowTime()
+        createdAt: getNowTime(),
+        createdAtTs: Date.now()
       };
 
       state.orders.unshift(newOrder);
+      cloudSaveDoc('users', currentUser.id, currentUser);
+      cloudSaveDoc('products', prod.id, prod);
+      cloudSaveDoc('orders', newOrder.id, newOrder);
       closeModal();
       showToast(
         status === 'completed'
-          ? (deliveredSheetUrl ? 'অর্ডার সফল! গুগল শিট ফাইল ইনস্ট্যান্ট ডেলিভারি হয়েছে।'
+          ? (deliveredSheetUrl && deliveredData ? 'অর্ডার সফল! সিরিয়াল অনুযায়ী টেক্সট ও গুগল শিট ডেলিভারি হয়েছে।'
+            : deliveredSheetUrl ? 'অর্ডার সফল! গুগল শিট ফাইল ইনস্ট্যান্ট ডেলিভারি হয়েছে।'
             : deliveredFileUrl ? 'অর্ডার সফল! ফাইল ইনস্ট্যান্ট ডেলিভারি হয়েছে।'
             : deliveredDirectLink ? 'অর্ডার সফল! অ্যাক্সেস লিংক ইনস্ট্যান্ট ডেলিভারি হয়েছে।'
             : 'অর্ডার সফল! আপনার প্রোডাক্ট অটো ডেলিভারি হয়েছে।')
@@ -1654,8 +2336,7 @@
       const usdAmount = method.isBinance && state.settings.binanceRate > 0
         ? (amount / state.settings.binanceRate).toFixed(2)
         : null;
-
-      state.deposits.unshift({
+      const newDeposit = {
         id: generateId('DEP'),
         userId: currentUser.id,
         userName: currentUser.name,
@@ -1665,8 +2346,11 @@
         usdAmount: usdAmount,
         txId: txId.toUpperCase(),
         status: 'pending',
-        createdAt: getNowTime()
-      });
+        createdAt: getNowTime(),
+        createdAtTs: Date.now()
+      };
+      state.deposits.unshift(newDeposit);
+      cloudSaveDoc('deposits', newDeposit.id, newDeposit);
 
       state.depositInputBdt = '';
       showToast('ডিপোজিট রিকোয়েস্ট জমা হয়েছে! এডমিন অ্যাপ্রুভ করলেই ব্যালেন্সে যোগ হবে।', 'success');
@@ -1719,6 +2403,7 @@
                         ${isCompleted ? '✓ ডেলিভারড' : '⏳ প্রসেসিং (ম্যানুয়াল)'}
                       </span>
                       ${renderDeliveryBadge(order.deliveryMode)}
+                      ${order.preferredFormat ? renderFormatPreferenceBadge(order.preferredFormat) : ''}
                     </div>
                     <h3 class="font-bold text-slate-900 text-base mt-1">${escapeHtml(order.productName)}</h3>
                     <p class="text-xs text-slate-500">${escapeHtml(order.categoryName)} • পরিমাণ: ${order.qty}টি • ${escapeHtml(order.createdAt)}</p>
@@ -1727,12 +2412,12 @@
                 </div>
 
                 <!-- Delivered Google Sheet File Box -->
-                ${order.deliveredSheetUrl ? `
+                ${order.deliveredSheetUrl && order.preferredFormat !== 'text' ? `
                   <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3 space-y-2">
                     <div class="flex items-center gap-2 min-w-0">
                       <span class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-sm shrink-0">📊</span>
                       <div class="min-w-0">
-                        <span class="block text-xs font-bold text-emerald-950">গুগল শিট ফাইল ডেলিভারি</span>
+                        <span class="block text-xs font-bold text-emerald-950">গুগল শিট ফাইল লিংক</span>
                         <span class="block text-[11px] text-emerald-700 truncate">${escapeHtml(order.deliveredSheetUrl)}</span>
                       </div>
                     </div>
@@ -1789,20 +2474,28 @@
                   </div>
                 ` : ''}
 
-                <!-- Delivered Text / Account Credentials Box -->
+                <!-- Delivered Text / Serial Accounts Box (With Dual Format Download: Text + Google Sheet CSV) -->
                 ${order.deliveredData ? `
-                  <div class="bg-slate-900 text-emerald-300 rounded-2xl p-3 font-mono text-xs relative">
-                    <div class="flex items-center justify-between mb-1.5 border-b border-slate-700/80 pb-1.5">
-                      <span class="text-[10px] uppercase tracking-wider text-slate-400 font-sans font-bold">ডেলিভারি তথ্য / অ্যাকাউন্ট</span>
-                      <button onclick="copyText(${JSON.stringify(order.deliveredData)}, 'অর্ডার তথ্য কপি হয়েছে!')" class="text-[11px] font-sans font-bold bg-white/10 hover:bg-white/20 text-white px-2.5 py-1 rounded-lg">
-                        কপি করুন
+                  <div class="bg-slate-900 text-emerald-300 rounded-2xl p-3 font-mono text-xs relative space-y-2.5">
+                    <div class="flex items-center justify-between gap-2 border-b border-slate-700/80 pb-2">
+                      <span class="text-[10px] uppercase tracking-wider text-slate-400 font-sans font-bold">ডেলিভারি তথ্য / সিরিয়াল লিস্ট</span>
+                      <button onclick="copyText(${JSON.stringify(order.deliveredData)}, 'টেক্সট কপি হয়েছে!')" class="text-[11px] font-sans font-bold bg-white/10 hover:bg-white/20 text-white px-2.5 py-1 rounded-lg">
+                        📋 টেক্সট কপি
                       </button>
                     </div>
-                    <pre class="whitespace-pre-wrap break-all leading-relaxed">${escapeHtml(order.deliveredData)}</pre>
+                    <pre class="whitespace-pre-wrap break-all leading-relaxed max-h-48 overflow-y-auto">${escapeHtml(order.deliveredData)}</pre>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-700/80 font-sans">
+                      <button onclick="downloadOrderAsSheetCsv('${order.id}')" class="py-2 px-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold transition">
+                        📊 গুগল শিট ফাইল (.csv)
+                      </button>
+                      <button onclick="downloadOrderAsTextFile('${order.id}')" class="py-2 px-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white text-[11px] font-bold transition">
+                        📝 টেক্সট ফাইল (.txt)
+                      </button>
+                    </div>
                   </div>
                 ` : (!order.deliveredSheetUrl && !order.deliveredFileUrl && !order.deliveredDirectLink ? `
                   <div class="bg-amber-50/70 border border-amber-200/60 rounded-2xl p-3 text-xs text-amber-800">
-                    আপনার অর্ডারটি প্রসেসিং অবস্থায় আছে। এডমিন ম্যানুয়ালি অ্যাকাউন্ট, ফাইল বা গুগল শিট ডেলিভারি করলে এখানে দেখতে পাবেন।
+                    আপনার অর্ডারটি প্রসেসিং অবস্থায় আছে। এডমিন ম্যানুয়ালি টেক্সট, ফাইল বা গুগল শিট ডেলিভারি করলে এখানে দেখতে পাবেন।
                   </div>
                 ` : '')}
               </div>
@@ -1956,86 +2649,151 @@
             </button>
           </div>
         </div>
+
+        <!-- Mini App Share Link & Live Cloud Status Card -->
+        <div class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-3xl p-4 space-y-3 shadow-md">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <h3 class="text-sm font-bold flex items-center gap-1.5">🔗 মিনি অ্যাপ লিংক ও লাইভ স্ট্যাটাস</h3>
+              <p class="text-[11px] text-indigo-200 mt-0.5">লিংকটি শেয়ার করলে ইউজাররা সরাসরি আপনার শপে ঢুকে অর্ডার করতে পারবে</p>
+            </div>
+            <span class="shrink-0 text-[10px] font-bold px-2.5 py-1 rounded-xl ${
+              state.cloudStatus === 'online' ? 'bg-emerald-400/20 text-emerald-300 border border-emerald-400/30' : 'bg-amber-400/20 text-amber-200 border border-amber-400/30'
+            }">
+              ${state.cloudStatus === 'online' ? '● লাইভ কানেক্টেড' : '○ লোকাল ডেমো'}
+            </span>
+          </div>
+          <div class="bg-white/10 border border-white/15 rounded-2xl p-2.5 flex items-center justify-between gap-2">
+            <span class="text-xs font-mono text-indigo-100 truncate">${escapeHtml(window.location.href)}</span>
+            <button onclick="copyAppLink()" class="shrink-0 bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-bold text-xs px-3 py-1.5 rounded-xl transition">
+              লিংক কপি
+            </button>
+          </div>
+          <p class="text-[11px] text-indigo-200/90 leading-relaxed">
+            টিপস: এই ফাইলটি <strong>index.html</strong> নামে সেভ করে <strong>Netlify Drop</strong> বা <strong>GitHub Pages</strong>-এ আপলোড করলেই আপনার স্থায়ী ওয়েব ও টেলিগ্রাম মিনি অ্যাপ লিংক তৈরি হয়ে যাবে।
+          </p>
+        </div>
       `;
     }
 
-    // ---- ADMIN SUB-TAB 2: CATALOG (CATEGORIES & PRODUCTS WITH ALL 5 DELIVERY MODES) ----
+    // ---- ADMIN SUB-TAB 2: CATALOG (CATEGORIES WITH MANUAL/SHEET STOCK + PRODUCTS WITH COL-A SYNC) ----
     function renderAdminCatalog() {
       return `
-        <!-- Categories Manager -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 p-4 space-y-3 shadow-sm">
+        <!-- Categories Section (With Per-Category Stock Control for Manual & Sheet Delivery) -->
+        <div class="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between gap-2">
             <div>
-              <h3 class="text-sm font-bold text-slate-800">ক্যাটাগরি সমূহ (${state.categories.length})</h3>
-              <p class="text-[11px] text-slate-500">ক্যাটাগরি অনুযায়ী লোগো ও ডেলিভারি সিস্টেম সেট করুন</p>
+              <h3 class="text-sm font-bold text-slate-800">ক্যাটাগরি ও ক্যাটাগরি স্টক (${state.categories.length})</h3>
+              <p class="text-[11px] text-slate-500">প্রতিটি ক্যাটাগরিতে কত পিস স্টক আছে সেট বা গুগল শিট (A কলাম) থেকে সিঙ্ক করুন</p>
             </div>
-            <button onclick="openCategoryModal()" class="shrink-0 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl">
-              + নতুন ক্যাটাগরি
+            <button onclick="openCategoryModal()" class="shrink-0 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl shadow-sm">
+              + ক্যাটাগরি
             </button>
           </div>
-          <div class="space-y-2">
-            ${state.categories.map(cat => `
-              <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-2xl p-2.5">
-                <div class="flex items-center gap-2.5 min-w-0">
-                  ${renderCategoryVisual(cat, 'w-10 h-10')}
-                  <div class="min-w-0">
-                    <div class="flex items-center gap-1.5 flex-wrap">
-                      <span class="text-sm font-bold text-slate-900">${escapeHtml(cat.name)}</span>
-                      ${renderDeliveryBadge(cat.deliveryMode || 'auto')}
+
+          <div class="space-y-2.5">
+            ${state.categories.map(cat => {
+              const stInfo = getCategoryStockInfo(cat);
+              return `
+                <div class="border border-slate-200/80 rounded-2xl p-3 bg-slate-50/60 space-y-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      ${renderCategoryVisual(cat, 'w-10 h-10')}
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                          <span class="font-bold text-sm text-slate-900 truncate">${escapeHtml(cat.name)}</span>
+                          ${renderDeliveryBadge(cat.deliveryMode || 'auto')}
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-0.5">
+                          ${stInfo.productCount}টি প্রোডাক্ট •
+                          <strong class="${stInfo.displayStock > 0 ? 'text-emerald-700' : 'text-rose-600'}">স্টক: ${stInfo.displayStock} পিস</strong>
+                          ${stInfo.hasManualStock ? '<span class="text-indigo-600">(ম্যানুয়াল সেট)</span>' : '(অটো হিসাব)'}
+                        </p>
+                      </div>
                     </div>
-                    ${cat.sheetUrl ? `<p class="text-[10px] text-emerald-700 truncate mt-0.5">📊 শিট: ${escapeHtml(cat.sheetUrl)}</p>` : ''}
-                    ${cat.fileName ? `<p class="text-[10px] text-sky-700 truncate mt-0.5">📁 ফাইল: ${escapeHtml(cat.fileName)}</p>` : ''}
-                    ${cat.directLink ? `<p class="text-[10px] text-violet-700 truncate mt-0.5">🔗 লিংক: ${escapeHtml(cat.directLink)}</p>` : ''}
+
+                    <div class="flex items-center gap-1 shrink-0">
+                      <button onclick="quickAdjustCategoryStock('${cat.id}', -1)" title="ক্যাটাগরি স্টক কমান" class="w-7 h-7 rounded-lg bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100">−</button>
+                      <span class="w-8 text-center text-xs font-extrabold text-slate-900">${stInfo.displayStock}</span>
+                      <button onclick="quickAdjustCategoryStock('${cat.id}', 1)" title="ক্যাটাগরি স্টক বাড়ান" class="w-7 h-7 rounded-lg bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100">+</button>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-200/70 flex-wrap">
+                    <div class="flex items-center gap-1.5">
+                      ${cat.sheetUrl ? `
+                        <button onclick="syncCategorySheetStock('${cat.id}')" class="text-[11px] font-bold bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2.5 py-1 rounded-xl transition">
+                          🔄 শিট A-কলাম সিঙ্ক
+                        </button>
+                      ` : ''}
+                      <button onclick="openCategoryModal('${cat.id}')" class="text-[11px] font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-xl transition">
+                        ✎ এডিট
+                      </button>
+                    </div>
+                    <button onclick="deleteCategory('${cat.id}')" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-600 px-2.5 py-1 rounded-xl transition">
+                      মুছুন
+                    </button>
                   </div>
                 </div>
-                <div class="flex items-center gap-1 shrink-0">
-                  <button onclick="openCategoryModal('${cat.id}')" class="text-xs font-bold text-indigo-600 bg-white border border-slate-200 hover:bg-indigo-50 px-2.5 py-1 rounded-xl">এডিট</button>
-                  <button onclick="deleteCategory('${cat.id}')" class="text-xs font-bold text-rose-500 bg-white border border-slate-200 hover:bg-rose-50 px-2 py-1 rounded-xl">✕</button>
-                </div>
-              </div>
-            `).join('')}
+              `;
+            }).join('')}
           </div>
         </div>
 
-        <!-- Products & Live Stock Manager -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 p-4 space-y-3 shadow-sm">
+        <!-- Products Section (With Google Sheet Column A Auto-Sync & Quick Stock Control) -->
+        <div class="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-sm space-y-3">
           <div class="flex items-center justify-between gap-2">
             <div>
-              <h3 class="text-sm font-bold text-slate-800">প্রোডাক্ট ও স্টক (${state.products.length})</h3>
-              <p class="text-[11px] text-slate-500">যেকোনো ক্যাটাগরির আন্ডারে রেট ও স্টকসহ প্রোডাক্ট যোগ করুন</p>
+              <h3 class="text-sm font-bold text-slate-800">সব প্রোডাক্ট ও স্টক (${state.products.length})</h3>
+              <p class="text-[11px] text-slate-500">গুগল শিট লিংক থাকলে ১ ক্লিকে A কলামের সিরিয়াল স্টক আপডেট করুন</p>
             </div>
-            <button onclick="openProductModal()" class="shrink-0 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl">
-              + নতুন প্রোডাক্ট
+            <button onclick="openProductModal()" class="shrink-0 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-xl shadow-sm">
+              + প্রোডাক্ট
             </button>
           </div>
+
           <div class="space-y-2.5">
             ${state.products.map(prod => {
               const cat = state.categories.find(c => c.id === prod.categoryId);
-              const { mode } = getEffectiveDeliveryConfig(prod);
+              const { mode, sheetUrl } = getEffectiveDeliveryConfig(prod);
+              const queueCount = Array.isArray(prod.stockItems) ? prod.stockItems.length : 0;
               return `
-                <div class="border border-slate-200/80 rounded-2xl p-3 bg-slate-50/70 space-y-2.5">
+                <div class="border border-slate-200/80 rounded-2xl p-3 space-y-2.5 bg-white">
                   <div class="flex items-start justify-between gap-2">
                     <div class="min-w-0">
                       <div class="flex items-center gap-1.5 flex-wrap">
-                        <span class="text-[10px] font-bold bg-white border border-slate-200 text-slate-600 px-2 py-0.5 rounded-lg">${cat ? escapeHtml(cat.name) : 'সাধারণ'}</span>
+                        <span class="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-lg">${cat ? escapeHtml(cat.icon + ' ' + cat.name) : 'সাধারণ'}</span>
                         ${renderDeliveryBadge(mode)}
                       </div>
                       <h4 class="font-bold text-sm text-slate-900 mt-1 truncate">${escapeHtml(prod.name)}</h4>
-                      <p class="text-xs font-bold text-indigo-700 mt-0.5">${formatBDT(prod.price)}</p>
+                      <p class="text-xs text-slate-500">
+                        রেট: <strong class="text-indigo-700">${formatBDT(prod.price)}</strong> •
+                        স্টক: <strong class="${prod.stock > 0 ? 'text-emerald-700' : 'text-rose-600'}">${prod.stock} পিস</strong>
+                        ${queueCount > 0 ? ` • সিরিয়াল কিউ: <strong>${queueCount}টি</strong>` : ''}
+                      </p>
+                      ${prod.sheetLastSynced ? `<p class="text-[10px] text-emerald-600 mt-0.5">✓ শিট সিঙ্ক: ${escapeHtml(prod.sheetLastSynced)} (মোট A কলাম: ${prod.sheetTotalCount || 0}, ডেলিভারড: ${prod.sheetDeliveredCount || 0})</p>` : ''}
                     </div>
                     <div class="flex items-center gap-1 shrink-0">
-                      <button onclick="openProductModal('${prod.id}')" class="text-xs font-bold bg-white border border-slate-200 hover:bg-indigo-50 text-indigo-600 px-2.5 py-1.5 rounded-xl">এডিট</button>
-                      <button onclick="deleteProduct('${prod.id}')" class="text-xs font-bold bg-white border border-slate-200 hover:bg-rose-50 text-rose-500 px-2 py-1.5 rounded-xl">✕</button>
+                      <button onclick="quickAdjustStock('${prod.id}', -1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">−</button>
+                      <span class="w-8 text-center text-xs font-extrabold">${prod.stock}</span>
+                      <button onclick="quickAdjustStock('${prod.id}', 1)" class="w-7 h-7 rounded-lg bg-slate-100 hover:bg-slate-200 font-bold text-slate-700">+</button>
                     </div>
                   </div>
-                  <!-- Quick Stock Adjuster -->
-                  <div class="flex items-center justify-between pt-2 border-t border-slate-200/70">
-                    <span class="text-xs font-semibold text-slate-600">বর্তমান স্টক: <strong class="${prod.stock > 0 ? 'text-emerald-700' : 'text-rose-600'}">${prod.stock}টি</strong></span>
+
+                  <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-100 flex-wrap">
                     <div class="flex items-center gap-1.5">
-                      <button onclick="quickAdjustStock('${prod.id}', -1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100">−</button>
-                      <button onclick="quickAdjustStock('${prod.id}', 1)" class="w-7 h-7 rounded-lg bg-white border border-slate-200 font-bold text-slate-700 hover:bg-slate-100">+</button>
-                      <button onclick="quickAdjustStock('${prod.id}', 10)" class="px-2 h-7 rounded-lg bg-indigo-50 border border-indigo-200 text-xs font-bold text-indigo-700 hover:bg-indigo-100">+10</button>
+                      ${sheetUrl ? `
+                        <button onclick="syncProductSheetStock('${prod.id}')" class="text-[11px] font-bold bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2.5 py-1 rounded-xl transition">
+                          🔄 A-কলাম সিঙ্ক
+                        </button>
+                      ` : ''}
+                      <button onclick="openProductModal('${prod.id}')" class="text-[11px] font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-xl transition">
+                        ✎ এডিট
+                      </button>
                     </div>
+                    <button onclick="deleteProduct('${prod.id}')" class="text-[11px] font-bold bg-rose-50 hover:bg-rose-100 text-rose-600 px-2.5 py-1 rounded-xl transition">
+                      মুছুন
+                    </button>
                   </div>
                 </div>
               `;
@@ -2045,10 +2803,69 @@
       `;
     }
 
-    // Add / Edit Category Modal (Gallery Photo + All 5 Delivery Systems)
+    function quickAdjustCategoryStock(catId, delta) {
+      const cat = state.categories.find(c => c.id === catId);
+      if (!cat) return;
+      const stInfo = getCategoryStockInfo(cat);
+      cat.manualStock = Math.max(0, stInfo.displayStock + delta);
+      cloudSaveDoc('categories', cat.id, cat);
+      renderApp();
+    }
+
+    // Live Google Sheet Column A Check inside Category Modal
+    async function previewCategoryModalSheet() {
+      const url = document.getElementById('cat-sheet-url')?.value.trim();
+      const skipHeader = document.getElementById('cat-sheet-skip-header')?.checked || false;
+      const statusEl = document.getElementById('cat-sheet-status');
+      if (!url) {
+        showToast('প্রথমে গুগল শিট লিংক বসান।', 'warning');
+        return;
+      }
+      if (statusEl) {
+        statusEl.textContent = '⏳ গুগল শিটের A কলামের সিরিয়াল পড়া হচ্ছে...';
+        statusEl.className = 'text-[11px] font-semibold text-amber-700 mt-1.5';
+      }
+      const res = await fetchGoogleSheetColumnA(url, skipHeader);
+      if (!res.ok) {
+        if (statusEl) {
+          statusEl.textContent = '✕ ' + res.error;
+          statusEl.className = 'text-[11px] font-semibold text-rose-600 mt-1.5';
+        }
+        showToast(res.error, 'error');
+        return;
+      }
+      const stockInput = document.getElementById('cat-manual-stock');
+      if (stockInput) stockInput.value = res.totalCount;
+      const colInfo = formatColumnLabels(res.maxCols);
+      if (statusEl) {
+        statusEl.textContent = `✓ কলাম A-এর সিরিয়াল অনুযায়ী মোট ${res.totalCount} পিস পাওয়া গেছে (কলাম ${colInfo} সব ডাটা নিরাপদে থাকবে)!`;
+        statusEl.className = 'text-[11px] font-bold text-emerald-700 mt-1.5';
+      }
+      showToast(`কলাম A অনুযায়ী ${res.totalCount} পিস (কলাম ${colInfo} সহ) পাওয়া গেছে!`, 'success');
+    }
+      const res = await fetchGoogleSheetColumnA(url, skipHeader);
+      if (!res.ok) {
+        if (statusEl) {
+          statusEl.textContent = '✕ ' + res.error;
+          statusEl.className = 'text-[11px] font-semibold text-rose-600 mt-1.5';
+        }
+        showToast(res.error, 'error');
+        return;
+      }
+      const stockInput = document.getElementById('cat-manual-stock');
+      if (stockInput) stockInput.value = res.totalCount;
+      if (statusEl) {
+        statusEl.textContent = `✓ কলাম A-তে মোট ${res.totalCount} পিস পাওয়া গেছে এবং ক্যাটাগরি স্টকে বসানো হয়েছে!`;
+        statusEl.className = 'text-[11px] font-bold text-emerald-700 mt-1.5';
+      }
+      showToast(`কলাম A-তে ${res.totalCount} পিস পাওয়া গেছে!`, 'success');
+    }
+
+    // Add / Edit Category Modal (Gallery Photo + Category Stock + Google Sheet Col A Sync + All 5 Delivery Systems)
     function openCategoryModal(catId = null) {
       const existing = catId ? state.categories.find(c => c.id === catId) : null;
       const mode = existing?.deliveryMode || 'auto';
+      const hasManualStock = existing && existing.manualStock !== null && existing.manualStock !== undefined && existing.manualStock !== '';
       tempUploads.catLogoUrl = existing?.logoUrl || '';
       tempUploads.catFileUrl = existing?.fileUrl || '';
       tempUploads.catFileName = existing?.fileName || '';
@@ -2066,7 +2883,8 @@
                 ${tempUploads.catLogoUrl
                   ? `<img src="${escapeHtml(tempUploads.catLogoUrl)}" class="w-full h-full object-cover" />`
                   : escapeHtml(existing?.icon || '📦')}
-              </div>
+              <p id="cat-sheet-status" class="text-[10px] text-emerald-800">শিটটি "Anyone with the link → Viewer" দিন। মূল স্টক হিসাব হবে কলাম A (১, ২, ৩...) অনুযায়ী, আর কলাম B/C-তে পাসওয়ার্ড বা 2FA থাকলেও কোনো সমস্যা হবে না।</p>
+            </div>
               <div class="flex-1 min-w-0">
                 <p class="text-xs font-bold text-slate-800">ক্যাটাগরি ফটো / লোগো (ঐচ্ছিক)</p>
                 <div class="flex items-center gap-2 mt-1.5 flex-wrap">
@@ -2092,21 +2910,39 @@
               </div>
             </div>
 
+            <!-- Category Stock Control (Especially helpful for Manual Delivery tracking) -->
+            <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-3 space-y-1.5">
+              <label class="block text-xs font-bold text-amber-950">📦 এই ক্যাটাগরিতে মোট স্টক (কত পিস আছে)</label>
+              <input type="number" min="0" id="cat-manual-stock" value="${hasManualStock ? existing.manualStock : ''}" placeholder="খালি রাখলে প্রোডাক্টের মোট স্টক দেখাবে (অথবা সংখ্যা লিখুন)"
+                class="w-full bg-white border border-amber-300 rounded-xl px-3.5 py-2 text-sm font-bold focus:outline-none focus:border-amber-500" />
+              <p class="text-[10px] text-amber-800">ম্যানুয়াল ডেলিভারির সময় সহজে বোঝার জন্য এখানে ক্যাটাগরির মোট পিস সেট করে রাখতে পারেন।</p>
+            </div>
+
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">ডেলিভারি সিস্টেম (সব ধরনের অপশন)</label>
               <select id="cat-delivery-mode" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-indigo-500">
                 <option value="auto" ${mode === 'auto' ? 'selected' : ''}>⚡ অটোমেটিক (অ্যাকাউন্ট লিস্ট থেকে)</option>
-                <option value="sheet" ${mode === 'sheet' ? 'selected' : ''}>📊 গুগল শিট ফাইল (অটো লিংক)</option>
+                <option value="sheet" ${mode === 'sheet' ? 'selected' : ''}>📊 গুগল শিট ফাইল (A কলাম সিরিয়াল অটো)</option>
                 <option value="file" ${mode === 'file' ? 'selected' : ''}>📁 ফাইল ডেলিভারি (TXT/CSV/Excel/PDF/ZIP)</option>
                 <option value="link" ${mode === 'link' ? 'selected' : ''}>🔗 ডাইরেক্ট / ইনভাইট লিংক (অটো)</option>
                 <option value="manual" ${mode === 'manual' ? 'selected' : ''}>👨‍💻 ম্যানুয়াল ডেলিভারি (এডমিন নিজে দিবে)</option>
               </select>
             </div>
 
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">📊 গুগল শিট ফাইল লিংক (ঐচ্ছিক)</label>
+            <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-3 space-y-2">
+              <label class="block text-xs font-bold text-emerald-950">📊 গুগল শিট ফাইল লিংক (A কলাম অটো স্টক হিসাব)</label>
               <input type="url" id="cat-sheet-url" value="${existing && existing.sheetUrl ? escapeHtml(existing.sheetUrl) : ''}" placeholder="https://docs.google.com/spreadsheets/d/..."
-                class="w-full bg-emerald-50/50 border border-emerald-200 rounded-2xl px-4 py-2.5 text-xs focus:outline-none focus:border-emerald-500" />
+                class="w-full bg-white border border-emerald-200 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-emerald-500" />
+              <div class="flex items-center justify-between gap-2 flex-wrap">
+                <label class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-900 cursor-pointer">
+                  <input type="checkbox" id="cat-sheet-skip-header" ${existing && existing.sheetSkipHeader ? 'checked' : ''} class="accent-emerald-600 rounded" />
+                  <span>১ম সারি (Header) বাদ দিন</span>
+                </label>
+                <button type="button" onclick="previewCategoryModalSheet()" class="text-[11px] font-bold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-xl transition">
+                  🔄 A কলাম থেকে স্টক গুনুন
+                </button>
+              </div>
+              <p id="cat-sheet-status" class="text-[10px] text-emerald-800">শিটটি "Anyone with the link → Viewer" করে দিলে A ঘরের সিরিয়াল অনুযায়ী পিস হিসাব হবে।</p>
             </div>
 
             <div>
@@ -2138,8 +2974,11 @@
       e.preventDefault();
       const name = document.getElementById('cat-name').value.trim();
       const icon = document.getElementById('cat-icon').value.trim() || '📦';
+      const rawManualStock = document.getElementById('cat-manual-stock').value.trim();
+      const manualStock = rawManualStock === '' ? null : Math.max(0, parseInt(rawManualStock, 10) || 0);
       const deliveryMode = document.getElementById('cat-delivery-mode').value || 'auto';
       const sheetUrl = document.getElementById('cat-sheet-url').value.trim();
+      const sheetSkipHeader = document.getElementById('cat-sheet-skip-header')?.checked || false;
       const directLink = document.getElementById('cat-direct-link').value.trim();
       const logoUrl = tempUploads.catLogoUrl || '';
       const fileUrl = tempUploads.catFileUrl || '';
@@ -2151,16 +2990,34 @@
         if (cat) {
           cat.name = name;
           cat.icon = icon;
+          cat.manualStock = manualStock;
           cat.logoUrl = logoUrl;
           cat.deliveryMode = deliveryMode;
           cat.sheetUrl = sheetUrl;
+          cat.sheetSkipHeader = sheetSkipHeader;
           cat.directLink = directLink;
           cat.fileUrl = fileUrl;
           cat.fileName = fileName;
+          cloudSaveDoc('categories', cat.id, cat);
         }
-        showToast('ক্যাটাগরি ও ডেলিভারি সেটিংস আপডেট হয়েছে!', 'success');
+        showToast('ক্যাটাগরি, স্টক ও ডেলিভারি সেটিংস আপডেট হয়েছে!', 'success');
       } else {
-        state.categories.push({ id: generateId('CAT'), name, icon, logoUrl, deliveryMode, sheetUrl, directLink, fileUrl, fileName });
+        const newCat = {
+          id: generateId('CAT'),
+          name,
+          icon,
+          manualStock,
+          logoUrl,
+          deliveryMode,
+          sheetUrl,
+          sheetSkipHeader,
+          sheetTotalCount: 0,
+          directLink,
+          fileUrl,
+          fileName
+        };
+        state.categories.push(newCat);
+        cloudSaveDoc('categories', newCat.id, newCat);
         showToast('নতুন ক্যাটাগরি যোগ হয়েছে!', 'success');
       }
       closeModal();
@@ -2173,6 +3030,7 @@
         return;
       }
       state.categories = state.categories.filter(c => c.id !== catId);
+      cloudDeleteDoc('categories', catId);
       if (state.selectedCategoryId === catId) state.selectedCategoryId = 'all';
       showToast('ক্যাটাগরি মুছে ফেলা হয়েছে।', 'info');
       renderApp();
@@ -2182,10 +3040,56 @@
       const prod = state.products.find(p => p.id === prodId);
       if (!prod) return;
       prod.stock = Math.max(0, prod.stock + delta);
+      cloudSaveDoc('products', prod.id, prod);
       renderApp();
     }
 
-    // Add / Edit Product Modal (With All 5 Delivery Systems + Device File Upload)
+    // Live Google Sheet Column A Serial Sync inside Product Modal
+    async function syncProductModalFromSheet() {
+      const typedUrl = document.getElementById('prod-sheet-url')?.value.trim();
+      const catId = document.getElementById('prod-cat')?.value;
+      const cat = state.categories.find(c => c.id === catId);
+      const effectiveUrl = typedUrl || (cat ? cat.sheetUrl : '');
+      const skipHeader = document.getElementById('prod-sheet-skip-header')?.checked || false;
+      const deliveredOffset = Math.max(0, parseInt(document.getElementById('prod-sheet-delivered')?.value || '0', 10) || 0);
+      const statusEl = document.getElementById('prod-sheet-status');
+
+      if (!effectiveUrl) {
+        showToast('প্রথমে প্রোডাক্ট বা ক্যাটাগরিতে গুগল শিট লিংক দিন।', 'warning');
+        return;
+      }
+      if (statusEl) {
+        statusEl.textContent = '⏳ গুগল শিটের A কলাম থেকে সিরিয়াল ডেটা আনা হচ্ছে...';
+        statusEl.className = 'text-[11px] font-semibold text-amber-700 mt-1.5';
+      }
+
+      const res = await fetchGoogleSheetColumnA(effectiveUrl, skipHeader);
+      if (!res.ok) {
+        if (statusEl) {
+          statusEl.textContent = '✕ ' + res.error;
+          statusEl.className = 'text-[11px] font-semibold text-rose-600 mt-1.5';
+        }
+        showToast(res.error, 'error');
+        return;
+      }
+
+      const remainingItems = res.items.slice(deliveredOffset);
+      const stockInput = document.getElementById('prod-stock');
+      const itemsArea = document.getElementById('prod-items');
+      if (stockInput) stockInput.value = remainingItems.length;
+      if (itemsArea) itemsArea.value = remainingItems.join('\n');
+
+      const colInfo = formatColumnLabels(res.maxCols);
+      if (statusEl) {
+        statusEl.textContent = `✓ A কলামের সিরিয়াল অনুযায়ী মোট ${res.totalCount} পিস (কলাম ${colInfo} একসাথে লোড • ${deliveredOffset} ডেলিভারড বাদে বাকি ${remainingItems.length} পিস)!`;
+        statusEl.className = 'text-[11px] font-bold text-emerald-700 mt-1.5';
+      }
+      showToast(`কলাম A অনুযায়ী ${remainingItems.length} পিস (কলাম ${colInfo} সহ) স্টকে লোড হয়েছে!`, 'success');
+    }
+      showToast(`গুগল শিটের A কলাম থেকে ${remainingItems.length} পিস স্টক লোড হয়েছে!`, 'success');
+    }
+
+    // Add / Edit Product Modal (With Google Sheet Column A Auto-Sync + All 5 Delivery Systems)
     function openProductModal(prodId = null) {
       const existing = prodId ? state.products.find(p => p.id === prodId) : null;
       const stockText = existing && existing.stockItems ? existing.stockItems.join('\n') : '';
@@ -2222,7 +3126,7 @@
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">স্টক সংখ্যা (পিস)</label>
                 <input type="number" min="0" id="prod-stock" required value="${existing ? existing.stock : '10'}" placeholder="যেমন: 50"
-                  class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500" />
+                  class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm font-bold focus:outline-none focus:border-indigo-500" />
               </div>
             </div>
 
@@ -2232,17 +3136,35 @@
               <select id="prod-delivery-mode" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm font-semibold focus:outline-none focus:border-indigo-500">
                 <option value="inherit" ${mode === 'inherit' ? 'selected' : ''}>🔗 ক্যাটাগরির নিয়ম অনুযায়ী</option>
                 <option value="auto" ${mode === 'auto' ? 'selected' : ''}>⚡ অটোমেটিক ডেলিভারি (অ্যাকাউন্ট লিস্ট)</option>
-                <option value="sheet" ${mode === 'sheet' ? 'selected' : ''}>📊 গুগল শিট ফাইল ডেলিভারি</option>
+                <option value="sheet" ${mode === 'sheet' ? 'selected' : ''}>📊 গুগল শিট ফাইল (A কলাম সিরিয়াল অটো)</option>
                 <option value="file" ${mode === 'file' ? 'selected' : ''}>📁 ফাইল ডেলিভারি (TXT/CSV/Excel/PDF/ZIP)</option>
                 <option value="link" ${mode === 'link' ? 'selected' : ''}>🔗 ডাইরেক্ট / ইনভাইট লিংক ডেলিভারি</option>
                 <option value="manual" ${mode === 'manual' ? 'selected' : ''}>👨‍💻 ম্যানুয়াল ডেলিভারি (এডমিন দিবে)</option>
               </select>
             </div>
 
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">📊 গুগল শিট লিংক (আলাদা শিট থাকলে)</label>
+            <!-- Google Sheet Link + Column A Serial Auto-Sync Box -->
+            <div class="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-3 space-y-2">
+              <label class="block text-xs font-bold text-emerald-950">📊 গুগল শিট লিংক (A ঘর সিরিয়াল স্টক ও অটো ডেলিভারি)</label>
               <input type="url" id="prod-sheet-url" value="${existing && existing.sheetUrl ? escapeHtml(existing.sheetUrl) : ''}" placeholder="https://docs.google.com/spreadsheets/d/..."
-                class="w-full bg-emerald-50/50 border border-emerald-200 rounded-2xl px-4 py-2.5 text-xs focus:outline-none focus:border-emerald-500" />
+                class="w-full bg-white border border-emerald-200 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-emerald-500" />
+              <div class="grid grid-cols-2 gap-2 items-center">
+                <label class="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-900 cursor-pointer">
+                  <input type="checkbox" id="prod-sheet-skip-header" ${existing && existing.sheetSkipHeader ? 'checked' : ''} class="accent-emerald-600 rounded" />
+                  <span>১ম সারি হেডার বাদ দিন</span>
+                </label>
+                <div class="flex items-center gap-1.5 justify-end">
+                  <span class="text-[10px] text-emerald-900 font-semibold">ডেলিভারড সিরিয়াল:</span>
+                  <input type="number" min="0" id="prod-sheet-delivered" value="${existing ? (existing.sheetDeliveredCount || 0) : 0}"
+                    class="w-14 bg-white border border-emerald-300 rounded-lg px-2 py-1 text-xs font-bold text-center" />
+                </div>
+              </div>
+              <button type="button" onclick="syncProductModalFromSheet()" class="w-full py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition">
+                🔄 গুগল শিট (A কলাম) থেকে স্টক ও সিরিয়াল লোড করুন
+              </button>
+              <p id="prod-sheet-status" class="text-[10px] text-emerald-800 leading-snug">
+                মূল স্টক হিসাব হবে <strong>কলাম A</strong>-এর সিরিয়াল (১, ২, ৩...) অনুযায়ী। <strong>কলাম B বা C</strong>-তে পাসওয়ার্ড/2FA থাকলেও কোনো সমস্যা নেই—প্রতিটি সারির A+B+C একসাথে ডেলিভারি হবে।
+              </p>
             </div>
 
             <div>
@@ -2268,8 +3190,8 @@
                 class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500">${existing ? escapeHtml(existing.description) : ''}</textarea>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">অটো-ডেলিভারি অ্যাকাউন্ট লিস্ট (প্রতি লাইনে ১টি)</label>
-              <textarea id="prod-items" rows="3" placeholder="user1@hotmail.com | pass123&#10;user2@hotmail.com | pass456"
+              <label class="block text-xs font-bold text-slate-700 mb-1">অটো-ডেলিভারি / শিট সিরিয়াল লিস্ট (প্রতি লাইনে ১ পিস • কলাম A | B | C)</label>
+              <textarea id="prod-items" rows="4" placeholder="গুগল শিট থেকে সিঙ্ক করুন অথবা সরাসরি কপি-পেস্ট করুন:&#10;user1 | pass123 | 2FA_KEY_1&#10;user2 | pass456 | 2FA_KEY_2"
                 class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:border-indigo-500">${escapeHtml(stockText)}</textarea>
             </div>
             <button type="submit" class="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm">
@@ -2288,14 +3210,18 @@
       const stock = parseInt(document.getElementById('prod-stock').value, 10) || 0;
       const deliveryMode = document.getElementById('prod-delivery-mode').value || 'inherit';
       const sheetUrl = document.getElementById('prod-sheet-url').value.trim();
+      const sheetSkipHeader = document.getElementById('prod-sheet-skip-header')?.checked || false;
+      const sheetDeliveredCount = Math.max(0, parseInt(document.getElementById('prod-sheet-delivered')?.value || '0', 10) || 0);
       const directLink = document.getElementById('prod-direct-link').value.trim();
       const fileUrl = tempUploads.prodFileUrl || '';
       const fileName = tempUploads.prodFileName || '';
       const description = document.getElementById('prod-desc').value.trim() || 'মানসম্মত ডিজিটাল প্রোডাক্ট।';
+      // Normalize lines pasted directly from Google Sheets (Tab-separated Col A/B/C -> clean " | " format)
       const rawItems = document.getElementById('prod-items').value
         .split('\n')
         .map(line => line.trim())
-        .filter(Boolean);
+        .filter(Boolean)
+        .map(line => line.includes('\t') ? formatRowCellsToLine(line.split('\t')) : line);
 
       if (existingId) {
         const prod = state.products.find(p => p.id === existingId);
@@ -2306,15 +3232,19 @@
           prod.stock = stock;
           prod.deliveryMode = deliveryMode;
           prod.sheetUrl = sheetUrl;
+          prod.sheetSkipHeader = sheetSkipHeader;
+          prod.sheetDeliveredCount = sheetDeliveredCount;
+          prod.sheetTotalCount = rawItems.length + sheetDeliveredCount;
           prod.directLink = directLink;
           prod.fileUrl = fileUrl;
           prod.fileName = fileName;
           prod.description = description;
           prod.stockItems = rawItems;
+          cloudSaveDoc('products', prod.id, prod);
         }
-        showToast('প্রোডাক্ট আপডেট হয়েছে!', 'success');
+        showToast('প্রোডাক্ট ও স্টক আপডেট হয়েছে!', 'success');
       } else {
-        state.products.unshift({
+        const newProd = {
           id: generateId('PRD'),
           categoryId,
           name,
@@ -2322,12 +3252,18 @@
           stock,
           deliveryMode,
           sheetUrl,
+          sheetSkipHeader,
+          sheetDeliveredCount,
+          sheetTotalCount: rawItems.length + sheetDeliveredCount,
+          sheetLastSynced: rawItems.length > 0 && sheetUrl ? getNowTime() : '',
           directLink,
           fileUrl,
           fileName,
           description,
           stockItems: rawItems
-        });
+        };
+        state.products.unshift(newProd);
+        cloudSaveDoc('products', newProd.id, newProd);
         showToast('নতুন প্রোডাক্ট যোগ করা হয়েছে!', 'success');
       }
       closeModal();
@@ -2336,76 +3272,110 @@
 
     function deleteProduct(prodId) {
       state.products = state.products.filter(p => p.id !== prodId);
+      cloudDeleteDoc('products', prodId);
       showToast('প্রোডাক্ট মুছে ফেলা হয়েছে।', 'info');
       renderApp();
     }
 
-    // ---- ADMIN SUB-TAB 3: DEPOSIT REQUESTS (SHOWS AMOUNT & TrxID) ----
+    // ---- ADMIN SUB-TAB 3: DEPOSIT REQUESTS APPROVAL ----
     function renderAdminDeposits() {
       if (state.deposits.length === 0) {
         return `
           <div class="bg-white rounded-3xl border border-slate-200/80 p-8 text-center text-xs text-slate-500">
-            কোনো ডিপোজিট রিকোয়েস্ট এখনো আসেনি। ইউজার ডিপোজিট করলে এখানে দেখা যাবে।
+            এখনো কোনো ডিপোজিট রিকোয়েস্ট আসেনি।
           </div>
         `;
       }
 
       return `
         <div class="space-y-3">
-          ${state.deposits.map(dep => `
-            <div class="bg-white rounded-3xl border border-slate-200/90 p-4 shadow-sm space-y-3">
-              <div class="flex items-start justify-between gap-2">
-                <div>
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="font-bold text-sm text-slate-900">${escapeHtml(dep.methodName)}</span>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg ${
-                      dep.status === 'approved' ? 'bg-emerald-50 text-emerald-700' :
-                      dep.status === 'rejected' ? 'bg-rose-50 text-rose-700' : 'bg-amber-50 text-amber-700'
-                    }">
-                      ${dep.status === 'approved' ? 'অ্যাপ্রুভড' : dep.status === 'rejected' ? 'বাতিল' : 'পেন্ডিং'}
-                    </span>
-                  </div>
-                  <p class="text-xs text-indigo-700 font-semibold mt-1">👤 ইউজার: ${escapeHtml(dep.userName || 'ইউজার')}</p>
-                  <p class="text-xs text-slate-700 font-mono mt-0.5">TrxID: <strong>${escapeHtml(dep.txId)}</strong></p>
-                  <p class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(dep.createdAt)}</p>
-                </div>
-                <div class="text-right shrink-0">
-                  <span class="text-lg font-bold text-indigo-700 block">${formatBDT(dep.amountBdt)}</span>
-                  ${dep.usdAmount ? `<span class="text-xs font-bold text-amber-600 font-mono">$${dep.usdAmount} USDT</span>` : ''}
-                </div>
-              </div>
+          ${state.deposits.map(dep => {
+            const isPending = dep.status === 'pending';
+            const badgeCls = dep.status === 'approved'
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+              : dep.status === 'rejected'
+                ? 'bg-rose-50 text-rose-700 border-rose-200'
+                : 'bg-amber-50 text-amber-700 border-amber-200';
+            const badgeLabel = dep.status === 'approved' ? 'অ্যাপ্রুভড' : dep.status === 'rejected' ? 'বাতিল' : 'পেন্ডিং';
 
-              ${dep.status === 'pending' ? `
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-                  <button onclick="processDeposit('${dep.id}', 'approved')" class="py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition">
-                    ✓ অ্যাপ্রুভ করুন
-                  </button>
-                  <button onclick="processDeposit('${dep.id}', 'rejected')" class="py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs border border-rose-200 transition">
-                    ✕ বাতিল করুন
-                  </button>
+            return `
+              <div class="bg-white rounded-3xl border border-slate-200/90 p-4 shadow-sm space-y-3">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="font-bold text-sm text-slate-900">${escapeHtml(dep.methodName)}</span>
+                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg border ${badgeCls}">${badgeLabel}</span>
+                    </div>
+                    <p class="text-xs text-indigo-700 font-semibold mt-0.5">👤 ${escapeHtml(dep.userName || 'ইউজার')}</p>
+                    <p class="text-xs font-mono text-slate-700 mt-1">TrxID: <strong>${escapeHtml(dep.txId)}</strong></p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(dep.createdAt)}</p>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <span class="font-extrabold text-base text-slate-900 block">${formatBDT(dep.amountBdt)}</span>
+                    ${dep.usdAmount ? `<span class="text-xs font-bold text-amber-600 font-mono">$${escapeHtml(dep.usdAmount)} USDT</span>` : ''}
+                  </div>
                 </div>
-              ` : ''}
-            </div>
-          `).join('')}
+
+                ${isPending ? `
+                  <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button onclick="approveDeposit('${dep.id}')" class="py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+                      ✓ অ্যাপ্রুভ করুন
+                    </button>
+                    <button onclick="rejectDeposit('${dep.id}')" class="py-2.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-bold transition">
+                      ✕ বাতিল করুন
+                    </button>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
         </div>
       `;
     }
 
-    function processDeposit(depId, action) {
+    function approveDeposit(depId) {
       const dep = state.deposits.find(d => d.id === depId);
       if (!dep || dep.status !== 'pending') return;
-      dep.status = action;
-      if (action === 'approved') {
-        const targetUser = state.users.find(u => u.id === dep.userId) || getCurrentUser();
-        targetUser.balance += dep.amountBdt;
-        showToast(`${formatBDT(dep.amountBdt)} "${targetUser.name}" এর ব্যালেন্সে যোগ করা হয়েছে!`, 'success');
-      } else {
-        showToast('ডিপোজিট রিকোয়েস্ট বাতিল করা হয়েছে।', 'info');
+      dep.status = 'approved';
+      const user = state.users.find(u => u.id === dep.userId);
+      if (user) {
+        user.balance = (Number(user.balance) || 0) + (Number(dep.amountBdt) || 0);
+        cloudSaveDoc('users', user.id, user);
       }
+      cloudSaveDoc('deposits', dep.id, dep);
+      showToast(`${formatBDT(dep.amountBdt)} অ্যাপ্রুভ হয়ে ইউজারের ব্যালেন্সে যোগ হয়েছে!`, 'success');
       renderApp();
     }
 
-    // ---- ADMIN SUB-TAB 4: ORDERS DELIVERY (ALL DELIVERY TYPES) ----
+    function rejectDeposit(depId) {
+      const dep = state.deposits.find(d => d.id === depId);
+      if (!dep || dep.status !== 'pending') return;
+      dep.status = 'rejected';
+      cloudSaveDoc('deposits', dep.id, dep);
+      showToast('ডিপোজিট রিকোয়েস্ট বাতিল করা হয়েছে।', 'warning');
+      renderApp();
+    }
+
+    // Helper: Aggregate Deposits & Orders Statistics for a User
+    function getUserStats(userId) {
+      const userDeposits = state.deposits.filter(d => d.userId === userId);
+      const userOrders = state.orders.filter(o => o.userId === userId);
+      const totalDeposited = userDeposits
+        .filter(d => d.status === 'approved')
+        .reduce((sum, d) => sum + (Number(d.amountBdt) || 0), 0);
+      const totalSpent = userOrders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+      const totalItemsBought = userOrders.reduce((sum, o) => sum + (Number(o.qty) || 0), 0);
+      return {
+        userDeposits,
+        userOrders,
+        totalDeposited,
+        ordersCount: userOrders.length,
+        totalItemsBought,
+        totalSpent
+      };
+    }
+
+    // ---- ADMIN SUB-TAB 4: ORDERS DELIVERY (WITH LIVE CATEGORY & PRODUCT STOCK STATUS FOR MANUAL DELIVERY) ----
     function renderAdminOrders() {
       if (state.orders.length === 0) {
         return `
@@ -2415,43 +3385,111 @@
         `;
       }
 
-      return `
-        <div class="space-y-3">
-          ${state.orders.map(order => `
-            <div class="bg-white rounded-3xl border border-slate-200/90 p-4 shadow-sm space-y-3">
-              <div class="flex items-start justify-between gap-2">
-                <div>
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="text-xs font-mono text-slate-400">#${escapeHtml(order.id)}</span>
-                    ${renderDeliveryBadge(order.deliveryMode)}
-                  </div>
-                  <h4 class="font-bold text-sm text-slate-900 mt-0.5">${escapeHtml(order.productName)} (×${order.qty})</h4>
-                  <p class="text-xs text-indigo-700 font-semibold">👤 ${escapeHtml(order.userName || 'ইউজার')}</p>
-                  <p class="text-[11px] text-slate-500">${escapeHtml(order.createdAt)}</p>
+      // Live Category Stock Summary Strip at top of Admin Orders for instant Manual Delivery visibility
+      const catStockSummaryHtml = `
+        <div class="bg-white rounded-3xl border border-slate-200/80 p-3.5 shadow-sm space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-800">📦 ক্যাটাগরি অনুযায়ী বর্তমান স্টক (ম্যানুয়াল ডেলিভারি রেফারেন্স)</span>
+          </div>
+          <div class="flex gap-2 overflow-x-auto no-scrollbar pb-0.5">
+            ${state.categories.map(c => {
+              const info = getCategoryStockInfo(c);
+              return `
+                <div class="shrink-0 px-3 py-1.5 rounded-xl border text-xs flex items-center gap-1.5 ${
+                  info.displayStock > 0 ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-800'
+                }">
+                  <span>${escapeHtml(c.icon)}</span>
+                  <span class="font-bold">${escapeHtml(c.name)}:</span>
+                  <span class="font-extrabold">${info.displayStock} পিস</span>
                 </div>
-                <div class="text-right">
-                  <span class="font-bold text-indigo-700 text-sm block">${formatBDT(order.totalPrice)}</span>
-                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg ${order.status === 'completed' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">
-                    ${order.status === 'completed' ? 'ডেলিভারড' : 'পেন্ডিং'}
-                  </span>
-                </div>
-              </div>
-              <button onclick="openDeliverOrderModal('${order.id}')" class="w-full py-2.5 rounded-2xl text-xs font-bold border transition ${
-                order.status === 'completed'
-                  ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                  : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700'
-              }">
-                ${order.status === 'completed' ? '✎ ডেলিভারি তথ্য / ফাইল / শিট এডিট করুন' : '📦 ম্যানুয়ালি ডেলিভারি দিন (টেক্সট / ফাইল / শিট / লিংক)'}
-              </button>
-            </div>
-          `).join('')}
+              `;
+            }).join('')}
+          </div>
         </div>
       `;
+
+      return `
+        ${catStockSummaryHtml}
+
+        <div class="space-y-3">
+          ${state.orders.map(order => {
+            const prod = state.products.find(p => p.id === order.productId);
+            const cat = state.categories.find(c => c.id === (order.categoryId || prod?.categoryId))
+              || state.categories.find(c => c.name === order.categoryName);
+            const catStock = cat ? getCategoryStockInfo(cat).displayStock : 0;
+            const prodStock = prod ? prod.stock : 0;
+
+            return `
+              <div class="bg-white rounded-3xl border border-slate-200/90 p-4 shadow-sm space-y-3">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="text-xs font-mono text-slate-400">#${escapeHtml(order.id)}</span>
+                      ${renderDeliveryBadge(order.deliveryMode)}
+                      ${order.preferredFormat ? renderFormatPreferenceBadge(order.preferredFormat) : ''}
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900 mt-0.5">${escapeHtml(order.productName)} (×${order.qty} পিস)</h4>
+                    <p class="text-xs text-indigo-700 font-semibold">👤 ${escapeHtml(order.userName || 'ইউজার')}</p>
+                    <p class="text-[11px] text-slate-500">${escapeHtml(order.categoryName)} • ${escapeHtml(order.createdAt)}</p>
+                  </div>
+                  <div class="text-right">
+                    <span class="font-bold text-indigo-700 text-sm block">${formatBDT(order.totalPrice)}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-lg ${order.status === 'completed' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">
+                      ${order.status === 'completed' ? 'ডেলিভারড' : 'পেন্ডিং'}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Live Stock Reference Bar for Admin Manual Delivery -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-2xl px-3 py-2 flex items-center justify-between text-[11px] text-slate-700">
+                  <span>📂 ক্যাটাগরি স্টক: <strong class="${catStock > 0 ? 'text-emerald-700' : 'text-rose-600'}">${catStock} পিস</strong></span>
+                  <span>📦 প্রোডাক্ট স্টক: <strong class="${prodStock > 0 ? 'text-indigo-700' : 'text-rose-600'}">${prodStock} পিস</strong></span>
+                </div>
+
+                <button onclick="openDeliverOrderModal('${order.id}')" class="w-full py-2.5 rounded-2xl text-xs font-bold border transition ${
+                  order.status === 'completed'
+                    ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                    : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-700'
+                }">
+                  ${order.status === 'completed' ? '✎ ডেলিভারি তথ্য / ফাইল / শিট এডিট করুন' : '📦 ম্যানুয়ালি ডেলিভারি দিন (টেক্সট / ফাইল / শিট / লিংক)'}
+                </button>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // Pull exact serial rows from product's Google Sheet / Stock queue into Manual Delivery Modal
+    function fillManualDeliveryFromQueue(orderId) {
+      const order = state.orders.find(o => o.id === orderId);
+      if (!order) return;
+      const prod = state.products.find(p => p.id === order.productId);
+      if (!prod || !Array.isArray(prod.stockItems) || prod.stockItems.length === 0) {
+        showToast('এই প্রোডাক্টের সিরিয়াল লিস্টে কোনো আইটেম নেই। আগে গুগল শিট সিঙ্ক বা লিস্ট যোগ করুন।', 'warning');
+        return;
+      }
+      const takeCount = Math.min(order.qty, prod.stockItems.length);
+      const previewItems = prod.stockItems.slice(0, takeCount);
+      const textarea = document.getElementById('deliver-data-input');
+      if (textarea) {
+        textarea.value = previewItems.join('\n');
+        textarea.dataset.usedQueueCount = String(takeCount);
+      }
+      showToast(`সিরিয়াল লিস্ট থেকে ${takeCount} পিস লোড হয়েছে! সেভ করলে কিউ থেকে বাদ যাবে।`, 'success');
     }
 
     function openDeliverOrderModal(orderId) {
       const order = state.orders.find(o => o.id === orderId);
       if (!order) return;
+      const prod = state.products.find(p => p.id === order.productId);
+      const cat = state.categories.find(c => c.id === (order.categoryId || prod?.categoryId))
+        || state.categories.find(c => c.name === order.categoryName);
+      const catStock = cat ? getCategoryStockInfo(cat).displayStock : 0;
+      const prodStock = prod ? prod.stock : 0;
+      const queueCount = prod && Array.isArray(prod.stockItems) ? prod.stockItems.length : 0;
+      const { sheetUrl: defaultSheetUrl } = prod ? getEffectiveDeliveryConfig(prod) : { sheetUrl: '' };
+
       tempUploads.orderFileUrl = order.deliveredFileUrl || '';
       tempUploads.orderFileName = order.deliveredFileName || '';
 
@@ -2461,11 +3499,30 @@
             <h3 class="font-bold text-base text-slate-900">অর্ডার ডেলিভারি (#${escapeHtml(order.id)})</h3>
             <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">✕</button>
           </div>
-          <p class="text-xs text-slate-500 mb-3">👤 ${escapeHtml(order.userName || 'ইউজার')} • ${escapeHtml(order.productName)} (×${order.qty})</p>
+          <p class="text-xs text-slate-600 mb-2">👤 ${escapeHtml(order.userName || 'ইউজার')} • <strong>${escapeHtml(order.productName)} (×${order.qty} পিস)</strong></p>
+
+          <!-- User Requested Format + Live Category/Product Stock Box -->
+          <div class="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-3 mb-3 space-y-1.5 text-xs">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-indigo-950">ইউজার চেয়েছে:</span>
+              ${renderFormatPreferenceBadge(order.preferredFormat || 'both')}
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-slate-700 pt-1 border-t border-indigo-200/70">
+              <span>📂 ${escapeHtml(order.categoryName)} স্টক: <strong class="text-emerald-700">${catStock} পিস</strong></span>
+              <span>📦 প্রোডাক্ট স্টক: <strong class="text-indigo-700">${prodStock} পিস</strong></span>
+            </div>
+          </div>
+
           <form onsubmit="saveOrderDelivery(event, '${order.id}')" class="space-y-3">
+            ${queueCount > 0 ? `
+              <button type="button" onclick="fillManualDeliveryFromQueue('${order.id}')" class="w-full py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 border border-amber-300 text-xs font-bold transition">
+                ⚡ সিরিয়াল / শিট কিউ থেকে ${Math.min(order.qty, queueCount)} পিস অটো বসান (মজুত: ${queueCount}টি)
+              </button>
+            ` : ''}
+
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1">📊 গুগল শিট ফাইল লিংক (ঐচ্ছিক)</label>
-              <input type="url" id="deliver-sheet-input" value="${escapeHtml(order.deliveredSheetUrl || '')}" placeholder="https://docs.google.com/spreadsheets/d/..."
+              <input type="url" id="deliver-sheet-input" value="${escapeHtml(order.deliveredSheetUrl || defaultSheetUrl || '')}" placeholder="https://docs.google.com/spreadsheets/d/..."
                 class="w-full bg-emerald-50/50 border border-emerald-200 rounded-2xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-emerald-500" />
             </div>
             <div>
@@ -2484,8 +3541,8 @@
               </p>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">📝 অ্যাকাউন্ট / লাইসেন্স / নোট</label>
-              <textarea id="deliver-data-input" rows="4" placeholder="যেমন: example@gmail.com | Pass1234 (অথবা শিট/ফাইল নোট)"
+              <label class="block text-xs font-bold text-slate-700 mb-1">📝 অ্যাকাউন্ট / লাইসেন্স / টেক্সট (ইউজার টেক্সট ও গুগল শিট .csv উভয় আকারে নিতে পারবে)</label>
+              <textarea id="deliver-data-input" rows="4" placeholder="প্রতি লাইনে ১টি করে দিন, যেমন:&#10;example1@gmail.com | Pass1234&#10;example2@gmail.com | Pass5678"
                 class="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs font-mono focus:outline-none focus:border-indigo-500">${escapeHtml(order.deliveredData || '')}</textarea>
             </div>
             <button type="submit" class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm">
@@ -2504,17 +3561,32 @@
       const directLink = document.getElementById('deliver-link-input').value.trim();
       const fileUrl = tempUploads.orderFileUrl || '';
       const fileName = tempUploads.orderFileName || '';
-      const textData = document.getElementById('deliver-data-input').value.trim();
+      const textarea = document.getElementById('deliver-data-input');
+      const textData = textarea.value.trim();
+      const usedQueueCount = parseInt(textarea.dataset.usedQueueCount || '0', 10) || 0;
+
       if (!sheetUrl && !directLink && !fileUrl && !textData) {
         showToast('অনুগ্রহ করে গুগল শিট, লিংক, ফাইল অথবা অ্যাকাউন্ট তথ্য দিন।', 'warning');
         return;
       }
+
+      // If Admin loaded items from the serial queue, consume them from the queue & advance delivered serial count
+      if (usedQueueCount > 0) {
+        const prod = state.products.find(p => p.id === order.productId);
+        if (prod && Array.isArray(prod.stockItems)) {
+          prod.stockItems.splice(0, usedQueueCount);
+          prod.sheetDeliveredCount = (Number(prod.sheetDeliveredCount) || 0) + usedQueueCount;
+          cloudSaveDoc('products', prod.id, prod);
+        }
+      }
+
       order.deliveredSheetUrl = sheetUrl;
       order.deliveredDirectLink = directLink;
       order.deliveredFileUrl = fileUrl;
       order.deliveredFileName = fileName;
       order.deliveredData = textData;
       order.status = 'completed';
+      cloudSaveDoc('orders', order.id, order);
       closeModal();
       showToast('অর্ডার সফলভাবে ডেলিভারি করা হয়েছে!', 'success');
       renderApp();
@@ -2617,6 +3689,7 @@
       const user = state.users.find(u => u.id === userId);
       if (!user) return;
       user.blocked = !user.blocked;
+      cloudSaveDoc('users', user.id, user);
       showToast(
         user.blocked
           ? `"${user.name}" কে ব্লক করা হয়েছে।`
@@ -2687,15 +3760,18 @@
       } else {
         user.balance = amount;
       }
-
-      state.balanceLogs.unshift({
+      const newLog = {
         id: generateId('LOG'),
         userId: user.id,
         type,
         amount,
         note,
-        createdAt: getNowTime()
-      });
+        createdAt: getNowTime(),
+        createdAtTs: Date.now()
+      };
+      state.balanceLogs.unshift(newLog);
+      cloudSaveDoc('users', user.id, user);
+      cloudSaveDoc('balance_logs', newLog.id, newLog);
 
       closeModal();
       showToast(`"${user.name}" এর নতুন ব্যালেন্স ${formatBDT(user.balance)} করা হয়েছে!`, 'success');
@@ -2818,7 +3894,7 @@
                   <input type="file" accept="image/*" class="hidden" onchange="handleGalleryImagePick(this, 'storeLogo', 'header-store-logo')" />
                 </label>
                 ${state.settings.storeLogoUrl ? `
-                  <button type="button" onclick="state.settings.storeLogoUrl=''; showToast('ডিফল্ট লোগো সেট হয়েছে।', 'info'); renderApp();"
+                  <button type="button" onclick="resetStoreLogo()"
                     class="text-xs font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1.5 rounded-xl">রিসেট</button>
                 ` : ''}
               </div>
@@ -2902,6 +3978,13 @@
       `;
     }
 
+    function resetStoreLogo() {
+      state.settings.storeLogoUrl = '';
+      cloudSaveConfig();
+      showToast('ডিফল্ট লোগো সেট হয়েছে।', 'info');
+      renderApp();
+    }
+
     function saveGeneralSettings(e) {
       e.preventDefault();
       state.settings.storeName = document.getElementById('set-store-name').value.trim() || 'Digital Store BD';
@@ -2909,6 +3992,7 @@
       state.settings.minDeposit = Math.max(1, parseFloat(document.getElementById('set-min-deposit').value) || 50);
       state.settings.binanceRate = Math.max(1, parseFloat(document.getElementById('set-binance-rate').value) || 120);
       state.settings.adminPin = document.getElementById('set-admin-pin').value.trim() || '1234';
+      cloudSaveConfig();
       showToast('স্টোর সেটিংস, মিনিমাম ডিপোজিট ও বাইনান্স রেট সেভ হয়েছে!', 'success');
       renderApp();
     }
@@ -2917,6 +4001,7 @@
       const m = state.paymentMethods.find(x => x.id === id);
       if (!m) return;
       m.active = !m.active;
+      cloudSaveConfig();
       showToast(`${m.name} ${m.active ? 'চালু করা হয়েছে!' : 'বন্ধ করা হয়েছে।'}`, m.active ? 'success' : 'info');
       renderApp();
     }
@@ -3014,6 +4099,7 @@
           m.logoUrl = logoUrl;
           m.isBinance = isBinance;
         }
+        cloudSaveConfig();
         showToast('পেমেন্ট মাধ্যম ও লোগো আপডেট করা হয়েছে!', 'success');
       } else {
         state.paymentMethods.push({
@@ -3027,6 +4113,7 @@
           isBinance,
           active: true
         });
+        cloudSaveConfig();
         showToast('নতুন পেমেন্ট মাধ্যম যুক্ত হয়েছে!', 'success');
       }
       closeModal();
@@ -3035,6 +4122,7 @@
 
     function deletePaymentMethod(id) {
       state.paymentMethods = state.paymentMethods.filter(m => m.id !== id);
+      cloudSaveConfig();
       closeModal();
       showToast('পেমেন্ট মাধ্যম মুছে ফেলা হয়েছে।', 'info');
       renderApp();
@@ -3068,6 +4156,159 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderApp();
     });
+  </script>
+
+  <!-- =====================================================================
+       LIVE REAL-TIME CLOUD DATABASE SYNC ENGINE (MULTI-USER & MULTI-DEVICE)
+       ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    /**
+     * নিজে আলাদাভাবে Netlify Drop / GitHub Pages-এ হোস্ট করতে চাইলে
+     * আপনার ফ্রি Firebase প্রজেক্টের Web App Config নিচের null-এর বদলে বসিয়ে দিন।
+     */
+    const CUSTOM_FIREBASE_CONFIG = null;
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'digital-store-bd';
+    const firebaseConfig = typeof __firebase_config !== 'undefined'
+      ? JSON.parse(__firebase_config)
+      : CUSTOM_FIREBASE_CONFIG;
+
+    let db = null;
+    let auth = null;
+    let currentAuthUser = null;
+
+    // Public shared collection helper (Strict Rule 1 Path)
+    const publicCol = (name) => collection(db, 'artifacts', appId, 'public', 'data', name);
+    const publicDoc = (name, id) => doc(db, 'artifacts', appId, 'public', 'data', name, id);
+
+    // Expose Write Operations guarded by authenticated user (Rule 3)
+    window.cloudDb = {
+      async saveConfig(settings, paymentMethods) {
+        if (!currentAuthUser || !db) return;
+        try {
+          await setDoc(publicDoc('store_config', 'main'), {
+            settings,
+            paymentMethods,
+            seeded: true,
+            updatedAt: Date.now()
+          });
+        } catch (err) {
+          console.error('Config Save Error:', err);
+        }
+      },
+      async saveDoc(collectionName, docId, data) {
+        if (!currentAuthUser || !db || !docId) return;
+        try {
+          await setDoc(publicDoc(collectionName, String(docId)), { ...data });
+        } catch (err) {
+          console.error(`Save Error (${collectionName}/${docId}):`, err);
+        }
+      },
+      async deleteDoc(collectionName, docId) {
+        if (!currentAuthUser || !db || !docId) return;
+        try {
+          await deleteDoc(publicDoc(collectionName, String(docId)));
+        } catch (err) {
+          console.error(`Delete Error (${collectionName}/${docId}):`, err);
+        }
+      }
+    };
+
+    // Seed starter categories, products, settings & demo items once on brand-new database
+    async function seedInitialDataIfEmpty() {
+      if (!currentAuthUser || !db) return;
+      const cfgRef = publicDoc('store_config', 'main');
+      const snap = await getDoc(cfgRef);
+      if (snap.exists()) return;
+
+      const initial = window.__storeBridge.getInitialSnapshot();
+      await setDoc(cfgRef, {
+        settings: initial.settings,
+        paymentMethods: initial.paymentMethods,
+        seeded: true,
+        updatedAt: Date.now()
+      });
+
+      const writes = [];
+      initial.categories.forEach(c => writes.push(setDoc(publicDoc('categories', c.id), c)));
+      initial.products.forEach(p => writes.push(setDoc(publicDoc('products', p.id), p)));
+      initial.users.forEach(u => writes.push(setDoc(publicDoc('users', u.id), u)));
+      initial.deposits.forEach(d => writes.push(setDoc(publicDoc('deposits', d.id), d)));
+      initial.orders.forEach(o => writes.push(setDoc(publicDoc('orders', o.id), o)));
+      await Promise.all(writes);
+    }
+
+    // Attach Real-Time Listeners (Simple collection queries only, sorted in JS memory - Rule 2)
+    function attachRealtimeListeners() {
+      if (!currentAuthUser || !db) return;
+
+      onSnapshot(
+        publicDoc('store_config', 'main'),
+        (snap) => {
+          if (snap.exists()) {
+            window.__storeBridge.applyRemoteConfig(snap.data());
+          }
+        },
+        (err) => console.error('Config listener error:', err)
+      );
+
+      const collectionsMap = [
+        { col: 'categories', stateKey: 'categories' },
+        { col: 'products', stateKey: 'products' },
+        { col: 'users', stateKey: 'users' },
+        { col: 'deposits', stateKey: 'deposits' },
+        { col: 'orders', stateKey: 'orders' },
+        { col: 'balance_logs', stateKey: 'balanceLogs' }
+      ];
+
+      collectionsMap.forEach(({ col, stateKey }) => {
+        onSnapshot(
+          publicCol(col),
+          (snapshot) => {
+            const list = [];
+            snapshot.forEach((docSnap) => list.push(docSnap.data()));
+            window.__storeBridge.applyRemoteCollection(stateKey, list);
+          },
+          (err) => console.error(`${col} listener error:`, err)
+        );
+      });
+    }
+
+    // Initialize Auth FIRST, then connect Real-Time Cloud Sync (Rule 3)
+    async function bootCloudSync() {
+      if (!firebaseConfig) {
+        window.__storeBridge.setCloudStatus('offline');
+        return;
+      }
+      try {
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          const cred = await signInWithCustomToken(auth, __initial_auth_token);
+          currentAuthUser = cred.user;
+        } else {
+          const cred = await signInAnonymously(auth);
+          currentAuthUser = cred.user;
+        }
+
+        if (!currentAuthUser) return;
+        await seedInitialDataIfEmpty();
+        window.__storeBridge.setCloudStatus('online', currentAuthUser.uid);
+        window.__storeBridge.ensureAuthUserProfile(currentAuthUser.uid);
+        attachRealtimeListeners();
+      } catch (err) {
+        console.error('Cloud Initialization Error:', err);
+        window.__storeBridge.setCloudStatus('error');
+      }
+    }
+
+    bootCloudSync();
   </script>
 </body>
 </html>
