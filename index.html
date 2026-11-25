@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2FA অথেনটিকেটর — ৬ ডিজিটের কোড জেনারেটর</title>
+  <title>Instagram 2FA সেন্টার — ৬ ডিজিটের ওটিপি জেনারেটর</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter, Hind Siliguri & JetBrains Mono -->
+  <!-- Google Fonts: Hind Siliguri, Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
@@ -24,28 +24,27 @@
     };
   </script>
 </head>
-<body class="relative min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200 selection:bg-emerald-500/30 overflow-x-hidden">
+<body class="relative min-h-screen bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200 selection:bg-pink-500/30 overflow-x-hidden">
 
-  <!-- Ambient Background Glow for a Vibrant Premium Look -->
+  <!-- Ambient Instagram Gradient Glow Background -->
   <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-28 left-1/2 -translate-x-1/2 w-[36rem] h-[22rem] rounded-full bg-gradient-to-tr from-emerald-500/20 via-teal-400/15 to-cyan-500/20 dark:from-emerald-500/15 dark:via-teal-500/10 dark:to-sky-500/15 blur-3xl"></div>
-    <div class="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-gradient-to-tl from-pink-500/10 via-purple-500/10 to-transparent blur-3xl"></div>
+    <div class="absolute -top-28 left-1/2 -translate-x-1/2 w-[38rem] h-[24rem] rounded-full bg-gradient-to-tr from-amber-500/20 via-pink-500/20 to-purple-600/20 dark:from-amber-500/15 dark:via-pink-500/15 dark:to-purple-600/20 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-gradient-to-tl from-purple-600/15 via-fuchsia-500/10 to-transparent blur-3xl"></div>
+    <div class="absolute bottom-10 left-0 w-64 h-64 rounded-full bg-gradient-to-tr from-amber-500/10 via-rose-500/10 to-transparent blur-3xl"></div>
   </div>
 
-  <!-- Top Pull-Down Handle Bar for Instagram 2FA -->
-  <div id="igPullHandle" role="button" tabindex="0" aria-label="নিচে টানুন — Instagram 2FA খুলুন"
+  <!-- Top Pull-Down Handle Bar for Quick 2nd Instagram 2FA Slot -->
+  <div id="igPullHandle" role="button" tabindex="0" aria-label="নিচে টানুন — ২য় Instagram 2FA খুলুন"
     class="sticky top-0 z-30 w-full flex justify-center pt-2.5 pb-1.5 cursor-grab active:cursor-grabbing select-none touch-none">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-pink-200/80 dark:border-pink-500/30 shadow-md shadow-pink-500/10 hover:scale-[1.03] transition-all">
       <span class="w-5 h-5 rounded-md bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white shrink-0">
-        <!-- Instagram Camera Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        <!-- Quick Bolt Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
         </svg>
       </span>
-      <span class="text-xs font-semibold bg-gradient-to-r from-pink-600 to-purple-600 dark:from-pink-400 dark:to-amber-400 bg-clip-text text-transparent">
-        নিচে টানুন — Instagram 2FA
+      <span class="text-xs font-semibold bg-gradient-to-r from-amber-600 via-pink-600 to-purple-600 dark:from-amber-400 dark:via-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+        নিচে টানুন — ২য় Instagram কুইক ওটিপি
       </span>
       <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-pink-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -53,20 +52,20 @@
     </div>
   </div>
 
-  <!-- Pull-Down Progress Indicator (shown while swiping down) -->
+  <!-- Pull-Down Progress Indicator -->
   <div id="pullIndicator" class="pointer-events-none fixed top-14 left-1/2 -translate-x-1/2 z-40 opacity-0 scale-90 transition-all duration-150">
-    <div class="px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-600 via-rose-500 to-amber-500 text-white text-xs font-semibold shadow-lg">
-      ছেড়ে দিন — Instagram 2FA খুলবে
+    <div class="px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 text-white text-xs font-semibold shadow-lg">
+      ছেড়ে দিন — ২য় Instagram ওটিপি প্যানেল খুলবে
     </div>
   </div>
 
-  <!-- Instagram 2FA Top Slide-Down Drawer Backdrop -->
+  <!-- 2nd Instagram 2FA Slide-Down Drawer Backdrop -->
   <div id="igDrawerBackdrop" class="hidden fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
 
-  <!-- Instagram 2FA Top Slide-Down Drawer -->
+  <!-- 2nd Instagram 2FA Slide-Down Drawer -->
   <aside id="igDrawer" aria-hidden="true"
     class="fixed top-0 left-0 right-0 z-50 -translate-y-full transition-transform duration-300 ease-out px-3 pt-3 sm:px-4">
-    <div class="w-full max-w-lg mx-auto bg-white dark:bg-slate-900 rounded-3xl border border-pink-200/80 dark:border-pink-500/30 shadow-2xl shadow-pink-500/15 overflow-hidden">
+    <div class="w-full max-w-lg mx-auto bg-white dark:bg-slate-900 rounded-3xl border border-pink-200/80 dark:border-pink-500/30 shadow-2xl shadow-pink-500/20 overflow-hidden">
       <!-- Top Gradient Accent Strip -->
       <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600"></div>
 
@@ -82,8 +81,8 @@
               </svg>
             </div>
             <div>
-              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">Instagram 2FA ওটিপি</h2>
-              <p class="text-xs text-slate-500 dark:text-slate-400">আপনার ইনস্টাগ্রাম সিক্রেট কী দিয়ে কোড বের করুন</p>
+              <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-tight">২য় Instagram কুইক ওটিপি</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">মূল কী না মুছেই আরেকটি Instagram ওটিপি দেখুন</p>
             </div>
           </div>
 
@@ -95,11 +94,11 @@
           </button>
         </div>
 
-        <!-- Instagram Secret Key Input -->
+        <!-- 2nd Instagram Secret Key Input -->
         <div class="relative mb-3">
           <input id="igSecretInput" type="text" autocomplete="off" spellcheck="false"
-            placeholder="Instagram 2FA কী দিন (যেমন: 2PBD 4WWI FQL2 NEO4)"
-            class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700/80 px-4 py-3.5 pr-11 font-mono text-sm sm:text-base tracking-wider uppercase text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all" />
+            placeholder="২য় Instagram 2FA কী দিন (যেমন: 2PBD 4WWI FQL2 NEO4)"
+            class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950 border-2 border-slate-200 dark:border-slate-800 px-4 py-3.5 pr-11 font-mono text-sm sm:text-base tracking-wider uppercase text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/15 transition-all" />
           <button id="igClearBtn" type="button" aria-label="মুছে ফেলুন"
             class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -108,7 +107,7 @@
           </button>
         </div>
 
-        <!-- Instagram Validation Error -->
+        <!-- 2nd Instagram Validation Error -->
         <div id="igInputError" class="hidden items-center gap-2 text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl px-3 py-2 mb-3">
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -116,11 +115,11 @@
           <span id="igInputErrorText">সঠিক Base32 2FA কী দিন (A-Z এবং 2-7 অক্ষর)।</span>
         </div>
 
-        <!-- Instagram Live OTP Box -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50/80 via-white to-amber-50/60 dark:from-slate-950 dark:via-slate-950 dark:to-pink-950/20 border border-pink-200/70 dark:border-pink-500/20 p-4">
+        <!-- 2nd Instagram Live OTP Box -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50/90 via-white to-amber-50/70 dark:from-slate-950 dark:via-slate-950 dark:to-pink-950/25 border border-pink-200/70 dark:border-pink-500/25 p-4">
           <div class="flex items-center justify-between gap-3">
             <div>
-              <span class="block text-xs font-medium text-pink-600 dark:text-pink-400 mb-1">Instagram ৬ ডিজিটের ওটিপি</span>
+              <span class="block text-xs font-semibold text-pink-600 dark:text-pink-400 mb-1">Instagram ৬ ডিজিটের ওটিপি</span>
               <div id="igCodeDisplay" class="font-mono text-3xl sm:text-4xl font-bold tracking-[0.15em] text-slate-400 dark:text-slate-600 select-all">
                 --- ---
               </div>
@@ -133,10 +132,10 @@
             </div>
           </div>
 
-          <!-- Instagram Action Buttons -->
+          <!-- Action Buttons -->
           <div class="grid grid-cols-2 gap-2.5 mt-4">
             <button id="igCopyBtn" type="button" disabled
-              class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-pink-600 to-rose-500 hover:from-pink-500 hover:to-rose-400 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-white shadow-md shadow-pink-500/20 transition-all">
+              class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-semibold text-sm bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:brightness-110 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-white shadow-md shadow-pink-500/20 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
@@ -144,8 +143,8 @@
             </button>
 
             <button id="igSaveBtn" type="button" disabled
-              class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-semibold text-sm bg-slate-200/80 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-slate-800 dark:text-slate-100 transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              class="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-semibold text-sm bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-pink-600 dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
               </svg>
               <span>লিস্টে সেভ</span>
@@ -170,20 +169,28 @@
   <!-- Main Container -->
   <div class="w-full max-w-lg mx-auto px-4 pt-3 pb-10 sm:py-6">
 
-    <!-- App Header -->
+    <!-- App Header (Instagram 2FA Center Branding) -->
     <header class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 ring-2 ring-emerald-400/30 shrink-0">
-          <!-- Shield Lock Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      <div class="flex items-center gap-3.5">
+        <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-pink-500/30 ring-2 ring-pink-400/40 shrink-0">
+          <!-- Instagram Camera Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
           </svg>
+          <!-- Mini Verified Shield Badge -->
+          <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-slate-950 border-2 border-white dark:border-slate-950 flex items-center justify-center text-emerald-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          </span>
         </div>
         <div>
-          <h1 class="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-emerald-800 to-teal-700 dark:from-white dark:via-emerald-200 dark:to-teal-300 bg-clip-text text-transparent">
-            2FA অথেনটিকেটর
+          <h1 class="text-xl sm:text-2xl font-bold tracking-tight bg-gradient-to-r from-amber-600 via-pink-600 to-purple-700 dark:from-amber-300 dark:via-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
+            Instagram 2FA সেন্টার
           </h1>
-          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">দ্রুত ৬ ডিজিটের নিরাপদ ওটিপি কোড জেনারেটর</p>
+          <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">ইনস্টাগ্রাম অ্যাকাউন্টের ৬ ডিজিটের নিরাপদ ওটিপি</p>
         </div>
       </div>
 
@@ -201,159 +208,426 @@
       </button>
     </header>
 
-    <!-- Quick 2FA Generator Card (Main Vibrant Card) -->
-    <main class="relative bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-emerald-200/70 dark:border-emerald-500/20 shadow-xl shadow-emerald-500/10 dark:shadow-black/40 overflow-hidden mb-7">
-      <!-- Top Vibrant Gradient Strip -->
-      <div class="h-1.5 w-full bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500"></div>
+    <!-- Feature Mode Switcher Tabs (2FA OTP vs Bulk Random Password Generator) -->
+    <nav aria-label="অ্যাপ সেকশন" class="grid grid-cols-2 gap-1.5 p-1.5 mb-6 rounded-2xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-pink-200/70 dark:border-slate-800 shadow-sm">
+      <button id="tab2faBtn" type="button"
+        class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-bold bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 text-white shadow-md shadow-pink-500/20 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        <span>2FA ওটিপি</span>
+      </button>
+      <button id="tabPassBtn" type="button"
+        class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        </svg>
+        <span>পাসওয়ার্ড জেনারেটর</span>
+      </button>
+    </nav>
 
-      <div class="p-5 sm:p-6">
-        <!-- Input Label & Sample Key Helper -->
-        <div class="flex items-center justify-between gap-2 mb-2.5">
-          <label for="secretInput" class="flex items-center gap-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            আপনার 2FA সিক্রেট কী বসান
-          </label>
-          <button id="sampleKeyBtn" type="button"
-            class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/70 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 active:scale-95 transition-all">
-            স্যাম্পল কী বসান
-          </button>
-        </div>
+    <!-- ==================== TAB 1: 2FA OTP VIEW ==================== -->
+    <div id="view2fa">
 
-        <!-- Big, Comfortable 2FA Key Input Box -->
-        <div class="relative mb-3">
-          <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-500/80">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-            </svg>
+      <!-- Main Instagram 2FA Generator Card -->
+      <main class="relative bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-pink-200/70 dark:border-pink-500/25 shadow-xl shadow-pink-500/10 dark:shadow-black/50 overflow-hidden mb-7">
+        <!-- Top Signature Instagram Gradient Strip -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600"></div>
+
+        <div class="p-5 sm:p-6">
+          <!-- Input Label & Quick Sample Helper -->
+          <div class="flex items-center justify-between gap-2 mb-2.5">
+            <label for="secretInput" class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <span class="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-pink-500 animate-pulse"></span>
+              Instagram 2FA সিক্রেট কী বসান
+            </label>
+            <button id="sampleKeyBtn" type="button"
+              class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-200/80 dark:border-pink-800/60 hover:bg-pink-100 dark:hover:bg-pink-900/50 active:scale-95 transition-all">
+              স্যাম্পল কী
+            </button>
           </div>
-          <input id="secretInput" type="text" autocomplete="off" spellcheck="false"
-            placeholder="যেমন: 2PBD 4WWI FQL2 NEO4"
-            class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950/90 border-2 border-slate-200/90 dark:border-slate-800 pl-11 pr-11 py-3.5 font-mono text-base sm:text-lg tracking-wider uppercase text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/15 transition-all" />
-          <button id="clearInputBtn" type="button" aria-label="ইনপুট মুছে ফেলুন"
-            class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+
+          <!-- Comfortable 2FA Key Input Box -->
+          <div class="relative mb-3">
+            <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-pink-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+            </div>
+            <input id="secretInput" type="text" autocomplete="off" spellcheck="false"
+              placeholder="যেমন: 2PBD 4WWI FQL2 NEO4"
+              class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950/90 border-2 border-slate-200/90 dark:border-slate-800 pl-11 pr-11 py-3.5 font-mono text-base sm:text-lg tracking-wider uppercase text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/15 transition-all" />
+            <button id="clearInputBtn" type="button" aria-label="ইনপুট মুছে ফেলুন"
+              class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-slate-800 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Validation Error Alert -->
+          <div id="inputError" class="hidden items-center gap-2 text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl px-3.5 py-2.5 mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-          </button>
-        </div>
+            <span id="inputErrorText">সঠিক Base32 2FA কী দিন (A-Z এবং 2-7 অক্ষর)।</span>
+          </div>
 
-        <!-- Validation Error Alert -->
-        <div id="inputError" class="hidden items-center gap-2 text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl px-3.5 py-2.5 mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span id="inputErrorText">সঠিক Base32 2FA কী দিন (A-Z এবং 2-7 অক্ষর)।</span>
-        </div>
+          <!-- Live 6-Digit Instagram OTP Display Box -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50/70 via-white to-pink-50/90 dark:from-slate-950 dark:via-slate-950 dark:to-pink-950/25 border border-pink-200/80 dark:border-pink-500/25 p-5 shadow-inner">
+            <div class="flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-pink-600 dark:text-pink-400 mb-1.5">
+                  Instagram ৬ ডিজিটের লাইভ ওটিপি
+                </span>
+                <div id="liveCodeDisplay" class="font-mono text-4xl sm:text-5xl font-bold tracking-[0.14em] text-slate-400 dark:text-slate-600 select-all transition-colors">
+                  --- ---
+                </div>
+              </div>
 
-        <!-- Live 6-Digit Code Display Box -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-50/90 via-white to-teal-50/80 dark:from-slate-950 dark:via-slate-950 dark:to-emerald-950/30 border border-emerald-200/80 dark:border-emerald-500/20 p-5 shadow-inner">
-          <div class="flex items-center justify-between gap-4">
-            <div class="min-w-0">
-              <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1.5">
-                ৬ ডিজিটের লাইভ কোড
-              </span>
-              <div id="liveCodeDisplay" class="font-mono text-4xl sm:text-5xl font-bold tracking-[0.14em] text-slate-400 dark:text-slate-600 select-all transition-colors">
-                --- ---
+              <!-- Circular 30s Countdown Ring -->
+              <div class="relative w-14 h-14 flex items-center justify-center shrink-0">
+                <svg class="w-14 h-14 -rotate-90" viewBox="0 0 48 48">
+                  <circle cx="24" cy="24" r="20" fill="none" stroke-width="4" class="stroke-slate-200 dark:stroke-slate-800"></circle>
+                  <circle id="timerCircle" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round"
+                    stroke-dasharray="125.66" stroke-dashoffset="0"
+                    class="stroke-pink-500 transition-all duration-300"></circle>
+                </svg>
+                <span id="timerText" class="absolute font-mono text-xs font-bold text-slate-700 dark:text-slate-200">30s</span>
               </div>
             </div>
 
-            <!-- Circular 30s Countdown Ring -->
-            <div class="relative w-14 h-14 flex items-center justify-center shrink-0">
-              <svg class="w-14 h-14 -rotate-90" viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="20" fill="none" stroke-width="4" class="stroke-slate-200 dark:stroke-slate-800"></circle>
-                <circle id="timerCircle" cx="24" cy="24" r="20" fill="none" stroke-width="4" stroke-linecap="round"
-                  stroke-dasharray="125.66" stroke-dashoffset="0"
-                  class="stroke-emerald-500 transition-all duration-300"></circle>
-              </svg>
-              <span id="timerText" class="absolute font-mono text-xs font-bold text-slate-700 dark:text-slate-200">30s</span>
+            <!-- Linear Countdown Progress Bar -->
+            <div class="absolute bottom-0 left-0 right-0 h-1.5 bg-pink-100/80 dark:bg-slate-800">
+              <div id="timerBar" class="h-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 transition-all duration-300" style="width: 100%;"></div>
             </div>
           </div>
 
-          <!-- Linear Countdown Progress Bar -->
-          <div class="absolute bottom-0 left-0 right-0 h-1.5 bg-emerald-100/80 dark:bg-slate-800">
-            <div id="timerBar" class="h-full bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 transition-all duration-300" style="width: 100%;"></div>
+          <!-- Primary Action Buttons -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <button id="copyLiveBtn" type="button" disabled
+              class="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl font-semibold text-sm sm:text-base bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:brightness-110 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-white shadow-lg shadow-pink-600/25 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              <span>ওটিপি কপি করুন</span>
+            </button>
+
+            <button id="openSaveModalBtn" type="button" disabled
+              class="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl font-semibold text-sm sm:text-base bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700/80 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+              </svg>
+              <span>Instagram সেভ করুন</span>
+            </button>
           </div>
         </div>
+      </main>
 
-        <!-- Primary Action Buttons -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-          <button id="copyLiveBtn" type="button" disabled
-            class="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl font-semibold text-sm sm:text-base bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:from-emerald-400 hover:to-teal-500 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-white shadow-lg shadow-emerald-600/25 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      <!-- Saved Instagram Accounts Vault -->
+      <section aria-labelledby="savedHeading">
+        <div class="flex items-center justify-between mb-3 px-1">
+          <h2 id="savedHeading" class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span>সেভ করা Instagram অ্যাকাউন্ট</span>
+            <span id="savedCountBadge" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800/70">0</span>
+          </h2>
+          <span class="text-xs text-slate-500 dark:text-slate-400">স্বয়ংক্রিয় আপডেট</span>
+        </div>
+
+        <!-- Search Box (shown when 2+ Instagram accounts are saved) -->
+        <div id="searchWrapper" class="hidden relative mb-3">
+          <div class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span>কোড কপি করুন</span>
+          </div>
+          <input id="searchInput" type="text" placeholder="ইউজারনেম দিয়ে খুঁজুন..."
+            class="w-full rounded-2xl bg-white/85 dark:bg-slate-900/85 border border-slate-200/80 dark:border-slate-800 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 transition-all" />
+        </div>
+
+        <!-- Saved Accounts Cards List -->
+        <div id="savedList" class="space-y-3"></div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="bg-white/75 dark:bg-slate-900/60 backdrop-blur-md rounded-3xl border border-dashed border-pink-200 dark:border-slate-800 p-7 text-center">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/15 via-pink-500/15 to-purple-600/15 text-pink-500 flex items-center justify-center mx-auto mb-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
+          <p class="text-sm font-semibold text-slate-700 dark:text-slate-300">এখনো কোনো Instagram অ্যাকাউন্ট সেভ করা হয়নি</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">উপরে 2FA কী বসিয়ে "Instagram সেভ করুন" বাটনে ক্লিক করলে এখানে সব অ্যাকাউন্টের লাইভ ওটিপি একসাথে দেখতে পাবেন।</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== TAB 2: BULK UNIQUE PASSWORD GENERATOR ==================== -->
+    <div id="viewPassword" class="hidden">
+      <section class="relative bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-3xl border border-pink-200/70 dark:border-pink-500/25 shadow-xl shadow-pink-500/10 dark:shadow-black/50 overflow-hidden">
+        <!-- Top Signature Gradient Strip -->
+        <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600"></div>
+
+        <div class="p-5 sm:p-6 space-y-5">
+          <!-- Section Header -->
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>র‍্যান্ডম পাসওয়ার্ড জেনারেটর</span>
+              </h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                হাজার থেকে লক্ষ লক্ষ ১০০% ইউনিক পাসওয়ার্ড — একটার সাথে আরেকটার কোনো মিল থাকবে না
+              </p>
+            </div>
+            <span class="shrink-0 text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60">
+              ১০০% ইউনিক
+            </span>
+          </div>
+
+          <!-- Quantity Control -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <label for="passCountInput" class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+                কতগুলো পাসওয়ার্ড তৈরি করবেন?
+              </label>
+              <span class="text-[11px] text-slate-400 dark:text-slate-500">সর্বোচ্চ ৫,০০,০০০টি</span>
+            </div>
+            <input id="passCountInput" type="number" min="1" max="500000" value="100"
+              class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950/90 border-2 border-slate-200/90 dark:border-slate-800 px-4 py-3 font-mono text-base font-bold text-slate-900 dark:text-white focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/15 transition-all" />
+
+            <!-- Quick Quantity Preset Chips -->
+            <div class="grid grid-cols-5 gap-1.5 mt-2.5">
+              <button type="button" data-pass-preset="10" class="pass-preset-btn py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 hover:text-pink-700 dark:hover:text-pink-300 transition-colors">১০</button>
+              <button type="button" data-pass-preset="100" class="pass-preset-btn py-1.5 rounded-xl text-xs font-bold bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-300/70 dark:border-pink-700/60 transition-colors">১০০</button>
+              <button type="button" data-pass-preset="1000" class="pass-preset-btn py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 hover:text-pink-700 dark:hover:text-pink-300 transition-colors">১ হাজার</button>
+              <button type="button" data-pass-preset="10000" class="pass-preset-btn py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 hover:text-pink-700 dark:hover:text-pink-300 transition-colors">১০ হাজার</button>
+              <button type="button" data-pass-preset="100000" class="pass-preset-btn py-1.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 hover:text-pink-700 dark:hover:text-pink-300 transition-colors">১ লক্ষ</button>
+            </div>
+          </div>
+
+          <!-- Password Size Mode (Fixed vs Random Min-Max Range) -->
+          <div class="rounded-2xl bg-slate-50/90 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800 p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-sm font-semibold text-slate-700 dark:text-slate-200">পাসওয়ার্ডের সাইজ (অক্ষর সংখ্যা)</span>
+              <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                <input id="passRandomRangeToggle" type="checkbox" class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs font-semibold text-pink-600 dark:text-pink-400">ছোট-বড় মিশ্র সাইজ</span>
+              </label>
+            </div>
+
+            <!-- Fixed Size Slider -->
+            <div id="fixedSizeBox">
+              <div class="flex items-center justify-between text-xs mb-1.5">
+                <span class="text-slate-500 dark:text-slate-400">নির্দিষ্ট সাইজ (৪ থেকে ৬৪ অক্ষর)</span>
+                <span id="fixedLengthBadge" class="font-mono font-bold text-sm px-2.5 py-0.5 rounded-lg bg-pink-100 dark:bg-pink-950/70 text-pink-700 dark:text-pink-300">12</span>
+              </div>
+              <input id="passFixedLength" type="range" min="4" max="64" value="12"
+                class="w-full accent-pink-600 cursor-pointer" />
+            </div>
+
+            <!-- Random Min-Max Range Inputs -->
+            <div id="rangeSizeBox" class="hidden grid grid-cols-2 gap-3">
+              <div>
+                <label for="passMinLength" class="block text-xs text-slate-500 dark:text-slate-400 mb-1">সবচেয়ে ছোট সাইজ (Min)</label>
+                <input id="passMinLength" type="number" min="4" max="64" value="8"
+                  class="w-full rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 font-mono text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+              </div>
+              <div>
+                <label for="passMaxLength" class="block text-xs text-slate-500 dark:text-slate-400 mb-1">সবচেয়ে বড় সাইজ (Max)</label>
+                <input id="passMaxLength" type="number" min="4" max="64" value="16"
+                  class="w-full rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 font-mono text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Character Set Options -->
+          <div>
+            <span class="block text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">কী কী অক্ষর থাকবে?</span>
+            <div class="grid grid-cols-2 gap-2.5">
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 cursor-pointer hover:border-pink-400/60 transition-colors select-none">
+                <input id="optUpper" type="checkbox" checked class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">বড় হাতের <span class="font-mono text-pink-600 dark:text-pink-400">(A-Z)</span></span>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 cursor-pointer hover:border-pink-400/60 transition-colors select-none">
+                <input id="optLower" type="checkbox" checked class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">ছোট হাতের <span class="font-mono text-pink-600 dark:text-pink-400">(a-z)</span></span>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 cursor-pointer hover:border-pink-400/60 transition-colors select-none">
+                <input id="optNumbers" type="checkbox" checked class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">সংখ্যা <span class="font-mono text-pink-600 dark:text-pink-400">(0-9)</span></span>
+              </label>
+              <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200/80 dark:border-slate-800 cursor-pointer hover:border-pink-400/60 transition-colors select-none">
+                <input id="optSymbols" type="checkbox" class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200">চিহ্ন <span class="font-mono text-pink-600 dark:text-pink-400">(!@#$%)</span></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Optional Date Tag Feature (e.g. khvdjksgshgs25) -->
+          <div class="rounded-2xl bg-slate-50/90 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800 p-4 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <span class="block text-sm font-semibold text-slate-700 dark:text-slate-200">পাসওয়ার্ডের সাথে তারিখ যুক্ত করুন</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400">ইচ্ছা চাইলে যেকোনো তারিখ যোগ করতে পারবেন (যেমন: khvdjksgshgs25)</span>
+              </div>
+              <label class="inline-flex items-center gap-2 shrink-0 cursor-pointer select-none">
+                <input id="passIncludeDateToggle" type="checkbox" class="w-4 h-4 accent-pink-600 rounded" />
+                <span class="text-xs font-semibold text-pink-600 dark:text-pink-400">চালু করুন</span>
+              </label>
+            </div>
+
+            <!-- Collapsible Date Options -->
+            <div id="passDateOptionsBox" class="hidden space-y-3 pt-2 border-t border-slate-200/70 dark:border-slate-800">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label for="passDateValue" class="block text-xs text-slate-500 dark:text-slate-400 mb-1">তারিখ লিখুন (নিজের ইচ্ছামতো)</label>
+                  <input id="passDateValue" type="text" maxlength="16" placeholder="যেমন: 25 বা 2511"
+                    class="w-full rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 font-mono text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+                </div>
+                <div>
+                  <label for="passDatePicker" class="block text-xs text-slate-500 dark:text-slate-400 mb-1">ক্যালেন্ডার থেকে দিন বাছুন</label>
+                  <input id="passDatePicker" type="date"
+                    class="w-full rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-3 py-2 font-mono text-sm text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+                </div>
+              </div>
+
+              <!-- Quick Date Format Chips -->
+              <div>
+                <span class="block text-[11px] text-slate-500 dark:text-slate-400 mb-1.5">দ্রুত ফরম্যাট বাছাই করুন:</span>
+                <div class="grid grid-cols-4 gap-1.5">
+                  <button type="button" data-date-fmt="day" class="date-fmt-btn py-1.5 px-2 rounded-xl text-[11px] font-bold bg-pink-100 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-300/70 dark:border-pink-700/60 transition-colors">দিন (25)</button>
+                  <button type="button" data-date-fmt="dayMonth" class="date-fmt-btn py-1.5 px-2 rounded-xl text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 transition-colors">দিন+মাস</button>
+                  <button type="button" data-date-fmt="year" class="date-fmt-btn py-1.5 px-2 rounded-xl text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 transition-colors">সাল</button>
+                  <button type="button" data-date-fmt="full" class="date-fmt-btn py-1.5 px-2 rounded-xl text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-pink-100 dark:hover:bg-pink-950/60 transition-colors">পূর্ণ তারিখ</button>
+                </div>
+              </div>
+
+              <!-- Position Selector & Live Example Preview -->
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div class="inline-flex items-center gap-3 text-xs">
+                  <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="radio" name="passDatePos" value="end" checked class="accent-pink-600" />
+                    <span class="font-medium text-slate-700 dark:text-slate-200">শেষে</span>
+                  </label>
+                  <label class="inline-flex items-center gap-1.5 cursor-pointer select-none">
+                    <input type="radio" name="passDatePos" value="start" class="accent-pink-600" />
+                    <span class="font-medium text-slate-700 dark:text-slate-200">শুরুতে</span>
+                  </label>
+                </div>
+                <div class="text-xs font-mono px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 border border-pink-200/70 dark:border-pink-800/60 text-slate-600 dark:text-slate-300">
+                  নমুনা: <span id="passDatePreviewText" class="font-bold text-slate-900 dark:text-white">khvdjksgshgs25</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password Generator Error Box -->
+          <div id="passErrorBox" class="hidden items-center gap-2 text-xs font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 rounded-xl px-3.5 py-2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="passErrorText"></span>
+          </div>
+
+          <!-- Generate Button -->
+          <button id="generatePassBtn" type="button"
+            class="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl font-bold text-sm sm:text-base bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 hover:brightness-110 active:scale-[0.98] disabled:opacity-50 text-white shadow-lg shadow-pink-600/25 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span id="generatePassBtnText">ইউনিক পাসওয়ার্ড তৈরি করুন</span>
           </button>
 
-          <button id="openSaveModalBtn" type="button" disabled
-            class="flex items-center justify-center gap-2 py-3.5 px-5 rounded-2xl font-semibold text-sm sm:text-base bg-slate-100 dark:bg-slate-800/90 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none text-slate-800 dark:text-slate-100 border border-slate-200/80 dark:border-slate-700/80 transition-all">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-            </svg>
-            <span>সেভ করে রাখুন</span>
-          </button>
+          <!-- Async Progress Bar (for large batches like 100k+) -->
+          <div id="passProgressWrap" class="hidden space-y-1.5">
+            <div class="flex items-center justify-between text-xs font-semibold text-pink-600 dark:text-pink-400">
+              <span>পাসওয়ার্ড তৈরি হচ্ছে...</span>
+              <span id="passProgressText" class="font-mono">0%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+              <div id="passProgressBar" class="h-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 transition-all duration-150" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Generated Results Section -->
+          <div id="passResultSection" class="hidden space-y-3 pt-2 border-t border-slate-200/80 dark:border-slate-800">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span id="passResultSummary" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100"></span>
+              </div>
+              <span id="passTimeBadge" class="text-[11px] font-mono text-slate-500 dark:text-slate-400"></span>
+            </div>
+
+            <!-- Action Buttons: Copy All, Download TXT, Clear -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <button id="copyAllPassBtn" type="button"
+                class="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold bg-pink-50 dark:bg-pink-950/60 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-800/60 hover:bg-pink-100 dark:hover:bg-pink-900/50 active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span>সব কপি</span>
+              </button>
+
+              <button id="downloadPassBtn" type="button"
+                class="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>TXT ডাউনলোড</span>
+              </button>
+
+              <button id="clearPassResultBtn" type="button"
+                class="col-span-2 sm:col-span-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-rose-50 dark:hover:bg-rose-950/50 hover:text-rose-600 dark:hover:text-rose-400 active:scale-95 transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+                <span>মুছুন</span>
+              </button>
+            </div>
+
+            <!-- Preview Box (capped at 500 lines for smooth mobile performance) -->
+            <div>
+              <textarea id="passOutputArea" readonly rows="8"
+                class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 p-3.5 font-mono text-xs sm:text-sm leading-relaxed text-slate-800 dark:text-slate-100 focus:outline-none focus:border-pink-500 resize-y"></textarea>
+              <p id="passPreviewNote" class="hidden text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 text-center"></p>
+            </div>
+          </div>
         </div>
-      </div>
-    </main>
-
-    <!-- Saved Accounts Section -->
-    <section aria-labelledby="savedHeading">
-      <div class="flex items-center justify-between mb-3 px-1">
-        <h2 id="savedHeading" class="text-base font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
-          <span>সেভ করা অ্যাকাউন্ট</span>
-          <span id="savedCountBadge" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/70">0</span>
-        </h2>
-        <span class="text-xs text-slate-500 dark:text-slate-400">স্বয়ংক্রিয়ভাবে আপডেট হয়</span>
-      </div>
-
-      <!-- Saved Accounts Cards List -->
-      <div id="savedList" class="space-y-3"></div>
-
-      <!-- Empty State -->
-      <div id="emptyState" class="bg-white/75 dark:bg-slate-900/60 backdrop-blur-md rounded-3xl border border-dashed border-slate-300 dark:border-slate-800 p-7 text-center">
-        <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800/80 text-slate-400 dark:text-slate-500 flex items-center justify-center mx-auto mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-          </svg>
-        </div>
-        <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">কোনো অ্যাকাউন্ট সেভ করা নেই</p>
-        <p class="text-xs text-slate-500 dark:text-slate-400">
-          উপরে যেকোনো 2FA কী লিখে "সেভ করে রাখুন" বাটনে ক্লিক করলে এখানে স্থায়ীভাবে দেখতে পারবেন।
-        </p>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- Privacy Footer -->
     <footer class="mt-8 text-center px-2">
-      <div class="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200/70 dark:border-slate-800 rounded-full px-4 py-2 shadow-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <div class="inline-flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-pink-200/50 dark:border-slate-800 rounded-full px-4 py-2 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-pink-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
         </svg>
-        <span>১০০% নিরাপদ — সব কোড আপনার ডিভাইসেই তৈরি হয়, কোনো সার্ভারে যায় না।</span>
+        <span>১০০% নিরাপদ ও অফলাইন — আপনার কোনো 2FA কী সার্ভারে পাঠানো হয় না।</span>
       </div>
     </footer>
   </div>
 
-  <!-- Save Account Modal -->
-  <div id="saveModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6">
-      <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">অ্যাকাউন্ট সেভ করুন</h3>
-      <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">পরে সহজে খুঁজে পেতে একটি নাম দিন (যেমন: Facebook, Google, Gmail)</p>
+  <!-- Save Instagram Account Modal -->
+  <div id="saveModal" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl border border-pink-200/80 dark:border-pink-500/30 shadow-2xl overflow-hidden">
+      <div class="h-1.5 w-full bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600"></div>
+      <form id="saveAccountForm" class="p-5 sm:p-6">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">Instagram অ্যাকাউন্ট সেভ করুন</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">সহজে চেনার জন্য আপনার Instagram ইউজারনেম বা নাম দিন।</p>
 
-      <form id="saveAccountForm" class="space-y-4">
-        <div>
-          <label for="accountNameInput" class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">অ্যাকাউন্টের নাম</label>
-          <input id="accountNameInput" type="text" required maxlength="40" placeholder="যেমন: আমার ফেসবুক"
-            class="w-full rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-        </div>
+        <label for="accountNameInput" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Instagram ইউজারনেম</label>
+        <input id="accountNameInput" type="text" required maxlength="40" placeholder="যেমন: @my_instagram"
+          class="w-full rounded-2xl bg-slate-50 dark:bg-slate-950 border-2 border-slate-200 dark:border-slate-800 px-4 py-3 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-pink-500 focus:ring-4 focus:ring-pink-500/15 mb-5" />
 
-        <div class="flex items-center justify-end gap-2 pt-1">
+        <div class="grid grid-cols-2 gap-2.5">
           <button id="cancelSaveBtn" type="button"
-            class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            class="py-2.5 px-4 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
             বাতিল
           </button>
           <button type="submit"
-            class="px-5 py-2 rounded-xl text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/20 transition-all">
+            class="py-2.5 px-4 rounded-xl text-sm font-semibold bg-gradient-to-r from-amber-500 via-pink-600 to-purple-600 text-white hover:brightness-110 shadow-md shadow-pink-500/20 transition-all">
             সেভ করুন
           </button>
         </div>
@@ -362,18 +636,18 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div id="deleteModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
-    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6">
-      <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">অ্যাকাউন্ট মুছে ফেলবেন?</h3>
-      <p id="deleteModalText" class="text-sm text-slate-500 dark:text-slate-400 mb-5">আপনি কি নিশ্চিতভাবে এই অ্যাকাউন্টটি তালিকা থেকে মুছে ফেলতে চান?</p>
-      <div class="flex items-center justify-end gap-2">
+  <div id="deleteModal" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl border border-rose-200 dark:border-rose-900/60 shadow-2xl p-5 sm:p-6">
+      <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1.5">অ্যাকাউন্ট মুছে ফেলবেন?</h3>
+      <p id="deleteModalText" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-5"></p>
+      <div class="grid grid-cols-2 gap-2.5">
         <button id="cancelDeleteBtn" type="button"
-          class="px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          class="py-2.5 px-4 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
           না, থাকুক
         </button>
         <button id="confirmDeleteBtn" type="button"
-          class="px-5 py-2 rounded-xl text-sm font-semibold bg-rose-600 hover:bg-rose-500 text-white shadow-md shadow-rose-600/20 transition-all">
-          হ্যাঁ, মুছে ফেলুন
+          class="py-2.5 px-4 rounded-xl text-sm font-semibold bg-rose-600 hover:bg-rose-700 text-white shadow-md shadow-rose-600/20 transition-colors">
+          হ্যাঁ, মুছুন
         </button>
       </div>
     </div>
@@ -381,8 +655,8 @@
 
   <!-- Toast Notification -->
   <div id="toast" class="pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 z-50 opacity-0 translate-y-3 transition-all duration-200">
-    <div class="flex items-center gap-2 bg-slate-900 dark:bg-emerald-600 text-white text-sm font-medium px-4 py-2.5 rounded-2xl shadow-xl">
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 dark:text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+    <div class="flex items-center gap-2 bg-slate-900 dark:bg-gradient-to-r dark:from-pink-600 dark:to-purple-600 text-white text-sm font-medium px-4 py-2.5 rounded-2xl shadow-xl">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-pink-400 dark:text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
       </svg>
       <span id="toastText">কপি করা হয়েছে!</span>
@@ -392,9 +666,7 @@
   <script>
     /**
      * =========================================================================
-     * 1. TOTP (RFC 6238) & Base32 Core Cryptography Implementation
-     *    Uses Web Crypto API (HMAC-SHA1) with a pure-JS fallback so it works
-     *    100% offline in any browser environment.
+     * 1. Core TOTP (RFC 6238) & Base32 Engine (100% Client-Side)
      * =========================================================================
      */
 
@@ -411,7 +683,6 @@
 
     /**
      * Decodes a Base32 string into a Uint8Array of raw key bytes.
-     * Throws an Error if invalid Base32 characters are detected.
      * @param {string} base32
      * @returns {Uint8Array}
      */
@@ -447,7 +718,7 @@
     }
 
     /**
-     * Pure-JS SHA-1 implementation (used as fallback if crypto.subtle is unavailable).
+     * Pure-JS SHA-1 fallback if crypto.subtle is unavailable.
      * @param {Uint8Array} message
      * @returns {Uint8Array}
      */
@@ -558,13 +829,12 @@
      * Generates a 6-digit TOTP code for a given Base32 secret key.
      * @param {string} secret
      * @param {number} [stepSeconds=30]
-     * @returns {Promise<string>} 6-digit string (e.g., "482910")
+     * @returns {Promise<string>}
      */
     async function generateTOTP(secret, stepSeconds = 30) {
       const keyBytes = decodeBase32(secret);
       let counter = Math.floor(Date.now() / 1000 / stepSeconds);
 
-      // Convert counter to 8-byte big-endian buffer
       const timeBytes = new Uint8Array(8);
       for (let i = 7; i >= 0; i--) {
         timeBytes[i] = counter & 0xff;
@@ -590,7 +860,6 @@
         hmacBytes = hmacSha1Fallback(keyBytes, timeBytes);
       }
 
-      // Dynamic truncation (RFC 4226)
       const offset = hmacBytes[hmacBytes.length - 1] & 0x0f;
       const binaryCode =
         ((hmacBytes[offset] & 0x7f) << 24) |
@@ -598,12 +867,11 @@
         ((hmacBytes[offset + 2] & 0xff) << 8) |
         (hmacBytes[offset + 3] & 0xff);
 
-      const otp = (binaryCode % 1000000).toString().padStart(6, '0');
-      return otp;
+      return (binaryCode % 1000000).toString().padStart(6, '0');
     }
 
     /**
-     * Formats a 6-digit code with a middle space for easy reading: "123 456"
+     * Formats a 6-digit code with a middle space: "123 456"
      * @param {string} code
      * @returns {string}
      */
@@ -621,16 +889,18 @@
     const STORAGE_KEY = 'bn_2fa_saved_accounts_v1';
     const THEME_KEY = 'bn_2fa_theme_v1';
     const IG_SECRET_KEY = 'bn_2fa_ig_secret_v1';
-    const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 20; // r = 20 -> ~125.66
+    const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * 20; // ~125.66
 
     let savedAccounts = [];
+    let searchQuery = '';
     let currentLiveCode = '';
     let currentIgCode = '';
     let isIgDrawerOpen = false;
+    let pendingSaveSource = 'main'; // 'main' or 'drawer'
     let pendingDeleteId = null;
     let toastTimeout = null;
 
-    // DOM Elements
+    // Main DOM Elements
     const secretInput = document.getElementById('secretInput');
     const clearInputBtn = document.getElementById('clearInputBtn');
     const sampleKeyBtn = document.getElementById('sampleKeyBtn');
@@ -645,6 +915,8 @@
     const savedList = document.getElementById('savedList');
     const emptyState = document.getElementById('emptyState');
     const savedCountBadge = document.getElementById('savedCountBadge');
+    const searchWrapper = document.getElementById('searchWrapper');
+    const searchInput = document.getElementById('searchInput');
 
     // Modals & Toast
     const saveModal = document.getElementById('saveModal');
@@ -659,7 +931,7 @@
     const toastText = document.getElementById('toastText');
     const themeToggleBtn = document.getElementById('themeToggleBtn');
 
-    // Instagram Pull-Down Drawer Elements
+    // 2nd Instagram Pull-Down Drawer Elements
     const igPullHandle = document.getElementById('igPullHandle');
     const pullIndicator = document.getElementById('pullIndicator');
     const igDrawerBackdrop = document.getElementById('igDrawerBackdrop');
@@ -676,9 +948,6 @@
     const igCopyBtn = document.getElementById('igCopyBtn');
     const igSaveBtn = document.getElementById('igSaveBtn');
 
-    /**
-     * Loads saved accounts from localStorage.
-     */
     function loadSavedAccounts() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
@@ -694,9 +963,6 @@
       renderSavedAccounts();
     }
 
-    /**
-     * Saves current accounts array to localStorage.
-     */
     function persistSavedAccounts() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(savedAccounts));
@@ -705,17 +971,36 @@
       }
     }
 
+    function loadIgSecret() {
+      try {
+        const savedIgKey = localStorage.getItem(IG_SECRET_KEY);
+        if (savedIgKey) {
+          igSecretInput.value = savedIgKey;
+        }
+      } catch (e) {}
+    }
+
     /**
      * =========================================================================
      * 3. UI Helpers (Clipboard, Toast, Theme, Escaping)
      * =========================================================================
      */
 
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     /**
-     * Copies text to clipboard using document.execCommand('copy') for iframe reliability.
+     * Copies text to clipboard using document.execCommand('copy') for iframe safety.
      * @param {string} text
+     * @param {string} [customToast]
      */
-    function copyToClipboard(text) {
+    function copyToClipboard(text, customToast) {
       if (!text) return;
       try {
         const textarea = document.createElement('textarea');
@@ -729,16 +1014,12 @@
         textarea.setSelectionRange(0, text.length);
         document.execCommand('copy');
         document.body.removeChild(textarea);
-        showToast(`কোড (${text}) কপি করা হয়েছে!`);
+        showToast(customToast || `Instagram ওটিপি (${text}) কপি করা হয়েছে!`);
       } catch (err) {
         showToast('কপি করা যায়নি, অনুগ্রহ করে ম্যানুয়ালি কপি করুন।');
       }
     }
 
-    /**
-     * Displays a brief toast notification at the bottom of the screen.
-     * @param {string} message
-     */
     function showToast(message) {
       toastText.textContent = message;
       toast.classList.remove('opacity-0', 'translate-y-3');
@@ -751,20 +1032,6 @@
       }, 2200);
     }
 
-    /**
-     * Escapes HTML characters to prevent XSS in saved account names.
-     * @param {string} str
-     * @returns {string}
-     */
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    /**
-     * Initializes light/dark theme from saved preference.
-     */
     function initTheme() {
       try {
         const savedTheme = localStorage.getItem(THEME_KEY);
@@ -791,9 +1058,6 @@
      * =========================================================================
      */
 
-    /**
-     * Updates the Quick Generator section based on the current input value.
-     */
     async function updateLiveGenerator() {
       const rawValue = secretInput.value.trim();
 
@@ -834,20 +1098,25 @@
         openSaveModalBtn.disabled = true;
 
         if (err.message === 'INVALID_BASE32') {
-          inputErrorText.textContent = 'অবৈধ অক্ষর পাওয়া গেছে! 2FA কী-তে শুধু A-Z এবং 2-7 থাকতে পারে।';
+          inputErrorText.textContent = 'অবৈধ অক্ষর পাওয়া গেছে! Instagram 2FA কী-তে শুধু A-Z এবং 2-7 থাকতে পারে।';
         } else {
-          inputErrorText.textContent = 'সঠিক 2FA সিক্রেট কী লিখুন (কমপক্ষে কয়েকটি অক্ষর)।';
+          inputErrorText.textContent = 'সঠিক Instagram 2FA সিক্রেট কী লিখুন।';
         }
         inputError.classList.remove('hidden');
         inputError.classList.add('flex');
       }
     }
 
-    /**
-     * Renders all saved accounts and their live 6-digit codes.
-     */
-    async function renderSavedAccounts() {
-      savedCountBadge.textContent = savedAccounts.length.toString();
+    function renderSavedAccounts() {
+      savedCountBadge.textContent = savedAccounts.length;
+
+      if (savedAccounts.length >= 2) {
+        searchWrapper.classList.remove('hidden');
+      } else {
+        searchWrapper.classList.add('hidden');
+        searchQuery = '';
+        searchInput.value = '';
+      }
 
       if (savedAccounts.length === 0) {
         savedList.innerHTML = '';
@@ -857,54 +1126,77 @@
 
       emptyState.classList.add('hidden');
 
-      const cardsHtml = await Promise.all(
-        savedAccounts.map(async (acc) => {
-          let code = '------';
-          try {
-            code = await generateTOTP(acc.secret);
-          } catch (e) {
-            code = '------';
-          }
-          const maskedSecret = acc.secret.slice(0, 4) + ' •••• ' + acc.secret.slice(-4);
-          return `
-            <div class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 flex items-center justify-between gap-3 shadow-sm hover:border-emerald-500/50 hover:shadow-md hover:shadow-emerald-500/5 transition-all">
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-2 mb-0.5">
-                  <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-                  <h3 class="text-sm sm:text-base font-bold text-slate-800 dark:text-slate-100 truncate">${escapeHtml(acc.name)}</h3>
-                </div>
-                <p class="text-[11px] font-mono text-slate-400 dark:text-slate-500 mb-2">${escapeHtml(maskedSecret)}</p>
-                <div class="font-mono text-2xl sm:text-3xl font-bold tracking-[0.12em] text-slate-900 dark:text-white select-all">
-                  ${formatCode(code)}
-                </div>
-              </div>
+      const filtered = savedAccounts.filter((acc) =>
+        acc.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
-              <div class="flex items-center gap-1.5 shrink-0">
-                <button type="button" data-copy="${code}" aria-label="কোড কপি করুন"
-                  class="copy-saved-btn p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 active:scale-95 transition-all">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
-                </button>
-                <button type="button" data-delete-id="${acc.id}" data-delete-name="${escapeHtml(acc.name)}" aria-label="অ্যাকাউন্ট মুছে ফেলুন"
-                  class="delete-saved-btn p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/60 hover:text-rose-600 dark:hover:text-rose-400 active:scale-95 transition-all">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
+      if (filtered.length === 0) {
+        savedList.innerHTML = `
+          <div class="bg-white/70 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 text-center text-xs text-slate-500 dark:text-slate-400">
+            "${escapeHtml(searchQuery)}" নামে কোনো Instagram অ্যাকাউন্ট পাওয়া যায়নি।
+          </div>
+        `;
+        return;
+      }
+
+      savedList.innerHTML = filtered
+        .map((acc) => {
+          const maskedKey = acc.secret.length > 6
+            ? `${acc.secret.slice(0, 4)} •••• ${acc.secret.slice(-2)}`
+            : '••••••';
+
+          return `
+            <div class="group bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-pink-200/60 dark:border-slate-800 hover:border-pink-400/60 dark:hover:border-pink-500/40 p-4 shadow-sm transition-all" data-account-id="${escapeHtml(acc.id)}">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-sm">
+                    IG
+                  </div>
+                  <div class="min-w-0">
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white truncate">${escapeHtml(acc.name)}</h3>
+                    <p class="font-mono text-[11px] text-slate-400 dark:text-slate-500">${escapeHtml(maskedKey)}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="saved-otp-code font-mono text-xl sm:text-2xl font-bold tracking-wider text-slate-900 dark:text-white select-all" data-otp-for="${escapeHtml(acc.id)}">--- ---</span>
+                  <button type="button" data-copy-id="${escapeHtml(acc.id)}" aria-label="ওটিপি কপি করুন"
+                    class="p-2 rounded-xl bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/60 active:scale-95 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                  <button type="button" data-delete-id="${escapeHtml(acc.id)}" aria-label="মুছে ফেলুন"
+                    class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/60 hover:text-rose-600 dark:hover:text-rose-400 active:scale-95 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
           `;
         })
-      );
+        .join('');
 
-      savedList.innerHTML = cardsHtml.join('');
+      refreshSavedCodes();
     }
 
-    /**
-     * Updates the 30-second countdown ring, progress bar, and refreshes codes
-     * whenever a new 30-second window begins.
-     */
+    async function refreshSavedCodes() {
+      for (const acc of savedAccounts) {
+        const el = savedList.querySelector(`[data-otp-for="${acc.id}"]`);
+        if (!el) continue;
+        try {
+          const code = await generateTOTP(acc.secret);
+          acc._lastCode = code;
+          el.textContent = formatCode(code);
+        } catch (e) {
+          acc._lastCode = '';
+          el.textContent = 'ERR';
+        }
+      }
+    }
+
     let lastTimeStep = -1;
 
     function tickTimer() {
@@ -912,30 +1204,25 @@
       const currentStep = Math.floor(nowSec / 30);
       const elapsed = nowSec % 30;
       const remaining = Math.ceil(30 - elapsed);
-      const progress = (30 - elapsed) / 30; // 1.0 -> 0.0
+      const progress = (30 - elapsed) / 30;
 
-      // Update circular & linear timer UI
+      // Update main circular & linear timer UI
       timerText.textContent = `${remaining}s`;
       const dashOffset = CIRCLE_CIRCUMFERENCE * (1 - progress);
       timerCircle.style.strokeDashoffset = dashOffset.toFixed(2);
       timerBar.style.width = `${(progress * 100).toFixed(1)}%`;
 
-      // Color shift when <= 5 seconds remaining
       if (remaining <= 5) {
-        timerCircle.classList.remove('stroke-emerald-500');
+        timerCircle.classList.remove('stroke-pink-500');
         timerCircle.classList.add('stroke-rose-500');
-        timerBar.classList.remove('from-emerald-400', 'via-teal-500', 'to-cyan-500');
-        timerBar.classList.add('from-rose-500', 'via-rose-500', 'to-amber-500');
         timerText.classList.add('text-rose-600', 'dark:text-rose-400');
       } else {
         timerCircle.classList.remove('stroke-rose-500');
-        timerCircle.classList.add('stroke-emerald-500');
-        timerBar.classList.remove('from-rose-500', 'via-rose-500', 'to-amber-500');
-        timerBar.classList.add('from-emerald-400', 'via-teal-500', 'to-cyan-500');
+        timerCircle.classList.add('stroke-pink-500');
         timerText.classList.remove('text-rose-600', 'dark:text-rose-400');
       }
 
-      // Sync Instagram Drawer timer UI
+      // Sync 2nd Drawer timer UI
       igTimerText.textContent = `${remaining}s`;
       igTimerBar.style.width = `${(progress * 100).toFixed(1)}%`;
       if (remaining <= 5) {
@@ -951,19 +1238,16 @@
         lastTimeStep = currentStep;
         updateLiveGenerator();
         updateIgGenerator();
-        renderSavedAccounts();
+        refreshSavedCodes();
       }
     }
 
     /**
      * =========================================================================
-     * 4B. Instagram 2FA Pull-Down Drawer Logic & Gestures
+     * 4B. 2nd Instagram Quick OTP Pull-Down Drawer Logic & Gestures
      * =========================================================================
      */
 
-    /**
-     * Opens the top Instagram 2FA drawer with smooth animation.
-     */
     function openIgDrawer() {
       if (isIgDrawerOpen) return;
       isIgDrawerOpen = true;
@@ -978,9 +1262,6 @@
       updateIgGenerator();
     }
 
-    /**
-     * Closes the top Instagram 2FA drawer.
-     */
     function closeIgDrawer() {
       if (!isIgDrawerOpen) return;
       isIgDrawerOpen = false;
@@ -996,21 +1277,22 @@
       }, 300);
     }
 
-    /**
-     * Updates the Instagram 2FA OTP display based on igSecretInput.
-     */
     async function updateIgGenerator() {
       const rawValue = igSecretInput.value.trim();
+
+      try {
+        if (rawValue) {
+          localStorage.setItem(IG_SECRET_KEY, rawValue);
+        } else {
+          localStorage.removeItem(IG_SECRET_KEY);
+        }
+      } catch (e) {}
 
       if (rawValue.length > 0) {
         igClearBtn.classList.remove('hidden');
       } else {
         igClearBtn.classList.add('hidden');
       }
-
-      try {
-        localStorage.setItem(IG_SECRET_KEY, rawValue);
-      } catch (e) {}
 
       if (!rawValue) {
         currentIgCode = '';
@@ -1052,27 +1334,13 @@
       }
     }
 
-    /**
-     * Restores the previously used Instagram 2FA key if saved locally.
-     */
-    function loadSavedIgSecret() {
-      try {
-        const saved = localStorage.getItem(IG_SECRET_KEY);
-        if (saved) {
-          igSecretInput.value = saved;
-        }
-      } catch (e) {}
-    }
-
-    // Touch Pull-Down Gesture from top of page to open Instagram Drawer
+    // Touch Pull-Down Gesture from top of page
     let pullStartY = 0;
     let isPullingDown = false;
     const PULL_THRESHOLD = 55;
 
     document.addEventListener('touchstart', (e) => {
-      if (isIgDrawerOpen || !saveModal.classList.contains('hidden') || !deleteModal.classList.contains('hidden')) {
-        return;
-      }
+      if (isIgDrawerOpen) return;
       if (window.scrollY <= 5 && e.touches.length === 1) {
         pullStartY = e.touches[0].clientY;
         isPullingDown = true;
@@ -1104,7 +1372,7 @@
       }
     }, { passive: true });
 
-    // Mouse Drag-Down or Click on the Top Handle (for Desktop & Mobile Tap)
+    // Mouse Drag-Down or Click on Top Handle
     let mouseStartY = 0;
     let isMouseDragging = false;
 
@@ -1125,9 +1393,7 @@
       isMouseDragging = false;
     });
 
-    igPullHandle.addEventListener('click', () => {
-      openIgDrawer();
-    });
+    igPullHandle.addEventListener('click', openIgDrawer);
 
     igPullHandle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -1136,7 +1402,7 @@
       }
     });
 
-    // Swipe-Up inside the Drawer to Close
+    // Swipe-Up inside Drawer to Close
     let drawerTouchStartY = 0;
     igDrawer.addEventListener('touchstart', (e) => {
       if (e.touches.length === 1) {
@@ -1151,7 +1417,6 @@
       }
     }, { passive: true });
 
-    // Instagram Drawer Button Events
     closeIgDrawerBtn.addEventListener('click', closeIgDrawer);
     igDrawerBackdrop.addEventListener('click', closeIgDrawer);
     igCloseDragHandle.addEventListener('click', closeIgDrawer);
@@ -1171,32 +1436,18 @@
     });
 
     igSaveBtn.addEventListener('click', () => {
-      const cleanedSecret = sanitizeSecret(igSecretInput.value);
-      if (!currentIgCode || !cleanedSecret) return;
-
-      const igCount = savedAccounts.filter((a) => a.name.toLowerCase().includes('instagram')).length;
-      const defaultName = igCount === 0 ? 'Instagram' : `Instagram ${igCount + 1}`;
-
-      savedAccounts.unshift({
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-        name: defaultName,
-        secret: cleanedSecret,
-      });
-
-      persistSavedAccounts();
-      renderSavedAccounts();
-      showToast(`"${defaultName}" তালিকাতে সেভ করা হয়েছে!`);
+      if (!currentIgCode) return;
+      pendingSaveSource = 'drawer';
+      openSaveModal();
     });
 
     /**
      * =========================================================================
-     * 5. Main Event Listeners
+     * 5. Main Event Listeners & Modals
      * =========================================================================
      */
 
-    secretInput.addEventListener('input', () => {
-      updateLiveGenerator();
-    });
+    secretInput.addEventListener('input', updateLiveGenerator);
 
     clearInputBtn.addEventListener('click', () => {
       secretInput.value = '';
@@ -1207,7 +1458,7 @@
     sampleKeyBtn.addEventListener('click', () => {
       secretInput.value = '2PBD 4WWI FQL2 NEO4';
       updateLiveGenerator();
-      showToast('স্যাম্পল 2FA কী লোড করা হয়েছে!');
+      showToast('স্যাম্পল Instagram 2FA কী লোড করা হয়েছে!');
     });
 
     copyLiveBtn.addEventListener('click', () => {
@@ -1216,92 +1467,536 @@
       }
     });
 
-    // Save Modal Controls
-    openSaveModalBtn.addEventListener('click', () => {
-      if (!currentLiveCode) return;
+    function openSaveModal() {
       accountNameInput.value = '';
       saveModal.classList.remove('hidden');
+      saveModal.classList.add('flex');
       setTimeout(() => accountNameInput.focus(), 50);
-    });
+    }
 
-    cancelSaveBtn.addEventListener('click', () => {
+    function closeSaveModal() {
       saveModal.classList.add('hidden');
+      saveModal.classList.remove('flex');
+    }
+
+    openSaveModalBtn.addEventListener('click', () => {
+      if (!currentLiveCode) return;
+      pendingSaveSource = 'main';
+      openSaveModal();
     });
 
+    cancelSaveBtn.addEventListener('click', closeSaveModal);
     saveModal.addEventListener('click', (e) => {
-      if (e.target === saveModal) saveModal.classList.add('hidden');
+      if (e.target === saveModal) closeSaveModal();
     });
 
     saveAccountForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = accountNameInput.value.trim();
-      const cleanedSecret = sanitizeSecret(secretInput.value);
-      if (!name || !cleanedSecret) return;
+      const rawName = accountNameInput.value.trim();
+      const rawSecret = pendingSaveSource === 'drawer' ? igSecretInput.value.trim() : secretInput.value.trim();
+      const cleanedSecret = sanitizeSecret(rawSecret);
 
+      if (!rawName || !cleanedSecret) return;
+
+      const formattedName = rawName.startsWith('@') ? rawName : `@${rawName}`;
       savedAccounts.unshift({
-        id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-        name,
+        id: `ig_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        name: formattedName,
         secret: cleanedSecret,
       });
 
       persistSavedAccounts();
       renderSavedAccounts();
-      saveModal.classList.add('hidden');
-      showToast(`"${name}" সেভ করা হয়েছে!`);
+      closeSaveModal();
+      if (pendingSaveSource === 'drawer') {
+        closeIgDrawer();
+      }
+      showToast(`${formattedName} সেভ করা হয়েছে!`);
     });
 
-    // Delegated click handlers for Saved Accounts list
+    // Search Saved Accounts
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value.trim();
+      renderSavedAccounts();
+    });
+
+    // Saved List Click Delegation (Copy & Delete)
     savedList.addEventListener('click', (e) => {
-      const copyBtn = e.target.closest('.copy-saved-btn');
+      const copyBtn = e.target.closest('[data-copy-id]');
       if (copyBtn) {
-        const code = copyBtn.getAttribute('data-copy');
-        if (code && code !== '------') {
-          copyToClipboard(code);
+        const id = copyBtn.getAttribute('data-copy-id');
+        const acc = savedAccounts.find((a) => a.id === id);
+        if (acc && acc._lastCode) {
+          copyToClipboard(acc._lastCode);
         }
         return;
       }
 
-      const deleteBtn = e.target.closest('.delete-saved-btn');
-      if (deleteBtn) {
-        pendingDeleteId = deleteBtn.getAttribute('data-delete-id');
-        const accName = deleteBtn.getAttribute('data-delete-name') || 'এই অ্যাকাউন্ট';
-        deleteModalText.textContent = `আপনি কি নিশ্চিতভাবে "${accName}" তালিকা থেকে মুছে ফেলতে চান?`;
-        deleteModal.classList.remove('hidden');
+      const delBtn = e.target.closest('[data-delete-id]');
+      if (delBtn) {
+        const id = delBtn.getAttribute('data-delete-id');
+        const acc = savedAccounts.find((a) => a.id === id);
+        if (acc) {
+          pendingDeleteId = id;
+          deleteModalText.textContent = `আপনি কি নিশ্চিতভাবে "${acc.name}" অ্যাকাউন্টটি মুছে ফেলতে চান?`;
+          deleteModal.classList.remove('hidden');
+          deleteModal.classList.add('flex');
+        }
       }
     });
 
-    // Delete Modal Controls
-    cancelDeleteBtn.addEventListener('click', () => {
+    function closeDeleteModal() {
       pendingDeleteId = null;
       deleteModal.classList.add('hidden');
-    });
+      deleteModal.classList.remove('flex');
+    }
 
+    cancelDeleteBtn.addEventListener('click', closeDeleteModal);
     deleteModal.addEventListener('click', (e) => {
-      if (e.target === deleteModal) {
-        pendingDeleteId = null;
-        deleteModal.classList.add('hidden');
-      }
+      if (e.target === deleteModal) closeDeleteModal();
     });
 
     confirmDeleteBtn.addEventListener('click', () => {
-      if (pendingDeleteId) {
-        savedAccounts = savedAccounts.filter((acc) => acc.id !== pendingDeleteId);
-        persistSavedAccounts();
-        renderSavedAccounts();
-        showToast('অ্যাকাউন্ট মুছে ফেলা হয়েছে।');
-      }
-      pendingDeleteId = null;
-      deleteModal.classList.add('hidden');
+      if (!pendingDeleteId) return;
+      savedAccounts = savedAccounts.filter((a) => a.id !== pendingDeleteId);
+      persistSavedAccounts();
+      renderSavedAccounts();
+      closeDeleteModal();
+      showToast('অ্যাকাউন্ট মুছে ফেলা হয়েছে।');
     });
 
     /**
      * =========================================================================
-     * 6. App Bootstrap
+     * 6. Tab Switching & Bulk Unique Random Password Generator
+     *    Uses Web Crypto (crypto.getRandomValues) + Set deduplication +
+     *    async chunking so 100,000+ unique passwords generate smoothly.
      * =========================================================================
      */
+
+    const tab2faBtn = document.getElementById('tab2faBtn');
+    const tabPassBtn = document.getElementById('tabPassBtn');
+    const view2fa = document.getElementById('view2fa');
+    const viewPassword = document.getElementById('viewPassword');
+
+    const passCountInput = document.getElementById('passCountInput');
+    const passPresetBtns = document.querySelectorAll('.pass-preset-btn');
+    const passRandomRangeToggle = document.getElementById('passRandomRangeToggle');
+    const fixedSizeBox = document.getElementById('fixedSizeBox');
+    const rangeSizeBox = document.getElementById('rangeSizeBox');
+    const passFixedLength = document.getElementById('passFixedLength');
+    const fixedLengthBadge = document.getElementById('fixedLengthBadge');
+    const passMinLength = document.getElementById('passMinLength');
+    const passMaxLength = document.getElementById('passMaxLength');
+    const optUpper = document.getElementById('optUpper');
+    const optLower = document.getElementById('optLower');
+    const optNumbers = document.getElementById('optNumbers');
+    const optSymbols = document.getElementById('optSymbols');
+    const passErrorBox = document.getElementById('passErrorBox');
+    const passErrorText = document.getElementById('passErrorText');
+    const generatePassBtn = document.getElementById('generatePassBtn');
+    const generatePassBtnText = document.getElementById('generatePassBtnText');
+    const passProgressWrap = document.getElementById('passProgressWrap');
+    const passProgressBar = document.getElementById('passProgressBar');
+    const passProgressText = document.getElementById('passProgressText');
+    const passResultSection = document.getElementById('passResultSection');
+    const passResultSummary = document.getElementById('passResultSummary');
+    const passTimeBadge = document.getElementById('passTimeBadge');
+    const copyAllPassBtn = document.getElementById('copyAllPassBtn');
+    const downloadPassBtn = document.getElementById('downloadPassBtn');
+    const clearPassResultBtn = document.getElementById('clearPassResultBtn');
+    const passOutputArea = document.getElementById('passOutputArea');
+    const passPreviewNote = document.getElementById('passPreviewNote');
+
+    // Optional Date Tag Elements
+    const passIncludeDateToggle = document.getElementById('passIncludeDateToggle');
+    const passDateOptionsBox = document.getElementById('passDateOptionsBox');
+    const passDateValue = document.getElementById('passDateValue');
+    const passDatePicker = document.getElementById('passDatePicker');
+    const dateFmtBtns = document.querySelectorAll('.date-fmt-btn');
+    const passDatePosRadios = document.querySelectorAll('input[name="passDatePos"]');
+    const passDatePreviewText = document.getElementById('passDatePreviewText');
+
+    let activeDateFormat = 'day';
+    let generatedPasswords = [];
+    let isGeneratingPasswords = false;
+
+    /**
+     * Switches between the 2FA OTP tab and Random Password Generator tab.
+     * @param {'2fa'|'password'} tab
+     */
+    function switchTab(tab) {
+      const activeClasses = ['bg-gradient-to-r', 'from-amber-500', 'via-pink-600', 'to-purple-600', 'text-white', 'shadow-md', 'shadow-pink-500/20'];
+      const inactiveClasses = ['text-slate-600', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800'];
+
+      if (tab === 'password') {
+        view2fa.classList.add('hidden');
+        viewPassword.classList.remove('hidden');
+        tabPassBtn.classList.add(...activeClasses);
+        tabPassBtn.classList.remove(...inactiveClasses);
+        tab2faBtn.classList.remove(...activeClasses);
+        tab2faBtn.classList.add(...inactiveClasses);
+      } else {
+        viewPassword.classList.add('hidden');
+        view2fa.classList.remove('hidden');
+        tab2faBtn.classList.add(...activeClasses);
+        tab2faBtn.classList.remove(...inactiveClasses);
+        tabPassBtn.classList.remove(...activeClasses);
+        tabPassBtn.classList.add(...inactiveClasses);
+      }
+    }
+
+    tab2faBtn.addEventListener('click', () => switchTab('2fa'));
+    tabPassBtn.addEventListener('click', () => switchTab('password'));
+
+    // Highlight active quantity preset chip
+    function updatePresetHighlight(val) {
+      passPresetBtns.forEach((btn) => {
+        const isMatch = String(btn.getAttribute('data-pass-preset')) === String(val);
+        if (isMatch) {
+          btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+          btn.classList.add('bg-pink-100', 'dark:bg-pink-950/60', 'text-pink-700', 'dark:text-pink-300', 'border', 'border-pink-300/70', 'dark:border-pink-700/60');
+        } else {
+          btn.classList.remove('bg-pink-100', 'dark:bg-pink-950/60', 'text-pink-700', 'dark:text-pink-300', 'border', 'border-pink-300/70', 'dark:border-pink-700/60');
+          btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+        }
+      });
+    }
+
+    passPresetBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const presetVal = btn.getAttribute('data-pass-preset');
+        passCountInput.value = presetVal;
+        updatePresetHighlight(presetVal);
+      });
+    });
+
+    passCountInput.addEventListener('input', () => {
+      updatePresetHighlight(passCountInput.value.trim());
+    });
+
+    // Fixed vs Random Min-Max Length Mode
+    passRandomRangeToggle.addEventListener('change', () => {
+      if (passRandomRangeToggle.checked) {
+        fixedSizeBox.classList.add('hidden');
+        rangeSizeBox.classList.remove('hidden');
+      } else {
+        rangeSizeBox.classList.add('hidden');
+        fixedSizeBox.classList.remove('hidden');
+      }
+    });
+
+    passFixedLength.addEventListener('input', () => {
+      fixedLengthBadge.textContent = passFixedLength.value;
+    });
+
+    function showPassError(msg) {
+      passErrorText.textContent = msg;
+      passErrorBox.classList.remove('hidden');
+      passErrorBox.classList.add('flex');
+    }
+
+    function hidePassError() {
+      passErrorBox.classList.add('hidden');
+      passErrorBox.classList.remove('flex');
+    }
+
+    /**
+     * Parses the selected calendar date (or falls back to today) and formats it.
+     */
+    function getSelectedDateParts() {
+      const val = passDatePicker.value;
+      let year, month, day;
+      if (val && /^\d{4}-\d{2}-\d{2}$/.test(val)) {
+        const parts = val.split('-');
+        year = parts[0];
+        month = parts[1];
+        day = String(parseInt(parts[2], 10)); // e.g., "25" or "5"
+      } else {
+        const now = new Date();
+        year = String(now.getFullYear());
+        month = String(now.getMonth() + 1).padStart(2, '0');
+        day = String(now.getDate());
+      }
+      const paddedDay = day.padStart(2, '0');
+      return {
+        day,
+        dayMonth: `${paddedDay}${month}`,
+        year,
+        full: `${paddedDay}${month}${year.slice(-2)}`,
+      };
+    }
+
+    function updateDatePreview() {
+      const tag = passDateValue.value.trim();
+      const posRadio = document.querySelector('input[name="passDatePos"]:checked');
+      const pos = posRadio ? posRadio.value : 'end';
+      const sampleBase = 'khvdjksgshgs';
+      if (!tag) {
+        passDatePreviewText.textContent = sampleBase;
+      } else {
+        passDatePreviewText.innerHTML = pos === 'start'
+          ? `<span class="text-pink-600 dark:text-pink-400">${escapeHtml(tag)}</span>${sampleBase}`
+          : `${sampleBase}<span class="text-pink-600 dark:text-pink-400">${escapeHtml(tag)}</span>`;
+      }
+    }
+
+    function applyDateFormat(fmt, updateInput = true) {
+      activeDateFormat = fmt;
+      const parts = getSelectedDateParts();
+
+      // Update button labels with the currently selected date values
+      dateFmtBtns.forEach((btn) => {
+        const btnFmt = btn.getAttribute('data-date-fmt');
+        if (btnFmt === 'day') btn.textContent = `দিন (${parts.day})`;
+        if (btnFmt === 'dayMonth') btn.textContent = `দিন+মাস (${parts.dayMonth})`;
+        if (btnFmt === 'year') btn.textContent = `সাল (${parts.year})`;
+        if (btnFmt === 'full') btn.textContent = `পূর্ণ (${parts.full})`;
+
+        const isActive = btnFmt === fmt;
+        if (isActive) {
+          btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+          btn.classList.add('bg-pink-100', 'dark:bg-pink-950/60', 'text-pink-700', 'dark:text-pink-300', 'border', 'border-pink-300/70', 'dark:border-pink-700/60');
+        } else {
+          btn.classList.remove('bg-pink-100', 'dark:bg-pink-950/60', 'text-pink-700', 'dark:text-pink-300', 'border', 'border-pink-300/70', 'dark:border-pink-700/60');
+          btn.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-200');
+        }
+      });
+
+      if (updateInput && parts[fmt]) {
+        passDateValue.value = parts[fmt];
+      }
+      updateDatePreview();
+    }
+
+    function initDateFeature() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      passDatePicker.value = `${yyyy}-${mm}-${dd}`;
+      applyDateFormat('day', true);
+    }
+
+    passIncludeDateToggle.addEventListener('change', () => {
+      if (passIncludeDateToggle.checked) {
+        passDateOptionsBox.classList.remove('hidden');
+        updateDatePreview();
+      } else {
+        passDateOptionsBox.classList.add('hidden');
+      }
+    });
+
+    passDatePicker.addEventListener('change', () => {
+      applyDateFormat(activeDateFormat, true);
+    });
+
+    dateFmtBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        applyDateFormat(btn.getAttribute('data-date-fmt'), true);
+      });
+    });
+
+    passDateValue.addEventListener('input', updateDatePreview);
+    passDatePosRadios.forEach((radio) => radio.addEventListener('change', updateDatePreview));
+    initDateFeature();
+
+    /**
+     * Generates a single cryptographically random password of exact length.
+     * @param {string} charset
+     * @param {number} length
+     * @param {Uint32Array} randBuf
+     * @returns {string}
+     */
+    function buildSinglePassword(charset, length, randBuf) {
+      const charLen = charset.length;
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += charset[randBuf[i] % charLen];
+      }
+      return result;
+    }
+
+    /**
+     * Generates a large batch of 100% unique random passwords in async chunks
+     * so the UI stays smooth even for 100,000+ passwords.
+     */
+    async function generateBulkPasswords() {
+      if (isGeneratingPasswords) return;
+      hidePassError();
+
+      const count = parseInt(passCountInput.value, 10);
+      if (isNaN(count) || count < 1 || count > 500000) {
+        showPassError('অনুগ্রহ করে ১ থেকে ৫,০০,০০০-এর মধ্যে সঠিক সংখ্যা লিখুন।');
+        return;
+      }
+
+      let charset = '';
+      if (optUpper.checked) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (optLower.checked) charset += 'abcdefghijklmnopqrstuvwxyz';
+      if (optNumbers.checked) charset += '0123456789';
+      if (optSymbols.checked) charset += '!@#$%^&*()-_=+[]{}?';
+
+      if (!charset) {
+        showPassError('কমপক্ষে একটি অক্ষরের ধরন (A-Z, a-z, 0-9 অথবা চিহ্ন) নির্বাচন করুন।');
+        return;
+      }
+
+      let minLen, maxLen;
+      if (passRandomRangeToggle.checked) {
+        minLen = parseInt(passMinLength.value, 10);
+        maxLen = parseInt(passMaxLength.value, 10);
+        if (isNaN(minLen) || isNaN(maxLen) || minLen < 4 || maxLen > 64 || minLen > maxLen) {
+          showPassError('ছোট-বড় সাইজ ৪ থেকে ৬৪-এর মধ্যে হতে হবে এবং Min সাইজ Max-এর চেয়ে বড় হতে পারবে না।');
+          return;
+        }
+      } else {
+        minLen = parseInt(passFixedLength.value, 10);
+        maxLen = minLen;
+      }
+
+      // Check optional date tag
+      const includeDate = passIncludeDateToggle.checked;
+      const dateTag = includeDate ? passDateValue.value.trim() : '';
+      const posRadio = document.querySelector('input[name="passDatePos"]:checked');
+      const datePosition = posRadio ? posRadio.value : 'end';
+
+      if (includeDate && !dateTag) {
+        showPassError('তারিখ যুক্ত করার অপশন চালু আছে — অনুগ্রহ করে একটি তারিখ লিখুন বা ক্যালেন্ডার থেকে বাছুন।');
+        return;
+      }
+
+      // Check theoretical maximum unique combinations to prevent infinite loops
+      let maxPossible = 0;
+      for (let len = minLen; len <= maxLen; len++) {
+        maxPossible += Math.pow(charset.length, len);
+        if (maxPossible >= count * 2) break;
+      }
+      if (maxPossible < count) {
+        showPassError(`এই সাইজ ও অক্ষর দিয়ে সর্বোচ্চ ${Math.floor(maxPossible).toLocaleString()}টি ইউনিক পাসওয়ার্ড তৈরি করা সম্ভব। সাইজ বা অক্ষরের ধরন বাড়ান।`);
+        return;
+      }
+
+      // Start async chunked generation
+      isGeneratingPasswords = true;
+      generatePassBtn.disabled = true;
+      generatePassBtnText.textContent = 'তৈরি হচ্ছে...';
+      passProgressWrap.classList.remove('hidden');
+      passProgressBar.style.width = '0%';
+      passProgressText.textContent = '0%';
+
+      const startTime = performance.now();
+      const uniqueSet = new Set();
+      const CHUNK_SIZE = 2500;
+      const rangeSpan = maxLen - minLen + 1;
+      const randBuf = new Uint32Array(maxLen + 1);
+      const hasCrypto = !!(window.crypto && window.crypto.getRandomValues);
+
+      try {
+        let safetyCounter = 0;
+        const maxAttempts = count * 5 + 10000;
+
+        while (uniqueSet.size < count && safetyCounter < maxAttempts) {
+          const targetInChunk = Math.min(count, uniqueSet.size + CHUNK_SIZE);
+
+          while (uniqueSet.size < targetInChunk && safetyCounter < maxAttempts) {
+            safetyCounter++;
+            if (hasCrypto) {
+              window.crypto.getRandomValues(randBuf);
+            } else {
+              for (let k = 0; k < randBuf.length; k++) {
+                randBuf[k] = Math.floor(Math.random() * 0xffffffff);
+              }
+            }
+
+            const pwdLen = rangeSpan === 1 ? minLen : minLen + (randBuf[maxLen] % rangeSpan);
+            const basePwd = buildSinglePassword(charset, pwdLen, randBuf);
+            const pwd = includeDate
+              ? (datePosition === 'start' ? `${dateTag}${basePwd}` : `${basePwd}${dateTag}`)
+              : basePwd;
+            uniqueSet.add(pwd);
+          }
+
+          const pct = Math.min(100, Math.round((uniqueSet.size / count) * 100));
+          passProgressBar.style.width = `${pct}%`;
+          passProgressText.textContent = `${pct}% (${uniqueSet.size.toLocaleString()}/${count.toLocaleString()})`;
+
+          // Yield back to UI thread so progress updates smoothly
+          await new Promise((resolve) => setTimeout(resolve, 0));
+        }
+
+        generatedPasswords = Array.from(uniqueSet);
+        const elapsedMs = Math.max(1, Math.round(performance.now() - startTime));
+
+        // Render preview (cap at 500 lines in textarea for smooth mobile scroll)
+        const PREVIEW_LIMIT = 500;
+        if (generatedPasswords.length > PREVIEW_LIMIT) {
+          passOutputArea.value = generatedPasswords.slice(0, PREVIEW_LIMIT).join('\n');
+          passPreviewNote.textContent = `দ্রুত পারফরম্যান্সের জন্য প্রথম ${PREVIEW_LIMIT}টি দেখানো হচ্ছে। "সব কপি" বা "TXT ডাউনলোড" করলে সম্পূর্ণ ${generatedPasswords.length.toLocaleString()}টি পাসওয়ার্ড পাবেন।`;
+          passPreviewNote.classList.remove('hidden');
+        } else {
+          passOutputArea.value = generatedPasswords.join('\n');
+          passPreviewNote.classList.add('hidden');
+        }
+
+        passResultSummary.textContent = includeDate
+          ? `মোট ${generatedPasswords.length.toLocaleString()}টি ইউনিক পাসওয়ার্ড (তারিখ: ${dateTag} সহ) তৈরি হয়েছে`
+          : `মোট ${generatedPasswords.length.toLocaleString()}টি ইউনিক পাসওয়ার্ড তৈরি হয়েছে`;
+        passTimeBadge.textContent = `${elapsedMs} ms`;
+        passResultSection.classList.remove('hidden');
+        showToast(`${generatedPasswords.length.toLocaleString()}টি ইউনিক পাসওয়ার্ড তৈরি হয়েছে!`);
+      } catch (err) {
+        showPassError('পাসওয়ার্ড তৈরি করতে সমস্যা হয়েছে। অনুগ্রহ করে সংখ্যা একটু কমিয়ে চেষ্টা করুন।');
+      } finally {
+        isGeneratingPasswords = false;
+        generatePassBtn.disabled = false;
+        generatePassBtnText.textContent = 'ইউনিক পাসওয়ার্ড তৈরি করুন';
+        passProgressWrap.classList.add('hidden');
+      }
+    }
+
+    generatePassBtn.addEventListener('click', generateBulkPasswords);
+
+    copyAllPassBtn.addEventListener('click', () => {
+      if (generatedPasswords.length === 0) return;
+      const allText = generatedPasswords.join('\n');
+      copyToClipboard(allText, `সব ${generatedPasswords.length.toLocaleString()}টি ইউনিক পাসওয়ার্ড কপি করা হয়েছে!`);
+    });
+
+    downloadPassBtn.addEventListener('click', () => {
+      if (generatedPasswords.length === 0) return;
+      try {
+        const blob = new Blob([generatedPasswords.join('\n')], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `unique_passwords_${generatedPasswords.length}.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        showToast(`${generatedPasswords.length.toLocaleString()}টি পাসওয়ার্ডের TXT ফাইল ডাউনলোড হচ্ছে!`);
+      } catch (err) {
+        showToast('ফাইল ডাউনলোড করা যায়নি, অনুগ্রহ করে "সব কপি" ব্যবহার করুন।');
+      }
+    });
+
+    clearPassResultBtn.addEventListener('click', () => {
+      generatedPasswords = [];
+      passOutputArea.value = '';
+      passResultSection.classList.add('hidden');
+      passPreviewNote.classList.add('hidden');
+      showToast('তৈরি করা পাসওয়ার্ড মুছে ফেলা হয়েছে।');
+    });
+
+    /**
+     * =========================================================================
+     * 7. Initialize Application
+     * =========================================================================
+     */
+
     initTheme();
     loadSavedAccounts();
-    loadSavedIgSecret();
+    loadIgSecret();
     tickTimer();
     setInterval(tickTimer, 250);
   </script>
